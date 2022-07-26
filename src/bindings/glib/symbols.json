@@ -1,0 +1,4766 @@
+{
+  "g_array_new": { "parameters": ["i32", "i32", "u32"], "result": "pointer" },
+  "g_array_steal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_array_sized_new": {
+    "parameters": ["i32", "i32", "u32", "u32"],
+    "result": "pointer"
+  },
+  "g_array_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_array_free": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_array_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_array_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_array_get_element_size": { "parameters": ["pointer"], "result": "u32" },
+  "g_array_append_vals": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_array_prepend_vals": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_array_insert_vals": {
+    "parameters": ["pointer", "u32", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_array_set_size": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_array_remove_index": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_array_remove_index_fast": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_array_remove_range": {
+    "parameters": ["pointer", "u32", "u32"],
+    "result": "pointer"
+  },
+  "g_array_sort": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_array_sort_with_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_array_binary_search": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_array_set_clear_func": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_new": { "parameters": [], "result": "pointer" },
+  "g_ptr_array_new_with_free_func": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_ptr_array_steal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_ptr_array_copy": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_ptr_array_sized_new": { "parameters": ["u32"], "result": "pointer" },
+  "g_ptr_array_new_full": {
+    "parameters": ["u32", "pointer"],
+    "result": "pointer"
+  },
+  "g_ptr_array_free": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_ptr_array_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_ptr_array_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_ptr_array_set_free_func": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_set_size": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_ptr_array_remove_index": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_ptr_array_remove_index_fast": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_ptr_array_steal_index": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_ptr_array_steal_index_fast": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_ptr_array_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ptr_array_remove_fast": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ptr_array_remove_range": {
+    "parameters": ["pointer", "u32", "u32"],
+    "result": "pointer"
+  },
+  "g_ptr_array_add": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_ptr_array_extend": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_extend_and_steal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_insert": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_sort": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_sort_with_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_ptr_array_find": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ptr_array_find_with_equal_func": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_byte_array_new": { "parameters": [], "result": "pointer" },
+  "g_byte_array_new_take": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_byte_array_steal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_byte_array_sized_new": { "parameters": ["u32"], "result": "pointer" },
+  "g_byte_array_free": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_byte_array_free_to_bytes": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_byte_array_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_byte_array_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_byte_array_append": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_prepend": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_set_size": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_remove_index": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_remove_index_fast": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_remove_range": {
+    "parameters": ["pointer", "u32", "u32"],
+    "result": "pointer"
+  },
+  "g_byte_array_sort": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_byte_array_sort_with_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_atomic_int_get": { "parameters": ["pointer"], "result": "i32" },
+  "g_atomic_int_set": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_atomic_int_inc": { "parameters": ["pointer"], "result": "void" },
+  "g_atomic_int_dec_and_test": { "parameters": ["pointer"], "result": "i32" },
+  "g_atomic_int_compare_and_exchange": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "i32"
+  },
+  "g_atomic_int_add": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_atomic_int_and": { "parameters": ["pointer", "u32"], "result": "u32" },
+  "g_atomic_int_or": { "parameters": ["pointer", "u32"], "result": "u32" },
+  "g_atomic_int_xor": { "parameters": ["pointer", "u32"], "result": "u32" },
+  "g_atomic_pointer_get": { "parameters": ["pointer"], "result": "pointer" },
+  "g_atomic_pointer_set": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_atomic_pointer_compare_and_exchange": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_atomic_pointer_add": { "parameters": ["pointer", "i64"], "result": "i64" },
+  "g_atomic_pointer_and": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_atomic_pointer_or": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_atomic_pointer_xor": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_atomic_int_exchange_and_add": {
+    "parameters": ["pointer", "i32"],
+    "result": "i32"
+  },
+  "g_quark_try_string": { "parameters": ["pointer"], "result": "u32" },
+  "g_quark_from_static_string": { "parameters": ["pointer"], "result": "u32" },
+  "g_quark_from_string": { "parameters": ["pointer"], "result": "u32" },
+  "g_quark_to_string": { "parameters": ["u32"], "result": "pointer" },
+  "g_intern_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_intern_static_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_error_domain_register_static": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_error_domain_register": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_error_new": {
+    "parameters": ["u32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_error_new_literal": {
+    "parameters": ["u32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_error_new_valist": {
+    "parameters": ["u32", "i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_error_free": { "parameters": ["pointer"], "result": "void" },
+  "g_error_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_error_matches": {
+    "parameters": ["pointer", "u32", "i32"],
+    "result": "i32"
+  },
+  "g_set_error": {
+    "parameters": ["pointer", "u32", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_set_error_literal": {
+    "parameters": ["pointer", "u32", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_propagate_error": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_clear_error": { "parameters": ["pointer"], "result": "void" },
+  "g_prefix_error": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_prefix_error_literal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_propagate_prefixed_error": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_get_user_name": { "parameters": [], "result": "pointer" },
+  "g_get_real_name": { "parameters": [], "result": "pointer" },
+  "g_get_home_dir": { "parameters": [], "result": "pointer" },
+  "g_get_tmp_dir": { "parameters": [], "result": "pointer" },
+  "g_get_host_name": { "parameters": [], "result": "pointer" },
+  "g_get_prgname": { "parameters": [], "result": "pointer" },
+  "g_set_prgname": { "parameters": ["pointer"], "result": "void" },
+  "g_get_application_name": { "parameters": [], "result": "pointer" },
+  "g_set_application_name": { "parameters": ["pointer"], "result": "void" },
+  "g_get_os_info": { "parameters": ["pointer"], "result": "pointer" },
+  "g_reload_user_special_dirs_cache": { "parameters": [], "result": "void" },
+  "g_get_user_data_dir": { "parameters": [], "result": "pointer" },
+  "g_get_user_config_dir": { "parameters": [], "result": "pointer" },
+  "g_get_user_cache_dir": { "parameters": [], "result": "pointer" },
+  "g_get_user_state_dir": { "parameters": [], "result": "pointer" },
+  "g_get_system_data_dirs": { "parameters": [], "result": "pointer" },
+  "g_get_system_config_dirs": { "parameters": [], "result": "pointer" },
+  "g_get_user_runtime_dir": { "parameters": [], "result": "pointer" },
+  "g_get_user_special_dir": { "parameters": ["i32"], "result": "pointer" },
+  "g_parse_debug_string": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "u32"
+  },
+  "g_snprintf": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_vsnprintf": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_nullify_pointer": { "parameters": ["pointer"], "result": "void" },
+  "g_format_size_full": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_format_size": { "parameters": ["pointer"], "result": "pointer" },
+  "g_format_size_for_display": { "parameters": ["i64"], "result": "pointer" },
+  "g_atexit": { "parameters": ["pointer"], "result": "void" },
+  "g_find_program_in_path": { "parameters": ["pointer"], "result": "pointer" },
+  "g_bit_nth_lsf": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_bit_nth_msf": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_bit_storage": { "parameters": ["pointer"], "result": "u32" },
+  "g_thread_error_quark": { "parameters": [], "result": "u32" },
+  "g_thread_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_thread_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_thread_new": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_try_new": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_self": { "parameters": [], "result": "pointer" },
+  "g_thread_exit": { "parameters": ["pointer"], "result": "void" },
+  "g_thread_join": { "parameters": ["pointer"], "result": "pointer" },
+  "g_thread_yield": { "parameters": [], "result": "void" },
+  "g_mutex_init": { "parameters": ["pointer"], "result": "void" },
+  "g_mutex_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_mutex_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_mutex_trylock": { "parameters": ["pointer"], "result": "i32" },
+  "g_mutex_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_init": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_writer_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_writer_trylock": { "parameters": ["pointer"], "result": "i32" },
+  "g_rw_lock_writer_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_reader_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_rw_lock_reader_trylock": { "parameters": ["pointer"], "result": "i32" },
+  "g_rw_lock_reader_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_rec_mutex_init": { "parameters": ["pointer"], "result": "void" },
+  "g_rec_mutex_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_rec_mutex_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_rec_mutex_trylock": { "parameters": ["pointer"], "result": "i32" },
+  "g_rec_mutex_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_init": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_wait": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_cond_signal": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_broadcast": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_wait_until": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "i32"
+  },
+  "g_private_get": { "parameters": ["pointer"], "result": "pointer" },
+  "g_private_set": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_private_replace": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_once_impl": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_once_init_enter": { "parameters": ["pointer"], "result": "i32" },
+  "g_once_init_leave": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_get_num_processors": { "parameters": [], "result": "u32" },
+  "g_async_queue_new": { "parameters": [], "result": "pointer" },
+  "g_async_queue_new_full": { "parameters": ["pointer"], "result": "pointer" },
+  "g_async_queue_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_async_queue_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_async_queue_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_async_queue_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_async_queue_ref_unlocked": { "parameters": ["pointer"], "result": "void" },
+  "g_async_queue_unref_and_unlock": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_async_queue_push": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_push_unlocked": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_push_sorted": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_push_sorted_unlocked": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_pop": { "parameters": ["pointer"], "result": "pointer" },
+  "g_async_queue_pop_unlocked": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_async_queue_try_pop": { "parameters": ["pointer"], "result": "pointer" },
+  "g_async_queue_try_pop_unlocked": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_async_queue_timeout_pop": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_async_queue_timeout_pop_unlocked": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_async_queue_length": { "parameters": ["pointer"], "result": "i32" },
+  "g_async_queue_length_unlocked": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_async_queue_sort": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_sort_unlocked": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_async_queue_remove_unlocked": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_async_queue_push_front": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_push_front_unlocked": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_async_queue_timed_pop": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_async_queue_timed_pop_unlocked": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_on_error_query": { "parameters": ["pointer"], "result": "void" },
+  "g_on_error_stack_trace": { "parameters": ["pointer"], "result": "void" },
+  "g_base64_encode_step": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_base64_encode_close": {
+    "parameters": ["i32", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_base64_encode": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_base64_decode_step": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_base64_decode": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_base64_decode_inplace": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bit_lock": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_bit_trylock": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_bit_unlock": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_pointer_bit_lock": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_pointer_bit_trylock": {
+    "parameters": ["pointer", "i32"],
+    "result": "i32"
+  },
+  "g_pointer_bit_unlock": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_time_zone_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_time_zone_new_identifier": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_time_zone_new_utc": { "parameters": [], "result": "pointer" },
+  "g_time_zone_new_local": { "parameters": [], "result": "pointer" },
+  "g_time_zone_new_offset": { "parameters": ["i32"], "result": "pointer" },
+  "g_time_zone_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_time_zone_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_time_zone_find_interval": {
+    "parameters": ["pointer", "i32", "i64"],
+    "result": "i32"
+  },
+  "g_time_zone_adjust_time": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_time_zone_get_abbreviation": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_time_zone_get_offset": {
+    "parameters": ["pointer", "i32"],
+    "result": "i32"
+  },
+  "g_time_zone_is_dst": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_time_zone_get_identifier": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_date_time_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_time_new_now": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_time_new_now_local": { "parameters": [], "result": "pointer" },
+  "g_date_time_new_now_utc": { "parameters": [], "result": "pointer" },
+  "g_date_time_new_from_unix_local": {
+    "parameters": ["i64"],
+    "result": "pointer"
+  },
+  "g_date_time_new_from_unix_utc": {
+    "parameters": ["i64"],
+    "result": "pointer"
+  },
+  "g_date_time_new_from_timeval_local": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_new_from_timeval_utc": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_new_from_iso8601": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_new": {
+    "parameters": ["pointer", "i32", "i32", "i32", "i32", "i32", "f64"],
+    "result": "pointer"
+  },
+  "g_date_time_new_local": {
+    "parameters": ["i32", "i32", "i32", "i32", "i32", "f64"],
+    "result": "pointer"
+  },
+  "g_date_time_new_utc": {
+    "parameters": ["i32", "i32", "i32", "i32", "i32", "f64"],
+    "result": "pointer"
+  },
+  "g_date_time_add": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_date_time_add_years": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_months": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_weeks": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_days": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_hours": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_minutes": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_date_time_add_seconds": {
+    "parameters": ["pointer", "f64"],
+    "result": "pointer"
+  },
+  "g_date_time_add_full": {
+    "parameters": ["pointer", "i32", "i32", "i32", "i32", "i32", "f64"],
+    "result": "pointer"
+  },
+  "g_date_time_compare": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_date_time_difference": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_date_time_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_date_time_equal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_date_time_get_ymd": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_time_get_year": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_month": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_day_of_month": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_date_time_get_week_numbering_year": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_date_time_get_week_of_year": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_date_time_get_day_of_week": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_day_of_year": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_hour": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_minute": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_second": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_microsecond": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_time_get_seconds": { "parameters": ["pointer"], "result": "f64" },
+  "g_date_time_to_unix": { "parameters": ["pointer"], "result": "i64" },
+  "g_date_time_to_timeval": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_date_time_get_utc_offset": { "parameters": ["pointer"], "result": "i64" },
+  "g_date_time_get_timezone": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_get_timezone_abbreviation": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_is_daylight_savings": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_date_time_to_timezone": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_to_local": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_time_to_utc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_time_format": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_date_time_format_iso8601": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_error_quark": { "parameters": [], "result": "u32" },
+  "g_bookmark_file_new": { "parameters": [], "result": "pointer" },
+  "g_bookmark_file_free": { "parameters": ["pointer"], "result": "void" },
+  "g_bookmark_file_load_from_file": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_load_from_data": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_load_from_data_dirs": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_to_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_to_file": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_set_title": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_title": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_description": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_description": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_mime_type": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_mime_type": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_groups": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_add_group": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_has_group": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_get_groups": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_add_application": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_has_application": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_get_applications": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_app_info": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "i64",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_bookmark_file_set_application_info": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_bookmark_file_get_app_info": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_bookmark_file_get_application_info": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_bookmark_file_set_is_private": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_is_private": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_set_icon": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_icon": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_set_added": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_bookmark_file_set_added_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_added": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_bookmark_file_get_added_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_modified": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_bookmark_file_set_modified_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_modified": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_bookmark_file_get_modified_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_set_visited": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_bookmark_file_set_visited_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_bookmark_file_get_visited": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_bookmark_file_get_visited_date_time": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_has_item": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_get_size": { "parameters": ["pointer"], "result": "i32" },
+  "g_bookmark_file_get_uris": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bookmark_file_remove_group": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_remove_application": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_remove_item": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bookmark_file_move_item": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_bytes_new": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_bytes_new_take": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_new_static": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_new_with_free_func": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_new_from_bytes": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_get_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_get_size": { "parameters": ["pointer"], "result": "pointer" },
+  "g_bytes_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_bytes_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_bytes_unref_to_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_bytes_unref_to_array": { "parameters": ["pointer"], "result": "pointer" },
+  "g_bytes_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_bytes_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_bytes_compare": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_bytes_get_region": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_get_charset": { "parameters": ["pointer"], "result": "i32" },
+  "g_get_codeset": { "parameters": [], "result": "pointer" },
+  "g_get_console_charset": { "parameters": ["pointer"], "result": "i32" },
+  "g_get_language_names": { "parameters": [], "result": "pointer" },
+  "g_get_language_names_with_category": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_get_locale_variants": { "parameters": ["pointer"], "result": "pointer" },
+  "g_checksum_type_get_length": { "parameters": ["i32"], "result": "i64" },
+  "g_checksum_new": { "parameters": ["i32"], "result": "pointer" },
+  "g_checksum_reset": { "parameters": ["pointer"], "result": "void" },
+  "g_checksum_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_checksum_free": { "parameters": ["pointer"], "result": "void" },
+  "g_checksum_update": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_checksum_get_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_checksum_get_digest": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_compute_checksum_for_data": {
+    "parameters": ["i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_compute_checksum_for_string": {
+    "parameters": ["i32", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_compute_checksum_for_bytes": {
+    "parameters": ["i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_convert_error_quark": { "parameters": [], "result": "u32" },
+  "g_iconv_open": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_iconv": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_iconv_close": { "parameters": ["pointer"], "result": "i32" },
+  "g_convert": {
+    "parameters": [
+      "pointer",
+      "i64",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_convert_with_iconv": {
+    "parameters": [
+      "pointer",
+      "i64",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_convert_with_fallback": {
+    "parameters": [
+      "pointer",
+      "i64",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_locale_to_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_locale_from_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_filename_to_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_filename_from_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_filename_from_uri": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_filename_to_uri": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_filename_display_name": { "parameters": ["pointer"], "result": "pointer" },
+  "g_get_filename_charsets": { "parameters": ["pointer"], "result": "i32" },
+  "g_filename_display_basename": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_uri_list_extract_uris": { "parameters": ["pointer"], "result": "pointer" },
+  "g_datalist_init": { "parameters": ["pointer"], "result": "void" },
+  "g_datalist_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_datalist_id_get_data": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_datalist_id_set_data_full": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_datalist_id_dup_data": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_datalist_id_replace_data": {
+    "parameters": [
+      "pointer",
+      "u32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_datalist_id_remove_no_notify": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_datalist_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_datalist_set_flags": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_datalist_unset_flags": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_datalist_get_flags": { "parameters": ["pointer"], "result": "u32" },
+  "g_dataset_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_dataset_id_get_data": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_datalist_get_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_dataset_id_set_data_full": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_dataset_id_remove_no_notify": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_dataset_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_new": { "parameters": [], "result": "pointer" },
+  "g_date_new_dmy": {
+    "parameters": ["u8", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_date_new_julian": { "parameters": ["u32"], "result": "pointer" },
+  "g_date_free": { "parameters": ["pointer"], "result": "void" },
+  "g_date_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_valid": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_valid_day": { "parameters": ["u8"], "result": "i32" },
+  "g_date_valid_month": { "parameters": ["i32"], "result": "i32" },
+  "g_date_valid_year": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_valid_weekday": { "parameters": ["i32"], "result": "i32" },
+  "g_date_valid_julian": { "parameters": ["u32"], "result": "i32" },
+  "g_date_valid_dmy": {
+    "parameters": ["u8", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_date_get_weekday": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_get_month": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_get_year": { "parameters": ["pointer"], "result": "pointer" },
+  "g_date_get_day": { "parameters": ["pointer"], "result": "u8" },
+  "g_date_get_julian": { "parameters": ["pointer"], "result": "u32" },
+  "g_date_get_day_of_year": { "parameters": ["pointer"], "result": "u32" },
+  "g_date_get_monday_week_of_year": {
+    "parameters": ["pointer"],
+    "result": "u32"
+  },
+  "g_date_get_sunday_week_of_year": {
+    "parameters": ["pointer"],
+    "result": "u32"
+  },
+  "g_date_get_iso8601_week_of_year": {
+    "parameters": ["pointer"],
+    "result": "u32"
+  },
+  "g_date_clear": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_date_set_parse": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_set_time_t": { "parameters": ["pointer", "i64"], "result": "void" },
+  "g_date_set_time_val": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_set_time": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_date_set_month": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_date_set_day": { "parameters": ["pointer", "u8"], "result": "void" },
+  "g_date_set_year": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_date_set_dmy": {
+    "parameters": ["pointer", "u8", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_date_set_julian": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_date_is_first_of_month": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_is_last_of_month": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_add_days": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_date_subtract_days": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_date_add_months": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_date_subtract_months": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_date_add_years": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_date_subtract_years": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_date_is_leap_year": { "parameters": ["pointer"], "result": "i32" },
+  "g_date_get_days_in_month": {
+    "parameters": ["i32", "pointer"],
+    "result": "u8"
+  },
+  "g_date_get_monday_weeks_in_year": {
+    "parameters": ["pointer"],
+    "result": "u8"
+  },
+  "g_date_get_sunday_weeks_in_year": {
+    "parameters": ["pointer"],
+    "result": "u8"
+  },
+  "g_date_days_between": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_date_compare": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_date_to_struct_tm": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_clamp": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_date_order": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_date_strftime": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_dir_open": {
+    "parameters": ["pointer", "u32", "pointer"],
+    "result": "pointer"
+  },
+  "g_dir_read_name": { "parameters": ["pointer"], "result": "pointer" },
+  "g_dir_rewind": { "parameters": ["pointer"], "result": "void" },
+  "g_dir_close": { "parameters": ["pointer"], "result": "void" },
+  "g_getenv": { "parameters": ["pointer"], "result": "pointer" },
+  "g_setenv": { "parameters": ["pointer", "pointer", "i32"], "result": "i32" },
+  "g_unsetenv": { "parameters": ["pointer"], "result": "void" },
+  "g_listenv": { "parameters": [], "result": "pointer" },
+  "g_get_environ": { "parameters": [], "result": "pointer" },
+  "g_environ_getenv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_environ_setenv": {
+    "parameters": ["pointer", "pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_environ_unsetenv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_file_error_quark": { "parameters": [], "result": "u32" },
+  "g_file_error_from_errno": { "parameters": ["i32"], "result": "i32" },
+  "g_file_test": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_file_get_contents": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_file_set_contents": {
+    "parameters": ["pointer", "pointer", "i64", "pointer"],
+    "result": "i32"
+  },
+  "g_file_set_contents_full": {
+    "parameters": ["pointer", "pointer", "i64", "i32", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_file_read_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_mkdtemp": { "parameters": ["pointer"], "result": "pointer" },
+  "g_mkdtemp_full": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_mkstemp": { "parameters": ["pointer"], "result": "i32" },
+  "g_mkstemp_full": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "i32"
+  },
+  "g_file_open_tmp": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_dir_make_tmp": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_build_path": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_build_pathv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_build_filename": { "parameters": ["pointer"], "result": "pointer" },
+  "g_build_filenamev": { "parameters": ["pointer"], "result": "pointer" },
+  "g_build_filename_valist": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_mkdir_with_parents": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_path_is_absolute": { "parameters": ["pointer"], "result": "i32" },
+  "g_path_skip_root": { "parameters": ["pointer"], "result": "pointer" },
+  "g_basename": { "parameters": ["pointer"], "result": "pointer" },
+  "g_get_current_dir": { "parameters": [], "result": "pointer" },
+  "g_path_get_basename": { "parameters": ["pointer"], "result": "pointer" },
+  "g_path_get_dirname": { "parameters": ["pointer"], "result": "pointer" },
+  "g_canonicalize_filename": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_strip_context": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_dgettext": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_dcgettext": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_dngettext": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_dpgettext": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_dpgettext2": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_free": { "parameters": ["pointer"], "result": "void" },
+  "g_clear_pointer": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_malloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_malloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_realloc": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_try_malloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_try_malloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_try_realloc": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_malloc_n": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_malloc0_n": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_realloc_n": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_try_malloc_n": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_try_malloc0_n": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_try_realloc_n": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_aligned_alloc": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_aligned_alloc0": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_aligned_free": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_set_vtable": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_is_system_malloc": { "parameters": [], "result": "i32" },
+  "g_mem_profile": { "parameters": [], "result": "void" },
+  "g_node_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_node_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_node_unlink": { "parameters": ["pointer"], "result": "void" },
+  "g_node_copy_deep": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_node_insert": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_insert_before": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_insert_after": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_prepend": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_n_nodes": { "parameters": ["pointer", "i32"], "result": "u32" },
+  "g_node_get_root": { "parameters": ["pointer"], "result": "pointer" },
+  "g_node_is_ancestor": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_node_depth": { "parameters": ["pointer"], "result": "u32" },
+  "g_node_find": {
+    "parameters": ["pointer", "i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_traverse": {
+    "parameters": ["pointer", "i32", "i32", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_node_max_height": { "parameters": ["pointer"], "result": "u32" },
+  "g_node_children_foreach": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_node_reverse_children": { "parameters": ["pointer"], "result": "void" },
+  "g_node_n_children": { "parameters": ["pointer"], "result": "u32" },
+  "g_node_nth_child": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_node_last_child": { "parameters": ["pointer"], "result": "pointer" },
+  "g_node_find_child": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_node_child_position": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_node_child_index": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_node_first_sibling": { "parameters": ["pointer"], "result": "pointer" },
+  "g_node_last_sibling": { "parameters": ["pointer"], "result": "pointer" },
+  "g_list_alloc": { "parameters": [], "result": "pointer" },
+  "g_list_free": { "parameters": ["pointer"], "result": "void" },
+  "g_list_free_1": { "parameters": ["pointer"], "result": "void" },
+  "g_list_free_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_list_append": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_prepend": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_insert": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_list_insert_sorted": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_insert_sorted_with_data": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_insert_before": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_insert_before_link": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_concat": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_remove_all": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_remove_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_delete_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_reverse": { "parameters": ["pointer"], "result": "pointer" },
+  "g_list_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_list_copy_deep": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_nth": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_list_nth_prev": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_list_find": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_list_find_custom": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_position": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_list_index": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_list_last": { "parameters": ["pointer"], "result": "pointer" },
+  "g_list_first": { "parameters": ["pointer"], "result": "pointer" },
+  "g_list_length": { "parameters": ["pointer"], "result": "u32" },
+  "g_list_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_list_sort": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_list_sort_with_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_list_nth_data": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_clear_list": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_hash_table_new": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_new_full": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_new_similar": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_hash_table_insert": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_replace": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_add": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_hash_table_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_remove_all": { "parameters": ["pointer"], "result": "void" },
+  "g_hash_table_steal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_steal_extended": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_steal_all": { "parameters": ["pointer"], "result": "void" },
+  "g_hash_table_lookup": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_contains": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_lookup_extended": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hash_table_find": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_foreach_remove": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_hash_table_foreach_steal": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_hash_table_size": { "parameters": ["pointer"], "result": "u32" },
+  "g_hash_table_get_keys": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hash_table_get_values": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hash_table_get_keys_as_array": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_iter_init": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hash_table_iter_next": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hash_table_iter_get_hash_table": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_hash_table_iter_remove": { "parameters": ["pointer"], "result": "void" },
+  "g_hash_table_iter_replace": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hash_table_iter_steal": { "parameters": ["pointer"], "result": "void" },
+  "g_hash_table_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hash_table_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_str_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_str_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_int_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_int_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_int64_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_int64_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_double_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_double_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_direct_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_direct_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_hmac_new": {
+    "parameters": ["i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hmac_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hmac_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hmac_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_hmac_update": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_hmac_get_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hmac_get_digest": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_compute_hmac_for_data": {
+    "parameters": ["i32", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_compute_hmac_for_string": {
+    "parameters": ["i32", "pointer", "pointer", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_compute_hmac_for_bytes": {
+    "parameters": ["i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hook_list_init": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_hook_list_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_hook_alloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hook_free": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_hook_ref": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_hook_unref": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_hook_destroy": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_hook_destroy_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hook_prepend": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_hook_insert_before": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hook_insert_sorted": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hook_get": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_hook_find": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hook_find_data": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_hook_find_func": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_hook_find_func_data": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_hook_first_valid": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_hook_next_valid": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_hook_compare_ids": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_hook_list_invoke": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_hook_list_invoke_check": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_hook_list_marshal": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hook_list_marshal_check": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_hostname_is_non_ascii": { "parameters": ["pointer"], "result": "i32" },
+  "g_hostname_is_ascii_encoded": { "parameters": ["pointer"], "result": "i32" },
+  "g_hostname_is_ip_address": { "parameters": ["pointer"], "result": "i32" },
+  "g_hostname_to_ascii": { "parameters": ["pointer"], "result": "pointer" },
+  "g_hostname_to_unicode": { "parameters": ["pointer"], "result": "pointer" },
+  "g_poll": { "parameters": ["pointer", "u32", "i32"], "result": "i32" },
+  "g_slist_alloc": { "parameters": [], "result": "pointer" },
+  "g_slist_free": { "parameters": ["pointer"], "result": "void" },
+  "g_slist_free_1": { "parameters": ["pointer"], "result": "void" },
+  "g_slist_free_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_slist_append": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_prepend": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_insert": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_slist_insert_sorted": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_insert_sorted_with_data": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_insert_before": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_concat": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_remove_all": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_remove_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_delete_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_reverse": { "parameters": ["pointer"], "result": "pointer" },
+  "g_slist_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_slist_copy_deep": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_nth": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_slist_find": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_slist_find_custom": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_position": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_slist_index": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_slist_last": { "parameters": ["pointer"], "result": "pointer" },
+  "g_slist_length": { "parameters": ["pointer"], "result": "u32" },
+  "g_slist_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_slist_sort": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_slist_sort_with_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_slist_nth_data": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_clear_slist": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_main_context_new": { "parameters": [], "result": "pointer" },
+  "g_main_context_new_with_flags": {
+    "parameters": ["i32"],
+    "result": "pointer"
+  },
+  "g_main_context_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_main_context_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_main_context_default": { "parameters": [], "result": "pointer" },
+  "g_main_context_iteration": {
+    "parameters": ["pointer", "i32"],
+    "result": "i32"
+  },
+  "g_main_context_pending": { "parameters": ["pointer"], "result": "i32" },
+  "g_main_context_find_source_by_id": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_main_context_find_source_by_user_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_main_context_find_source_by_funcs_user_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_main_context_wakeup": { "parameters": ["pointer"], "result": "void" },
+  "g_main_context_acquire": { "parameters": ["pointer"], "result": "i32" },
+  "g_main_context_release": { "parameters": ["pointer"], "result": "void" },
+  "g_main_context_is_owner": { "parameters": ["pointer"], "result": "i32" },
+  "g_main_context_wait": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_main_context_prepare": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_main_context_query": {
+    "parameters": ["pointer", "i32", "pointer", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_main_context_check": {
+    "parameters": ["pointer", "i32", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_main_context_dispatch": { "parameters": ["pointer"], "result": "void" },
+  "g_main_context_set_poll_func": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_main_context_get_poll_func": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_main_context_add_poll": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_main_context_remove_poll": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_main_depth": { "parameters": [], "result": "i32" },
+  "g_main_current_source": { "parameters": [], "result": "pointer" },
+  "g_main_context_push_thread_default": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_main_context_pop_thread_default": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_main_context_get_thread_default": {
+    "parameters": [],
+    "result": "pointer"
+  },
+  "g_main_context_ref_thread_default": {
+    "parameters": [],
+    "result": "pointer"
+  },
+  "g_main_loop_new": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_main_loop_run": { "parameters": ["pointer"], "result": "void" },
+  "g_main_loop_quit": { "parameters": ["pointer"], "result": "void" },
+  "g_main_loop_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_main_loop_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_main_loop_is_running": { "parameters": ["pointer"], "result": "i32" },
+  "g_main_loop_get_context": { "parameters": ["pointer"], "result": "pointer" },
+  "g_source_new": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_source_set_dispose_function": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_source_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_source_attach": { "parameters": ["pointer", "pointer"], "result": "u32" },
+  "g_source_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_source_set_priority": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_source_get_priority": { "parameters": ["pointer"], "result": "i32" },
+  "g_source_set_can_recurse": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_source_get_can_recurse": { "parameters": ["pointer"], "result": "i32" },
+  "g_source_get_id": { "parameters": ["pointer"], "result": "u32" },
+  "g_source_get_context": { "parameters": ["pointer"], "result": "pointer" },
+  "g_source_set_callback": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_set_funcs": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_is_destroyed": { "parameters": ["pointer"], "result": "i32" },
+  "g_source_set_name": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_set_static_name": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_get_name": { "parameters": ["pointer"], "result": "pointer" },
+  "g_source_set_name_by_id": {
+    "parameters": ["u32", "pointer"],
+    "result": "void"
+  },
+  "g_source_set_ready_time": {
+    "parameters": ["pointer", "i64"],
+    "result": "void"
+  },
+  "g_source_get_ready_time": { "parameters": ["pointer"], "result": "i64" },
+  "g_source_add_unix_fd": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "pointer"
+  },
+  "g_source_modify_unix_fd": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_source_remove_unix_fd": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_query_unix_fd": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_source_set_callback_indirect": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_add_poll": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_remove_poll": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_add_child_source": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_remove_child_source": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_get_current_time": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_source_get_time": { "parameters": ["pointer"], "result": "i64" },
+  "g_idle_source_new": { "parameters": [], "result": "pointer" },
+  "g_child_watch_source_new": { "parameters": ["i32"], "result": "pointer" },
+  "g_timeout_source_new": { "parameters": ["u32"], "result": "pointer" },
+  "g_timeout_source_new_seconds": {
+    "parameters": ["u32"],
+    "result": "pointer"
+  },
+  "g_get_current_time": { "parameters": ["pointer"], "result": "void" },
+  "g_get_monotonic_time": { "parameters": [], "result": "i64" },
+  "g_get_real_time": { "parameters": [], "result": "i64" },
+  "g_source_remove": { "parameters": ["u32"], "result": "i32" },
+  "g_source_remove_by_user_data": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_source_remove_by_funcs_user_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_clear_handle_id": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_timeout_add_full": {
+    "parameters": ["i32", "u32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_timeout_add": {
+    "parameters": ["u32", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_timeout_add_seconds_full": {
+    "parameters": ["i32", "u32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_timeout_add_seconds": {
+    "parameters": ["u32", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_child_watch_add_full": {
+    "parameters": ["i32", "i32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_child_watch_add": {
+    "parameters": ["i32", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_idle_add": { "parameters": ["pointer", "pointer"], "result": "u32" },
+  "g_idle_add_full": {
+    "parameters": ["i32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_idle_remove_by_data": { "parameters": ["pointer"], "result": "i32" },
+  "g_main_context_invoke_full": {
+    "parameters": ["pointer", "i32", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_main_context_invoke": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_unicode_script_to_iso15924": { "parameters": ["i32"], "result": "u32" },
+  "g_unicode_script_from_iso15924": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isalnum": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isalpha": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_iscntrl": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isdigit": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isgraph": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_islower": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isprint": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_ispunct": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isspace": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isupper": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isxdigit": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_istitle": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_isdefined": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_iswide": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_iswide_cjk": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_iszerowidth": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_ismark": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_toupper": { "parameters": ["u32"], "result": "u32" },
+  "g_unichar_tolower": { "parameters": ["u32"], "result": "u32" },
+  "g_unichar_totitle": { "parameters": ["u32"], "result": "u32" },
+  "g_unichar_digit_value": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_xdigit_value": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_type": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_break_type": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_combining_class": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_get_mirror_char": {
+    "parameters": ["u32", "pointer"],
+    "result": "i32"
+  },
+  "g_unichar_get_script": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_validate": { "parameters": ["u32"], "result": "i32" },
+  "g_unichar_compose": {
+    "parameters": ["u32", "u32", "pointer"],
+    "result": "i32"
+  },
+  "g_unichar_decompose": {
+    "parameters": ["u32", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_unichar_fully_decompose": {
+    "parameters": ["u32", "i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_unicode_canonical_ordering": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_unicode_canonical_decomposition": {
+    "parameters": ["u32", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_get_char": { "parameters": ["pointer"], "result": "u32" },
+  "g_utf8_get_char_validated": {
+    "parameters": ["pointer", "i64"],
+    "result": "u32"
+  },
+  "g_utf8_offset_to_pointer": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_utf8_pointer_to_offset": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_utf8_prev_char": { "parameters": ["pointer"], "result": "pointer" },
+  "g_utf8_find_next_char": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_find_prev_char": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_strlen": { "parameters": ["pointer", "i64"], "result": "i64" },
+  "g_utf8_substring": {
+    "parameters": ["pointer", "i64", "i64"],
+    "result": "pointer"
+  },
+  "g_utf8_strncpy": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_strchr": {
+    "parameters": ["pointer", "i64", "u32"],
+    "result": "pointer"
+  },
+  "g_utf8_strrchr": {
+    "parameters": ["pointer", "i64", "u32"],
+    "result": "pointer"
+  },
+  "g_utf8_strreverse": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_utf8_to_utf16": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_to_ucs4": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf8_to_ucs4_fast": {
+    "parameters": ["pointer", "i64", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf16_to_ucs4": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_utf16_to_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_ucs4_to_utf16": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_ucs4_to_utf8": {
+    "parameters": ["pointer", "i64", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_unichar_to_utf8": { "parameters": ["u32", "pointer"], "result": "i32" },
+  "g_utf8_validate": {
+    "parameters": ["pointer", "i64", "pointer"],
+    "result": "i32"
+  },
+  "g_utf8_validate_len": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_utf8_strup": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_utf8_strdown": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_utf8_casefold": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_utf8_normalize": {
+    "parameters": ["pointer", "i64", "i32"],
+    "result": "pointer"
+  },
+  "g_utf8_collate": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_utf8_collate_key": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_utf8_collate_key_for_filename": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_utf8_make_valid": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_new_len": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_string_sized_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_free": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_string_free_to_bytes": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_string_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_string_assign": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_truncate": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_set_size": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_insert_len": {
+    "parameters": ["pointer", "i64", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_append": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_append_len": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_append_c": { "parameters": ["pointer", "i8"], "result": "pointer" },
+  "g_string_append_unichar": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_string_prepend": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_prepend_c": {
+    "parameters": ["pointer", "i8"],
+    "result": "pointer"
+  },
+  "g_string_prepend_unichar": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_string_prepend_len": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_insert": {
+    "parameters": ["pointer", "i64", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_insert_c": {
+    "parameters": ["pointer", "i64", "i8"],
+    "result": "pointer"
+  },
+  "g_string_insert_unichar": {
+    "parameters": ["pointer", "i64", "u32"],
+    "result": "pointer"
+  },
+  "g_string_overwrite": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_overwrite_len": {
+    "parameters": ["pointer", "pointer", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_erase": {
+    "parameters": ["pointer", "i64", "i64"],
+    "result": "pointer"
+  },
+  "g_string_replace": {
+    "parameters": ["pointer", "pointer", "pointer", "u32"],
+    "result": "u32"
+  },
+  "g_string_ascii_down": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_ascii_up": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_vprintf": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_string_printf": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_string_append_vprintf": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_string_append_printf": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_string_append_uri_escaped": {
+    "parameters": ["pointer", "pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_string_down": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_up": { "parameters": ["pointer"], "result": "pointer" },
+  "g_io_channel_init": { "parameters": ["pointer"], "result": "void" },
+  "g_io_channel_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_io_channel_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_io_channel_read": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_write": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_seek": {
+    "parameters": ["pointer", "i64", "i32"],
+    "result": "i32"
+  },
+  "g_io_channel_close": { "parameters": ["pointer"], "result": "void" },
+  "g_io_channel_shutdown": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_io_add_watch_full": {
+    "parameters": ["pointer", "i32", "i32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_io_create_watch": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_io_add_watch": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_io_channel_set_buffer_size": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_io_channel_get_buffer_size": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_io_channel_get_buffer_condition": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_set_flags": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_get_flags": { "parameters": ["pointer"], "result": "i32" },
+  "g_io_channel_set_line_term": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_io_channel_get_line_term": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_io_channel_set_buffered": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_io_channel_get_buffered": { "parameters": ["pointer"], "result": "i32" },
+  "g_io_channel_set_encoding": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_get_encoding": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_io_channel_set_close_on_unref": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_io_channel_get_close_on_unref": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_flush": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_read_line": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_read_line_string": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_read_to_end": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_read_chars": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_read_unichar": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_write_chars": {
+    "parameters": ["pointer", "pointer", "i64", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_write_unichar": {
+    "parameters": ["pointer", "u32", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_seek_position": {
+    "parameters": ["pointer", "i64", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_io_channel_new_file": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_io_channel_error_quark": { "parameters": [], "result": "u32" },
+  "g_io_channel_error_from_errno": { "parameters": ["i32"], "result": "i32" },
+  "g_io_channel_unix_new": { "parameters": ["i32"], "result": "pointer" },
+  "g_io_channel_unix_get_fd": { "parameters": ["pointer"], "result": "i32" },
+  "g_key_file_error_quark": { "parameters": [], "result": "u32" },
+  "g_key_file_new": { "parameters": [], "result": "pointer" },
+  "g_key_file_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_key_file_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_key_file_free": { "parameters": ["pointer"], "result": "void" },
+  "g_key_file_set_list_separator": {
+    "parameters": ["pointer", "i8"],
+    "result": "void"
+  },
+  "g_key_file_load_from_file": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_load_from_data": {
+    "parameters": ["pointer", "pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_load_from_bytes": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_load_from_dirs": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_key_file_load_from_data_dirs": {
+    "parameters": ["pointer", "pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_to_data": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_save_to_file": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_get_start_group": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_get_groups": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_get_keys": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_has_group": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_has_key": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_get_value": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_value": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_string": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_string": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_locale_string": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_get_locale_for_key": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_locale_string": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_boolean": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_set_boolean": {
+    "parameters": ["pointer", "pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_key_file_get_integer": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_set_integer": {
+    "parameters": ["pointer", "pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_key_file_get_int64": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i64"
+  },
+  "g_key_file_set_int64": {
+    "parameters": ["pointer", "pointer", "pointer", "i64"],
+    "result": "void"
+  },
+  "g_key_file_get_uint64": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_uint64": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_double": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "f64"
+  },
+  "g_key_file_set_double": {
+    "parameters": ["pointer", "pointer", "pointer", "f64"],
+    "result": "void"
+  },
+  "g_key_file_get_string_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_string_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_locale_string_list": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_key_file_set_locale_string_list": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_key_file_get_boolean_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_boolean_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_integer_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_double_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_get_double_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_set_integer_list": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_key_file_set_comment": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_get_comment": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_key_file_remove_comment": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_remove_key": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_key_file_remove_group": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_mapped_file_new": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_mapped_file_new_from_fd": {
+    "parameters": ["i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_mapped_file_get_length": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_mapped_file_get_contents": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_mapped_file_get_bytes": { "parameters": ["pointer"], "result": "pointer" },
+  "g_mapped_file_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_mapped_file_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_mapped_file_free": { "parameters": ["pointer"], "result": "void" },
+  "g_markup_error_quark": { "parameters": [], "result": "u32" },
+  "g_markup_parse_context_new": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_markup_parse_context_ref": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_markup_parse_context_unref": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_markup_parse_context_free": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_markup_parse_context_parse": {
+    "parameters": ["pointer", "pointer", "i64", "pointer"],
+    "result": "i32"
+  },
+  "g_markup_parse_context_push": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_markup_parse_context_pop": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_markup_parse_context_end_parse": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_markup_parse_context_get_element": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_markup_parse_context_get_element_stack": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_markup_parse_context_get_position": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_markup_parse_context_get_user_data": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_markup_escape_text": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_markup_printf_escaped": { "parameters": ["pointer"], "result": "pointer" },
+  "g_markup_vprintf_escaped": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_markup_collect_attributes": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_variant_type_string_is_valid": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_variant_type_string_scan": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_type_free": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_type_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_get_string_length": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_peek_string": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_dup_string": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_is_definite": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_container": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_basic": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_maybe": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_array": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_tuple": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_is_dict_entry": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_variant_type_is_variant": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_type_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_variant_type_equal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_type_is_subtype_of": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_type_element": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_first": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_next": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_n_items": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_key": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_value": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_new_array": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_new_maybe": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_new_tuple": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_variant_type_new_dict_entry": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_type_checked_": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_type_string_get_depth_": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_ref_sink": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_is_floating": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_take_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_type": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_type_string": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_is_of_type": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_is_container": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_classify": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_new_boolean": { "parameters": ["i32"], "result": "pointer" },
+  "g_variant_new_byte": { "parameters": ["u8"], "result": "pointer" },
+  "g_variant_new_int16": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_uint16": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_int32": { "parameters": ["i32"], "result": "pointer" },
+  "g_variant_new_uint32": { "parameters": ["u32"], "result": "pointer" },
+  "g_variant_new_int64": { "parameters": ["i64"], "result": "pointer" },
+  "g_variant_new_uint64": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_handle": { "parameters": ["i32"], "result": "pointer" },
+  "g_variant_new_double": { "parameters": ["f64"], "result": "pointer" },
+  "g_variant_new_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_take_string": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_printf": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_object_path": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_is_object_path": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_new_signature": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_is_signature": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_new_variant": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_strv": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_variant_new_objv": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_variant_new_bytestring": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_bytestring_array": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_variant_new_fixed_array": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_boolean": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_get_byte": { "parameters": ["pointer"], "result": "u8" },
+  "g_variant_get_int16": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_uint16": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_int32": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_get_uint32": { "parameters": ["pointer"], "result": "u32" },
+  "g_variant_get_int64": { "parameters": ["pointer"], "result": "i64" },
+  "g_variant_get_uint64": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_handle": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_get_double": { "parameters": ["pointer"], "result": "f64" },
+  "g_variant_get_variant": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_string": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dup_string": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_strv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dup_strv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_objv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dup_objv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_bytestring": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dup_bytestring": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_bytestring_array": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dup_bytestring_array": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_maybe": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_array": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_tuple": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_dict_entry": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_maybe": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_n_children": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_child": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_get_child_value": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_lookup": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_lookup_value": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_fixed_array": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_size": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_data": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get_data_as_bytes": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_store": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_variant_print": { "parameters": ["pointer", "i32"], "result": "pointer" },
+  "g_variant_print_string": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_variant_hash": { "parameters": ["pointer"], "result": "u32" },
+  "g_variant_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_variant_get_normal_form": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_is_normal_form": { "parameters": ["pointer"], "result": "i32" },
+  "g_variant_byteswap": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_from_bytes": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_variant_new_from_data": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_variant_iter_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_iter_init": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_iter_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_iter_n_children": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_iter_free": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_iter_next_value": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_variant_iter_next": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_iter_loop": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_parser_get_error_quark": { "parameters": [], "result": "u32" },
+  "g_variant_parse_error_quark": { "parameters": [], "result": "u32" },
+  "g_variant_builder_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_builder_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_builder_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_builder_init": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_builder_end": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_builder_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_builder_open": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_builder_close": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_builder_add_value": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_builder_add": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_builder_add_parsed": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_get": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_variant_new_va": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_get_va": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_check_format_string": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_variant_parse": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_new_parsed": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_new_parsed_va": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_parse_error_print_context": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_compare": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_dict_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_dict_init": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_dict_lookup": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_dict_lookup_value": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_variant_dict_contains": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_dict_insert": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_dict_insert_value": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_variant_dict_remove": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_variant_dict_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_variant_dict_end": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_dict_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_variant_dict_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_printf_string_upper_bound": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_log_set_handler": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_log_set_handler_full": {
+    "parameters": ["pointer", "i32", "pointer", "pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_log_remove_handler": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_log_default_handler": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_log_set_default_handler": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_log": { "parameters": ["pointer", "i32", "pointer"], "result": "void" },
+  "g_logv": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_log_set_fatal_mask": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_log_set_always_fatal": { "parameters": ["i32"], "result": "i32" },
+  "g_log_structured": { "parameters": ["pointer", "i32"], "result": "void" },
+  "g_log_structured_array": {
+    "parameters": ["i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_log_variant": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_log_set_writer_func": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_log_writer_supports_color": { "parameters": ["i32"], "result": "i32" },
+  "g_log_writer_is_journald": { "parameters": ["i32"], "result": "i32" },
+  "g_log_writer_format_fields": {
+    "parameters": ["i32", "pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_log_writer_journald": {
+    "parameters": ["i32", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_log_writer_standard_streams": {
+    "parameters": ["i32", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_log_writer_default": {
+    "parameters": ["i32", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_log_writer_default_set_use_stderr": {
+    "parameters": ["i32"],
+    "result": "void"
+  },
+  "g_log_writer_default_would_drop": {
+    "parameters": ["i32", "pointer"],
+    "result": "i32"
+  },
+  "g_log_get_debug_enabled": { "parameters": [], "result": "i32" },
+  "g_log_set_debug_enabled": { "parameters": ["i32"], "result": "void" },
+  "g_return_if_fail_warning": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_warn_message": {
+    "parameters": ["pointer", "pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_assert_warning": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_log_structured_standard": {
+    "parameters": [
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_print": { "parameters": ["pointer"], "result": "void" },
+  "g_set_print_handler": { "parameters": ["pointer"], "result": "pointer" },
+  "g_printerr": { "parameters": ["pointer"], "result": "void" },
+  "g_set_printerr_handler": { "parameters": ["pointer"], "result": "pointer" },
+  "g_option_error_quark": { "parameters": [], "result": "u32" },
+  "g_option_context_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_option_context_set_summary": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_get_summary": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_option_context_set_description": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_get_description": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_option_context_free": { "parameters": ["pointer"], "result": "void" },
+  "g_option_context_set_help_enabled": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_option_context_get_help_enabled": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_option_context_set_ignore_unknown_options": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_option_context_get_ignore_unknown_options": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_option_context_set_strict_posix": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_option_context_get_strict_posix": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_option_context_add_main_entries": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_parse": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_option_context_parse_strv": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_option_context_set_translate_func": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_set_translation_domain": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_add_group": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_set_main_group": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_context_get_main_group": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_option_context_get_help": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_option_group_new": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_option_group_set_parse_hooks": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_group_set_error_hook": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_group_free": { "parameters": ["pointer"], "result": "void" },
+  "g_option_group_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_option_group_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_option_group_add_entries": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_group_set_translate_func": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_option_group_set_translation_domain": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_pattern_spec_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_pattern_spec_free": { "parameters": ["pointer"], "result": "void" },
+  "g_pattern_spec_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_pattern_spec_equal": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_pattern_spec_match": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_pattern_spec_match_string": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_pattern_match": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_pattern_match_string": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_pattern_match_simple": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_spaced_primes_closest": { "parameters": ["u32"], "result": "u32" },
+  "g_qsort_with_data": {
+    "parameters": ["pointer", "i32", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_new": { "parameters": [], "result": "pointer" },
+  "g_queue_free": { "parameters": ["pointer"], "result": "void" },
+  "g_queue_free_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_init": { "parameters": ["pointer"], "result": "void" },
+  "g_queue_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_queue_is_empty": { "parameters": ["pointer"], "result": "i32" },
+  "g_queue_clear_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_get_length": { "parameters": ["pointer"], "result": "u32" },
+  "g_queue_reverse": { "parameters": ["pointer"], "result": "void" },
+  "g_queue_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_find": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_queue_find_custom": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_queue_sort": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_head": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_tail": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_nth": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_queue_pop_head": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_pop_tail": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_pop_nth": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_queue_peek_head": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_peek_tail": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_peek_nth": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_queue_index": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_queue_remove": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_queue_remove_all": {
+    "parameters": ["pointer", "pointer"],
+    "result": "u32"
+  },
+  "g_queue_insert_before": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_insert_before_link": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_insert_after": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_insert_after_link": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_insert_sorted": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_head_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_tail_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_queue_push_nth_link": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_queue_pop_head_link": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_pop_tail_link": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_pop_nth_link": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_queue_peek_head_link": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_peek_tail_link": { "parameters": ["pointer"], "result": "pointer" },
+  "g_queue_peek_nth_link": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_queue_link_index": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_queue_unlink": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_queue_delete_link": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_rand_new_with_seed": { "parameters": ["u32"], "result": "pointer" },
+  "g_rand_new_with_seed_array": {
+    "parameters": ["pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_rand_new": { "parameters": [], "result": "pointer" },
+  "g_rand_free": { "parameters": ["pointer"], "result": "void" },
+  "g_rand_copy": { "parameters": ["pointer"], "result": "pointer" },
+  "g_rand_set_seed": { "parameters": ["pointer", "u32"], "result": "void" },
+  "g_rand_set_seed_array": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "void"
+  },
+  "g_rand_int": { "parameters": ["pointer"], "result": "u32" },
+  "g_rand_int_range": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "i32"
+  },
+  "g_rand_double": { "parameters": ["pointer"], "result": "f64" },
+  "g_rand_double_range": {
+    "parameters": ["pointer", "f64", "f64"],
+    "result": "f64"
+  },
+  "g_random_set_seed": { "parameters": ["u32"], "result": "void" },
+  "g_random_int": { "parameters": [], "result": "u32" },
+  "g_random_int_range": { "parameters": ["i32", "i32"], "result": "i32" },
+  "g_random_double": { "parameters": [], "result": "f64" },
+  "g_random_double_range": { "parameters": ["f64", "f64"], "result": "f64" },
+  "g_rc_box_alloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_rc_box_alloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_rc_box_dup": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_rc_box_acquire": { "parameters": ["pointer"], "result": "pointer" },
+  "g_rc_box_release": { "parameters": ["pointer"], "result": "void" },
+  "g_rc_box_release_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_rc_box_get_size": { "parameters": ["pointer"], "result": "pointer" },
+  "g_atomic_rc_box_alloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_atomic_rc_box_alloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_atomic_rc_box_dup": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_atomic_rc_box_acquire": { "parameters": ["pointer"], "result": "pointer" },
+  "g_atomic_rc_box_release": { "parameters": ["pointer"], "result": "void" },
+  "g_atomic_rc_box_release_full": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_atomic_rc_box_get_size": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_ref_count_init": { "parameters": ["pointer"], "result": "void" },
+  "g_ref_count_inc": { "parameters": ["pointer"], "result": "void" },
+  "g_ref_count_dec": { "parameters": ["pointer"], "result": "i32" },
+  "g_ref_count_compare": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_atomic_ref_count_init": { "parameters": ["pointer"], "result": "void" },
+  "g_atomic_ref_count_inc": { "parameters": ["pointer"], "result": "void" },
+  "g_atomic_ref_count_dec": { "parameters": ["pointer"], "result": "i32" },
+  "g_atomic_ref_count_compare": {
+    "parameters": ["pointer", "i32"],
+    "result": "i32"
+  },
+  "g_ref_string_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_ref_string_new_len": {
+    "parameters": ["pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_ref_string_new_intern": { "parameters": ["pointer"], "result": "pointer" },
+  "g_ref_string_acquire": { "parameters": ["pointer"], "result": "pointer" },
+  "g_ref_string_release": { "parameters": ["pointer"], "result": "void" },
+  "g_ref_string_length": { "parameters": ["pointer"], "result": "pointer" },
+  "g_regex_error_quark": { "parameters": [], "result": "u32" },
+  "g_regex_new": {
+    "parameters": ["pointer", "i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_regex_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_regex_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_regex_get_pattern": { "parameters": ["pointer"], "result": "pointer" },
+  "g_regex_get_max_backref": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_get_capture_count": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_get_has_cr_or_lf": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_get_max_lookbehind": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_get_string_number": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_regex_escape_string": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_regex_escape_nul": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_regex_get_compile_flags": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_get_match_flags": { "parameters": ["pointer"], "result": "i32" },
+  "g_regex_match_simple": {
+    "parameters": ["pointer", "pointer", "i32", "i32"],
+    "result": "i32"
+  },
+  "g_regex_match": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_regex_match_full": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i64",
+      "i32",
+      "i32",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_regex_match_all": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_regex_match_all_full": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i64",
+      "i32",
+      "i32",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_regex_split_simple": {
+    "parameters": ["pointer", "pointer", "i32", "i32"],
+    "result": "pointer"
+  },
+  "g_regex_split": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_regex_split_full": {
+    "parameters": ["pointer", "pointer", "i64", "i32", "i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_regex_replace": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i64",
+      "i32",
+      "pointer",
+      "i32",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_regex_replace_literal": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i64",
+      "i32",
+      "pointer",
+      "i32",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_regex_replace_eval": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i64",
+      "i32",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_regex_check_replacement": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_match_info_get_regex": { "parameters": ["pointer"], "result": "pointer" },
+  "g_match_info_get_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_match_info_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_match_info_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_match_info_free": { "parameters": ["pointer"], "result": "void" },
+  "g_match_info_next": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_match_info_matches": { "parameters": ["pointer"], "result": "i32" },
+  "g_match_info_get_match_count": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_match_info_is_partial_match": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_match_info_expand_references": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_match_info_fetch": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_match_info_fetch_pos": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_match_info_fetch_named": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_match_info_fetch_named_pos": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_match_info_fetch_all": { "parameters": ["pointer"], "result": "pointer" },
+  "g_scanner_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_scanner_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_scanner_input_file": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_scanner_sync_file_offset": { "parameters": ["pointer"], "result": "void" },
+  "g_scanner_input_text": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "void"
+  },
+  "g_scanner_get_next_token": { "parameters": ["pointer"], "result": "i32" },
+  "g_scanner_peek_next_token": { "parameters": ["pointer"], "result": "i32" },
+  "g_scanner_cur_token": { "parameters": ["pointer"], "result": "i32" },
+  "g_scanner_cur_value": { "parameters": ["pointer"], "result": "i32" },
+  "g_scanner_cur_line": { "parameters": ["pointer"], "result": "u32" },
+  "g_scanner_cur_position": { "parameters": ["pointer"], "result": "u32" },
+  "g_scanner_eof": { "parameters": ["pointer"], "result": "i32" },
+  "g_scanner_set_scope": { "parameters": ["pointer", "u32"], "result": "u32" },
+  "g_scanner_scope_add_symbol": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_scanner_scope_remove_symbol": {
+    "parameters": ["pointer", "u32", "pointer"],
+    "result": "void"
+  },
+  "g_scanner_scope_lookup_symbol": {
+    "parameters": ["pointer", "u32", "pointer"],
+    "result": "pointer"
+  },
+  "g_scanner_scope_foreach_symbol": {
+    "parameters": ["pointer", "u32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_scanner_lookup_symbol": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_scanner_unexp_token": {
+    "parameters": [
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32"
+    ],
+    "result": "void"
+  },
+  "g_scanner_error": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_scanner_warn": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_sequence_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_sequence_free": { "parameters": ["pointer"], "result": "void" },
+  "g_sequence_get_length": { "parameters": ["pointer"], "result": "i32" },
+  "g_sequence_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_foreach_range": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_sort": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_sort_iter": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_is_empty": { "parameters": ["pointer"], "result": "i32" },
+  "g_sequence_get_begin_iter": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_get_end_iter": { "parameters": ["pointer"], "result": "pointer" },
+  "g_sequence_get_iter_at_pos": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_sequence_append": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_prepend": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_insert_before": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_move": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_sequence_swap": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_sequence_insert_sorted": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_insert_sorted_iter": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_sort_changed": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_sort_changed_iter": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_remove": { "parameters": ["pointer"], "result": "void" },
+  "g_sequence_remove_range": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_move_range": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_sequence_search": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_search_iter": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_lookup": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_lookup_iter": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_get": { "parameters": ["pointer"], "result": "pointer" },
+  "g_sequence_set": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_sequence_iter_is_begin": { "parameters": ["pointer"], "result": "i32" },
+  "g_sequence_iter_is_end": { "parameters": ["pointer"], "result": "i32" },
+  "g_sequence_iter_next": { "parameters": ["pointer"], "result": "pointer" },
+  "g_sequence_iter_prev": { "parameters": ["pointer"], "result": "pointer" },
+  "g_sequence_iter_get_position": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_sequence_iter_move": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_sequence_iter_get_sequence": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_sequence_iter_compare": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_sequence_range_get_midpoint": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_shell_error_quark": { "parameters": [], "result": "u32" },
+  "g_shell_quote": { "parameters": ["pointer"], "result": "pointer" },
+  "g_shell_unquote": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_shell_parse_argv": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_slice_alloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_slice_alloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_slice_copy": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_slice_free1": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_slice_free_chain_with_offset": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_slice_set_config": { "parameters": ["i32", "i64"], "result": "void" },
+  "g_slice_get_config": { "parameters": ["i32"], "result": "i64" },
+  "g_slice_get_config_state": {
+    "parameters": ["i32", "i64", "pointer"],
+    "result": "pointer"
+  },
+  "g_spawn_error_quark": { "parameters": [], "result": "u32" },
+  "g_spawn_exit_error_quark": { "parameters": [], "result": "u32" },
+  "g_spawn_async": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_spawn_async_with_pipes": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_spawn_async_with_pipes_and_fds": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "i32",
+      "i32",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_spawn_async_with_fds": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "i32",
+      "i32",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_spawn_sync": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_spawn_command_line_sync": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_spawn_command_line_async": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_spawn_check_wait_status": {
+    "parameters": ["i32", "pointer"],
+    "result": "i32"
+  },
+  "g_spawn_check_exit_status": {
+    "parameters": ["i32", "pointer"],
+    "result": "i32"
+  },
+  "g_spawn_close_pid": { "parameters": ["i32"], "result": "void" },
+  "g_ascii_tolower": { "parameters": ["i8"], "result": "i8" },
+  "g_ascii_toupper": { "parameters": ["i8"], "result": "i8" },
+  "g_ascii_digit_value": { "parameters": ["i8"], "result": "i32" },
+  "g_ascii_xdigit_value": { "parameters": ["i8"], "result": "i32" },
+  "g_strdelimit": {
+    "parameters": ["pointer", "pointer", "i8"],
+    "result": "pointer"
+  },
+  "g_strcanon": {
+    "parameters": ["pointer", "pointer", "i8"],
+    "result": "pointer"
+  },
+  "g_strerror": { "parameters": ["i32"], "result": "pointer" },
+  "g_strsignal": { "parameters": ["i32"], "result": "pointer" },
+  "g_strreverse": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strlcpy": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_strlcat": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_strstr_len": {
+    "parameters": ["pointer", "i64", "pointer"],
+    "result": "pointer"
+  },
+  "g_strrstr": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_strrstr_len": {
+    "parameters": ["pointer", "i64", "pointer"],
+    "result": "pointer"
+  },
+  "g_str_has_suffix": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_str_has_prefix": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_strtod": { "parameters": ["pointer", "pointer"], "result": "f64" },
+  "g_ascii_strtod": { "parameters": ["pointer", "pointer"], "result": "f64" },
+  "g_ascii_strtoull": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "pointer"
+  },
+  "g_ascii_strtoll": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "i64"
+  },
+  "g_ascii_dtostr": {
+    "parameters": ["pointer", "i32", "f64"],
+    "result": "pointer"
+  },
+  "g_ascii_formatd": {
+    "parameters": ["pointer", "i32", "pointer", "f64"],
+    "result": "pointer"
+  },
+  "g_strchug": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strchomp": { "parameters": ["pointer"], "result": "pointer" },
+  "g_ascii_strcasecmp": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ascii_strncasecmp": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ascii_strdown": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_ascii_strup": { "parameters": ["pointer", "i64"], "result": "pointer" },
+  "g_str_is_ascii": { "parameters": ["pointer"], "result": "i32" },
+  "g_strcasecmp": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_strncasecmp": {
+    "parameters": ["pointer", "pointer", "u32"],
+    "result": "i32"
+  },
+  "g_strdown": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strup": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strdup": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strdup_printf": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strdup_vprintf": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_strndup": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_strnfill": { "parameters": ["pointer", "i8"], "result": "pointer" },
+  "g_strconcat": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strjoin": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strcompress": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strescape": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_memdup": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_memdup2": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_strsplit": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_strsplit_set": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_strjoinv": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_strfreev": { "parameters": ["pointer"], "result": "void" },
+  "g_strdupv": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strv_length": { "parameters": ["pointer"], "result": "u32" },
+  "g_stpcpy": { "parameters": ["pointer", "pointer"], "result": "pointer" },
+  "g_str_to_ascii": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_str_tokenize_and_fold": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_str_match_string": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_strv_contains": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_strv_equal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_number_parser_error_quark": { "parameters": [], "result": "u32" },
+  "g_ascii_string_to_signed": {
+    "parameters": ["pointer", "u32", "i64", "i64", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_ascii_string_to_unsigned": {
+    "parameters": [
+      "pointer",
+      "u32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_string_chunk_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_string_chunk_free": { "parameters": ["pointer"], "result": "void" },
+  "g_string_chunk_clear": { "parameters": ["pointer"], "result": "void" },
+  "g_string_chunk_insert": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_string_chunk_insert_len": {
+    "parameters": ["pointer", "pointer", "i64"],
+    "result": "pointer"
+  },
+  "g_string_chunk_insert_const": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_strv_builder_new": { "parameters": [], "result": "pointer" },
+  "g_strv_builder_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_strv_builder_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strv_builder_add": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_strv_builder_addv": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_strv_builder_add_many": { "parameters": ["pointer"], "result": "void" },
+  "g_strv_builder_end": { "parameters": ["pointer"], "result": "pointer" },
+  "g_strcmp0": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_test_minimized_result": {
+    "parameters": ["f64", "pointer"],
+    "result": "void"
+  },
+  "g_test_maximized_result": {
+    "parameters": ["f64", "pointer"],
+    "result": "void"
+  },
+  "g_test_init": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_test_subprocess": { "parameters": [], "result": "i32" },
+  "g_test_run": { "parameters": [], "result": "i32" },
+  "g_test_add_func": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_test_add_data_func": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_add_data_func_full": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_get_path": { "parameters": [], "result": "pointer" },
+  "g_test_fail": { "parameters": [], "result": "void" },
+  "g_test_fail_printf": { "parameters": ["pointer"], "result": "void" },
+  "g_test_incomplete": { "parameters": ["pointer"], "result": "void" },
+  "g_test_incomplete_printf": { "parameters": ["pointer"], "result": "void" },
+  "g_test_skip": { "parameters": ["pointer"], "result": "void" },
+  "g_test_skip_printf": { "parameters": ["pointer"], "result": "void" },
+  "g_test_failed": { "parameters": [], "result": "i32" },
+  "g_test_set_nonfatal_assertions": { "parameters": [], "result": "void" },
+  "g_test_message": { "parameters": ["pointer"], "result": "void" },
+  "g_test_bug_base": { "parameters": ["pointer"], "result": "void" },
+  "g_test_bug": { "parameters": ["pointer"], "result": "void" },
+  "g_test_summary": { "parameters": ["pointer"], "result": "void" },
+  "g_test_timer_start": { "parameters": [], "result": "void" },
+  "g_test_timer_elapsed": { "parameters": [], "result": "f64" },
+  "g_test_timer_last": { "parameters": [], "result": "f64" },
+  "g_test_queue_free": { "parameters": ["pointer"], "result": "void" },
+  "g_test_queue_destroy": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_trap_fork": { "parameters": ["pointer", "i32"], "result": "i32" },
+  "g_test_trap_subprocess": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_test_trap_has_passed": { "parameters": [], "result": "i32" },
+  "g_test_trap_reached_timeout": { "parameters": [], "result": "i32" },
+  "g_test_rand_int": { "parameters": [], "result": "i32" },
+  "g_test_rand_int_range": { "parameters": ["i32", "i32"], "result": "i32" },
+  "g_test_rand_double": { "parameters": [], "result": "f64" },
+  "g_test_rand_double_range": { "parameters": ["f64", "f64"], "result": "f64" },
+  "g_test_create_case": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_test_create_suite": { "parameters": ["pointer"], "result": "pointer" },
+  "g_test_get_root": { "parameters": [], "result": "pointer" },
+  "g_test_suite_add": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_suite_add_suite": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_run_suite": { "parameters": ["pointer"], "result": "i32" },
+  "g_test_case_free": { "parameters": ["pointer"], "result": "void" },
+  "g_test_suite_free": { "parameters": ["pointer"], "result": "void" },
+  "g_test_trap_assertions": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_assertion_message": {
+    "parameters": ["pointer", "pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_assertion_message_expr": {
+    "parameters": ["pointer", "pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_assertion_message_cmpstr": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_assertion_message_cmpstrv": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_assertion_message_cmpnum": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i8"
+    ],
+    "result": "void"
+  },
+  "g_assertion_message_error": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "u32",
+      "i32"
+    ],
+    "result": "void"
+  },
+  "g_test_add_vtable": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "void"
+  },
+  "g_test_log_type_name": { "parameters": ["i32"], "result": "pointer" },
+  "g_test_log_buffer_new": { "parameters": [], "result": "pointer" },
+  "g_test_log_buffer_free": { "parameters": ["pointer"], "result": "void" },
+  "g_test_log_buffer_push": {
+    "parameters": ["pointer", "u32", "pointer"],
+    "result": "void"
+  },
+  "g_test_log_buffer_pop": { "parameters": ["pointer"], "result": "pointer" },
+  "g_test_log_msg_free": { "parameters": ["pointer"], "result": "void" },
+  "g_test_log_set_fatal_handler": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_test_expect_message": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_test_assert_expected_messages_internal": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_test_build_filename": {
+    "parameters": ["i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_test_get_dir": { "parameters": ["i32"], "result": "pointer" },
+  "g_test_get_filename": {
+    "parameters": ["i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_pool_new": {
+    "parameters": ["pointer", "pointer", "i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_pool_new_full": {
+    "parameters": ["pointer", "pointer", "pointer", "i32", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_pool_free": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "void"
+  },
+  "g_thread_pool_push": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_thread_pool_unprocessed": { "parameters": ["pointer"], "result": "u32" },
+  "g_thread_pool_set_sort_function": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_thread_pool_move_to_front": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_thread_pool_set_max_threads": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_thread_pool_get_max_threads": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_thread_pool_get_num_threads": {
+    "parameters": ["pointer"],
+    "result": "u32"
+  },
+  "g_thread_pool_set_max_unused_threads": {
+    "parameters": ["i32"],
+    "result": "void"
+  },
+  "g_thread_pool_get_max_unused_threads": { "parameters": [], "result": "i32" },
+  "g_thread_pool_get_num_unused_threads": { "parameters": [], "result": "u32" },
+  "g_thread_pool_stop_unused_threads": { "parameters": [], "result": "void" },
+  "g_thread_pool_set_max_idle_time": {
+    "parameters": ["u32"],
+    "result": "void"
+  },
+  "g_thread_pool_get_max_idle_time": { "parameters": [], "result": "u32" },
+  "g_timer_new": { "parameters": [], "result": "pointer" },
+  "g_timer_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_timer_start": { "parameters": ["pointer"], "result": "void" },
+  "g_timer_stop": { "parameters": ["pointer"], "result": "void" },
+  "g_timer_reset": { "parameters": ["pointer"], "result": "void" },
+  "g_timer_continue": { "parameters": ["pointer"], "result": "void" },
+  "g_timer_elapsed": { "parameters": ["pointer", "pointer"], "result": "f64" },
+  "g_timer_is_active": { "parameters": ["pointer"], "result": "i32" },
+  "g_usleep": { "parameters": ["pointer"], "result": "void" },
+  "g_time_val_add": { "parameters": ["pointer", "i64"], "result": "void" },
+  "g_time_val_from_iso8601": {
+    "parameters": ["pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_time_val_to_iso8601": { "parameters": ["pointer"], "result": "pointer" },
+  "g_trash_stack_push": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_trash_stack_pop": { "parameters": ["pointer"], "result": "pointer" },
+  "g_trash_stack_peek": { "parameters": ["pointer"], "result": "pointer" },
+  "g_trash_stack_height": { "parameters": ["pointer"], "result": "u32" },
+  "g_tree_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_new_with_data": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_new_full": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_node_first": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_node_last": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_node_previous": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_node_next": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_tree_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_tree_insert_node": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_insert": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_tree_replace_node": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_replace": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_tree_remove": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_tree_remove_all": { "parameters": ["pointer"], "result": "void" },
+  "g_tree_steal": { "parameters": ["pointer", "pointer"], "result": "i32" },
+  "g_tree_node_key": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_node_value": { "parameters": ["pointer"], "result": "pointer" },
+  "g_tree_lookup_node": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_lookup": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_lookup_extended": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_tree_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_tree_foreach_node": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_tree_traverse": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "void"
+  },
+  "g_tree_search_node": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_search": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_lower_bound": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_upper_bound": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_tree_height": { "parameters": ["pointer"], "result": "i32" },
+  "g_tree_nnodes": { "parameters": ["pointer"], "result": "i32" },
+  "g_uri_ref": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_unref": { "parameters": ["pointer"], "result": "void" },
+  "g_uri_split": {
+    "parameters": [
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_uri_split_with_user": {
+    "parameters": [
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_uri_split_network": {
+    "parameters": [
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "i32"
+  },
+  "g_uri_is_valid": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "i32"
+  },
+  "g_uri_join": {
+    "parameters": [
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_uri_join_with_user": {
+    "parameters": [
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_uri_parse": {
+    "parameters": ["pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_parse_relative": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_resolve_relative": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_build": {
+    "parameters": [
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_uri_build_with_user": {
+    "parameters": [
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_uri_to_string": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_to_string_partial": {
+    "parameters": ["pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_uri_get_scheme": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_userinfo": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_user": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_password": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_auth_params": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_host": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_port": { "parameters": ["pointer"], "result": "i32" },
+  "g_uri_get_path": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_query": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_fragment": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_get_flags": { "parameters": ["pointer"], "result": "i32" },
+  "g_uri_parse_params": {
+    "parameters": ["pointer", "i64", "pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_params_iter_init": {
+    "parameters": ["pointer", "pointer", "i64", "pointer", "i32"],
+    "result": "void"
+  },
+  "g_uri_params_iter_next": {
+    "parameters": ["pointer", "pointer", "pointer", "pointer"],
+    "result": "i32"
+  },
+  "g_uri_error_quark": { "parameters": [], "result": "u32" },
+  "g_uri_unescape_string": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_unescape_segment": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_parse_scheme": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_peek_scheme": { "parameters": ["pointer"], "result": "pointer" },
+  "g_uri_escape_string": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_uri_unescape_bytes": {
+    "parameters": ["pointer", "i64", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_uri_escape_bytes": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_uuid_string_is_valid": { "parameters": ["pointer"], "result": "i32" },
+  "g_uuid_string_random": { "parameters": [], "result": "pointer" },
+  "glib_check_version": {
+    "parameters": ["u32", "u32", "u32"],
+    "result": "pointer"
+  },
+  "g_mem_chunk_new": {
+    "parameters": ["pointer", "i32", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_mem_chunk_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_chunk_alloc": { "parameters": ["pointer"], "result": "pointer" },
+  "g_mem_chunk_alloc0": { "parameters": ["pointer"], "result": "pointer" },
+  "g_mem_chunk_free": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_mem_chunk_clean": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_chunk_reset": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_chunk_print": { "parameters": ["pointer"], "result": "void" },
+  "g_mem_chunk_info": { "parameters": [], "result": "void" },
+  "g_blow_chunks": { "parameters": [], "result": "void" },
+  "g_allocator_new": { "parameters": ["pointer", "u32"], "result": "pointer" },
+  "g_allocator_free": { "parameters": ["pointer"], "result": "void" },
+  "g_list_push_allocator": { "parameters": ["pointer"], "result": "void" },
+  "g_list_pop_allocator": { "parameters": [], "result": "void" },
+  "g_slist_push_allocator": { "parameters": ["pointer"], "result": "void" },
+  "g_slist_pop_allocator": { "parameters": [], "result": "void" },
+  "g_node_push_allocator": { "parameters": ["pointer"], "result": "void" },
+  "g_node_pop_allocator": { "parameters": [], "result": "void" },
+  "g_cache_new": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_cache_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_cache_insert": {
+    "parameters": ["pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_cache_remove": { "parameters": ["pointer", "pointer"], "result": "void" },
+  "g_cache_key_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_cache_value_foreach": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_completion_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_completion_add_items": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_completion_remove_items": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_completion_clear_items": { "parameters": ["pointer"], "result": "void" },
+  "g_completion_complete": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_completion_complete_utf8": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "pointer"
+  },
+  "g_completion_set_compare": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_completion_free": { "parameters": ["pointer"], "result": "void" },
+  "g_relation_new": { "parameters": ["i32"], "result": "pointer" },
+  "g_relation_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_relation_index": {
+    "parameters": ["pointer", "i32", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_relation_insert": { "parameters": ["pointer"], "result": "void" },
+  "g_relation_delete": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_relation_select": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "pointer"
+  },
+  "g_relation_count": {
+    "parameters": ["pointer", "pointer", "i32"],
+    "result": "i32"
+  },
+  "g_relation_exists": { "parameters": ["pointer"], "result": "i32" },
+  "g_relation_print": { "parameters": ["pointer"], "result": "void" },
+  "g_tuples_destroy": { "parameters": ["pointer"], "result": "void" },
+  "g_tuples_index": {
+    "parameters": ["pointer", "i32", "i32"],
+    "result": "pointer"
+  },
+  "g_thread_create": {
+    "parameters": ["pointer", "pointer", "i32", "pointer"],
+    "result": "pointer"
+  },
+  "g_thread_create_full": {
+    "parameters": [
+      "pointer",
+      "pointer",
+      "pointer",
+      "i32",
+      "i32",
+      "i32",
+      "pointer"
+    ],
+    "result": "pointer"
+  },
+  "g_thread_set_priority": {
+    "parameters": ["pointer", "i32"],
+    "result": "void"
+  },
+  "g_thread_foreach": {
+    "parameters": ["pointer", "pointer"],
+    "result": "void"
+  },
+  "g_static_mutex_init": { "parameters": ["pointer"], "result": "void" },
+  "g_static_mutex_free": { "parameters": ["pointer"], "result": "void" },
+  "g_static_mutex_get_mutex_impl": {
+    "parameters": ["pointer"],
+    "result": "pointer"
+  },
+  "g_static_rec_mutex_init": { "parameters": ["pointer"], "result": "void" },
+  "g_static_rec_mutex_lock": { "parameters": ["pointer"], "result": "void" },
+  "g_static_rec_mutex_trylock": { "parameters": ["pointer"], "result": "i32" },
+  "g_static_rec_mutex_unlock": { "parameters": ["pointer"], "result": "void" },
+  "g_static_rec_mutex_lock_full": {
+    "parameters": ["pointer", "u32"],
+    "result": "void"
+  },
+  "g_static_rec_mutex_unlock_full": {
+    "parameters": ["pointer"],
+    "result": "u32"
+  },
+  "g_static_rec_mutex_free": { "parameters": ["pointer"], "result": "void" },
+  "g_static_rw_lock_init": { "parameters": ["pointer"], "result": "void" },
+  "g_static_rw_lock_reader_lock": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_static_rw_lock_reader_trylock": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_static_rw_lock_reader_unlock": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_static_rw_lock_writer_lock": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_static_rw_lock_writer_trylock": {
+    "parameters": ["pointer"],
+    "result": "i32"
+  },
+  "g_static_rw_lock_writer_unlock": {
+    "parameters": ["pointer"],
+    "result": "void"
+  },
+  "g_static_rw_lock_free": { "parameters": ["pointer"], "result": "void" },
+  "g_private_new": { "parameters": ["pointer"], "result": "pointer" },
+  "g_static_private_init": { "parameters": ["pointer"], "result": "void" },
+  "g_static_private_get": { "parameters": ["pointer"], "result": "pointer" },
+  "g_static_private_set": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "void"
+  },
+  "g_static_private_free": { "parameters": ["pointer"], "result": "void" },
+  "g_once_init_enter_impl": { "parameters": ["pointer"], "result": "i32" },
+  "g_thread_get_initialized": { "parameters": [], "result": "i32" },
+  "g_mutex_new": { "parameters": [], "result": "pointer" },
+  "g_mutex_free": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_new": { "parameters": [], "result": "pointer" },
+  "g_cond_free": { "parameters": ["pointer"], "result": "void" },
+  "g_cond_timed_wait": {
+    "parameters": ["pointer", "pointer", "pointer"],
+    "result": "i32"
+  }
+}
