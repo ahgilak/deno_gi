@@ -1,6 +1,6 @@
 import GIRepository from "./bindings/gobject-introspection/girepository.js";
 import { isLittleEndian, toCString } from "./utils.js";
-import createInstance from "./createInstance.js";
+import { interFromValue, valueFromInter } from "./interface.js";
 
 /**
  * @param {bigint} type
@@ -68,13 +68,15 @@ export function prepareArg(type, value) {
 
     /* non-basic types */
 
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
+    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
+      const info = GIRepository.g_type_info_get_interface(type);
       dataView.setBigUint64(
         0,
-        value ? (value.__ref || BigInt(value)) : 0n,
+        interFromValue(info, value),
         isLittleEndian,
       );
       break;
+    }
   }
 
   return arg.at(0);
@@ -134,7 +136,7 @@ export function prepareRet(type, buffer) {
     /* non-basic types */
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
-      return createInstance(
+      return valueFromInter(
         GIRepository.g_type_info_get_interface(type),
         ptr,
       );
@@ -163,7 +165,7 @@ export function prepareParam(type, value) {
     /* non-basic types */
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
-      return createInstance(
+      return valueFromInter(
         GIRepository.g_type_info_get_interface(type),
         value,
       );

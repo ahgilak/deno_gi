@@ -3,7 +3,7 @@ import GObject from "../bindings/gobject/gobject.js";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
 import { getName, toCString, toSnakeCase } from "../utils.js";
 import { setGValue } from "../gvalue.js";
-import { createSignalCallback } from "./signal.js";
+import { createCallback } from "./callback.js";
 
 const createObjectTemplate = (info) => {
   const isAbstract = GIRepository.g_object_info_get_abstract(info);
@@ -111,7 +111,7 @@ export function createObjectInstance(info, ref) {
   const result = new Object({
     on(action, callback) {
       const signalInfo = this.__signals[action];
-      const cb = createSignalCallback(signalInfo, callback);
+      const cb = createCallback(signalInfo, callback, this);
 
       const handlerId = GObject.g_signal_connect_data(
         this.__ref,

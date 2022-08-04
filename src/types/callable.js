@@ -1,6 +1,6 @@
 import GIRepository from "../bindings/gobject-introspection/girepository.js";
 import { prepareArg, prepareRet } from "../prepare.js";
-import createInstance from "../createInstance.js";
+import { valueFromInter } from "../interface.js";
 
 function createCallable({
   objectInfo,
@@ -48,7 +48,7 @@ function createCallable({
     );
 
     return objectInfo
-      ? createInstance(objectInfo, retVal.at(0))
+      ? valueFromInter(objectInfo, retVal.at(0))
       : prepareRet(retType, retVal.buffer);
   };
 }

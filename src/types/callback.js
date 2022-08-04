@@ -41,9 +41,18 @@ function ffiType(tag) {
   }
 }
 
-export function createSignalCallback(info, callback, target) {
+function parseArgs(val, i) {
+  const argInfo = GIRepository.g_callable_info_get_arg(info, i);
+  const argType = GIRepository.g_arg_info_get_type(argInfo);
+  const result = prepareParam(argType, val);
+  GIRepository.g_base_info_unref(argInfo);
+  GIRepository.g_base_info_unref(argType);
+  return result;
+}
+
+export function createCallback(info, callback, target) {
   const nArgs = GIRepository.g_callable_info_get_n_args(info);
-  const parameters = ["pointer"]; // first parameter is object itself
+  const parameters = target ? ["pointer"] : [];
   const returnType = GIRepository.g_callable_info_get_return_type(info);
   const returnTypeTag = GIRepository.g_type_info_get_tag(returnType);
   const result = ffiType(returnTypeTag);
@@ -61,17 +70,11 @@ export function createSignalCallback(info, callback, target) {
   return new Deno.UnsafeCallback({
     parameters,
     result,
-  }, (_, ...args) => {
-    const pArgs = args.map((val, i) => {
-      const argInfo = GIRepository.g_callable_info_get_arg(info, i);
-      const argType = GIRepository.g_arg_info_get_type(argInfo);
-      const r = prepareParam(argType, val);
-      GIRepository.g_base_info_unref(argInfo);
-      return r;
-    });
-    return callback(target, ...pArgs);
-  });
-}
+  }, (...args) => {
+    if (target) {
+      return callback(target, ...args.slice(1).map(parseArgs));
+    }
 
-export function emitSignal() {
+    return callback(...args.map(parseArgs));
+  });
 }
