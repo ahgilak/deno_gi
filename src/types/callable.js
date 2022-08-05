@@ -1,9 +1,8 @@
 import GIRepository from "../bindings/gobject-introspection/girepository.js";
 import { prepareArg, prepareRet } from "../prepare.js";
-import { valueFromInter } from "../interface.js";
 
 function createCallable({
-  objectInfo,
+  targetClass,
   methodInfo,
   selfRef,
 }) {
@@ -47,9 +46,14 @@ function createCallable({
       null,
     );
 
-    return objectInfo
-      ? valueFromInter(objectInfo, retVal.at(0))
-      : prepareRet(retType, retVal.buffer);
+    if (targetClass) {
+      return Object.create(
+        targetClass.prototype,
+        { __ref: { value: retVal.at(0) } },
+      );
+    }
+
+    return prepareRet(retType, retVal.buffer);
   };
 }
 
@@ -61,6 +65,6 @@ export function createFunction(methodInfo) {
   return createCallable({ methodInfo });
 }
 
-export function createConstructor(methodInfo, objectInfo) {
-  return createCallable({ methodInfo, objectInfo });
+export function createConstructor(methodInfo, targetClass) {
+  return createCallable({ methodInfo, targetClass });
 }

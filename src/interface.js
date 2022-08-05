@@ -1,6 +1,6 @@
 import GIRepository from "./bindings/gobject-introspection/girepository.js";
-import { createObjectInstance } from "./types/object.js";
-import { createStructInstance } from "./types/struct.js";
+import { createObject } from "./types/object.js";
+import { createStruct } from "./types/struct.js";
 import { createCallback } from "./types/callback.js";
 
 export function valueFromInter(info, ref) {
@@ -8,9 +8,15 @@ export function valueFromInter(info, ref) {
 
   switch (type) {
     case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
-      return createObjectInstance(info, ref);
+      return Object.create(
+        createObject(info).prototype,
+        { __ref: { value: ref } },
+      );
     case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:
-      return createStructInstance(info, ref);
+      return Object.create(
+        createStruct(info).prototype,
+        { __ref: { value: ref } },
+      );
   }
 }
 
