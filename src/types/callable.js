@@ -49,7 +49,7 @@ function createCallable({
     if (targetClass) {
       return Object.create(
         targetClass.prototype,
-        { __ref: { value: retVal.at(0) } },
+        { __ref__: { value: retVal.at(0) } },
       );
     }
 

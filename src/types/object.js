@@ -17,7 +17,7 @@ function defineMethods(target, info) {
       if (!Object.hasOwn(target.prototype, name)) {
         Object.defineProperty(target.prototype, name, {
           value(...args) {
-            return createMethod(methodInfo, this.__ref)(...args);
+            return createMethod(methodInfo, this.__ref__)(...args);
           },
         });
       }
@@ -44,16 +44,16 @@ function defineSignals(target, info) {
     const singalInfo = GIRepository.g_object_info_get_signal(info, i);
     const name = getName(singalInfo);
 
-    target.__signals[name] = singalInfo;
+    target.__signals__[name] = singalInfo;
   }
 }
 
 export function createObject(info) {
   const ResultClass = class {
     static name = getName(info);
-    static __gtype = GIRepository.g_registered_type_info_get_g_type(info);
-    static __klass = GObject.g_type_class_ref(this.__gtype);
-    static __signals = [];
+    static __gtype__ = GIRepository.g_registered_type_info_get_g_type(info);
+    static __klass__ = GObject.g_type_class_ref(this.__gtype__);
+    static __signals__ = [];
 
     constructor(props = {}) {
       const length = Object.keys(props).length;
@@ -63,7 +63,7 @@ export function createObject(info) {
       Object.entries(props).forEach(([key, value], i) => {
         const name = Deno.UnsafePointer.of(toCString(toSnakeCase(key)));
         const param = GObject.g_object_class_find_property(
-          this.constructor.__klass,
+          this.constructor.__klass__,
           name,
         );
         const gvalue = new BigUint64Array(3); // GValue is 24 byte
@@ -74,9 +74,9 @@ export function createObject(info) {
         values.set(gvalue, i * 3);
       });
 
-      Object.defineProperty(this, "__ref", {
+      Object.defineProperty(this, "__ref__", {
         value: GObject.g_object_new_with_properties(
-          this.constructor.__gtype,
+          this.constructor.__gtype__,
           length,
           names,
           values,
@@ -85,11 +85,11 @@ export function createObject(info) {
     }
 
     on(action, callback) {
-      const signalInfo = this.constructor.__signals[action];
+      const signalInfo = this.constructor.__signals__[action];
       const cb = createCallback(signalInfo, callback, this);
 
       const handlerId = GObject.g_signal_connect_data(
-        this.__ref,
+        this.__ref__,
         toCString(action),
         cb.pointer,
         null,
@@ -111,13 +111,13 @@ export function createObject(info) {
 
     off(handlerId) {
       GObject.g_signal_handler_disconnect(
-        this.__ref,
+        this.__ref__,
         handlerId,
       );
     }
 
     emit(action) {
-      GObject.g_signal_emit_by_name(this.__ref, toCString(action));
+      GObject.g_signal_emit_by_name(this.__ref__, toCString(action));
     }
   };
 

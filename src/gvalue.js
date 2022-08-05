@@ -39,7 +39,7 @@ export function setGValue(gvalue, gtype, value, init = false) {
     case GType.G_TYPE_POINTER:
       return GObject.g_value_set_pointer(gvalue, Deno.UnsafePointer.of(value));
     case GType.G_TYPE_OBJECT:
-      return GObject.g_value_set_object(gvalue, value.__ref);
+      return GObject.g_value_set_object(gvalue, value.__ref__);
     default: {
       if (gtype > GType.G_TYPE_FUNDAMENTAL_MAX) {
         const parent_type = GObject.g_type_parent(gtype);

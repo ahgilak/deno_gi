@@ -10,12 +10,12 @@ export function valueFromInter(info, ref) {
     case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
       return Object.create(
         createObject(info).prototype,
-        { __ref: { value: ref } },
+        { __ref__: { value: ref } },
       );
     case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:
       return Object.create(
         createStruct(info).prototype,
-        { __ref: { value: ref } },
+        { __ref__: { value: ref } },
       );
   }
 }
@@ -30,7 +30,7 @@ export function interFromValue(info, value) {
   switch (type) {
     case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
     case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:
-      return value.__ref;
+      return value.__ref__;
     case GIRepository.GIInfoType.GI_INFO_TYPE_ENUM:
     case GIRepository.GIInfoType.GI_INFO_TYPE_FLAGS:
       return BigInt(value);

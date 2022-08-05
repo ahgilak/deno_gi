@@ -11,7 +11,7 @@ function defineMethods(target, info) {
 
     if (!Object.hasOwn(target, name)) {
       Object.defineProperty(target, name, {
-        value: createMethod(methodInfo, target.__ref),
+        value: createMethod(methodInfo, target.__ref__),
       });
     }
   }

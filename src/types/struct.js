@@ -14,7 +14,7 @@ function defineMethods(target, info) {
       if (!Object.hasOwn(target.prototype, name)) {
         Object.defineProperty(target.prototype, name, {
           value(...args) {
-            return createMethod(methodInfo, this.__ref)(...args);
+            return createMethod(methodInfo, this.__ref__)(...args);
           },
           writable: false,
         });
