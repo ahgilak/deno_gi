@@ -30,6 +30,7 @@ export function interFromValue(info, value) {
   switch (type) {
     case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
     case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:
+    case GIRepository.GIInfoType.GI_INFO_TYPE_INTERFACE:
       return value.__ref__;
     case GIRepository.GIInfoType.GI_INFO_TYPE_ENUM:
     case GIRepository.GIInfoType.GI_INFO_TYPE_FLAGS:

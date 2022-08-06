@@ -1,5 +1,5 @@
 import GIRepository from "../bindings/gobject-introspection/girepository.js";
-import { createMethod } from "./callable.js";
+import { createFunction, createMethod } from "./callable.js";
 import { getName } from "../utils.js";
 
 function defineMethods(target, info) {
@@ -7,19 +7,34 @@ function defineMethods(target, info) {
 
   for (let i = 0; i < nMethods; i++) {
     const methodInfo = GIRepository.g_interface_info_get_method(info, i);
+    const isMethod = GIRepository.g_callable_info_is_method(methodInfo);
     const name = getName(methodInfo);
 
-    if (!Object.hasOwn(target, name)) {
-      Object.defineProperty(target, name, {
-        value: createMethod(methodInfo, target.__ref__),
-      });
+    if (isMethod) {
+      if (!Object.hasOwn(target.prototype, name)) {
+        Object.defineProperty(target.prototype, name, {
+          value(...args) {
+            return createMethod(methodInfo, this.__ref__)(...args);
+          },
+          writable: false,
+        });
+      }
+    } else {
+      if (!Object.hasOwn(target, name)) {
+        Object.defineProperty(target, name, {
+          value: createFunction(methodInfo),
+        });
+      }
     }
   }
 }
 
 export function createInterface(info) {
-  const result = new Object();
-  defineMethods(result, info);
+  const ResultClass = class {
+    static name = getName(info);
+  };
+
+  defineMethods(ResultClass, info);
   GIRepository.g_base_info_unref(info);
-  return result;
+  return ResultClass;
 }
