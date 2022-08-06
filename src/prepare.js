@@ -8,13 +8,11 @@ import { interFromValue, valueFromInter } from "./interface.js";
  * @returns {bigint}
  */
 export function prepareArg(type, value) {
+  if (!value) return 0n;
+
   const arg = new BigUint64Array(1);
   const dataView = new DataView(arg.buffer);
   const tag = GIRepository.g_type_info_get_tag(type);
-
-  if (value === undefined) {
-    return 0n;
-  }
 
   switch (tag) {
     case GIRepository.GITypeTag.GI_TYPE_TAG_BOOLEAN:
