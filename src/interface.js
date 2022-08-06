@@ -23,10 +23,6 @@ export function valueFromInter(info, ref) {
 export function interFromValue(info, value) {
   const type = GIRepository.g_base_info_get_type(info);
 
-  if (!value) {
-    return 0n;
-  }
-
   switch (type) {
     case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
     case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:

@@ -12,6 +12,10 @@ export function prepareArg(type, value) {
   const dataView = new DataView(arg.buffer);
   const tag = GIRepository.g_type_info_get_tag(type);
 
+  if (value === undefined) {
+    return 0n;
+  }
+
   switch (tag) {
     case GIRepository.GITypeTag.GI_TYPE_TAG_BOOLEAN:
       dataView.setInt32(0, Number(value), isLittleEndian);
@@ -67,6 +71,16 @@ export function prepareArg(type, value) {
       break;
 
     /* non-basic types */
+
+    case GIRepository.GITypeTag.GI_TYPE_TAG_ARRAY: {
+      dataView.setBigUint64(
+        0,
+        BigInt(Deno.UnsafePointer.of(value)),
+        isLittleEndian,
+      );
+
+      break;
+    }
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
       const info = GIRepository.g_type_info_get_interface(type);
