@@ -1,44 +1,23 @@
 import GIRepository from "../bindings/gobject-introspection/girepository.js";
 import { prepareParam } from "../prepare.js";
 
+const nativeTypes = {
+  [GIRepository.GITypeTag.GI_TYPE_TAG_BOOLEAN]: "i32",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT8]: "u8",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_INT8]: "i8",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT16]: "u16",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_INT16]: "i16",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT32]: "u32",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_INT32]: "i32",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT64]: "u64",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_INT64]: "i64",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_FLOAT]: "f32",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_DOUBLE]: "f64",
+  [GIRepository.GITypeTag.GI_TYPE_TAG_VOID]: "void",
+};
+
 function ffiType(tag) {
-  switch (tag) {
-    case GIRepository.GITypeTag.GI_TYPE_TAG_BOOLEAN:
-      return "i32";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_UINT8:
-      return "u8";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INT8:
-      return "i8";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_UINT16:
-      return "u16";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INT16:
-      return "i16";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_UINT32:
-      return "u32";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INT32:
-      return "i32";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_UINT64:
-      return "u64";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INT64:
-      return "i64";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_FLOAT:
-      return "f32";
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_DOUBLE:
-      return "f64";
-
-    default:
-      return "pointer";
-  }
+  return nativeTypes[tag] || "pointer";
 }
 
 function parseArgs(val, i) {
