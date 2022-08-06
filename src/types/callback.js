@@ -31,7 +31,7 @@ function parseArgs(val, i) {
 
 export function createCallback(info, callback, target) {
   const nArgs = GIRepository.g_callable_info_get_n_args(info);
-  const parameters = target ? ["pointer"] : [];
+  const parameters = [];
   const returnType = GIRepository.g_callable_info_get_return_type(info);
   const returnTypeTag = GIRepository.g_type_info_get_tag(returnType);
   const result = ffiType(returnTypeTag);
@@ -46,14 +46,17 @@ export function createCallback(info, callback, target) {
     GIRepository.g_base_info_unref(argInfo);
   }
 
-  return new Deno.UnsafeCallback({
-    parameters,
-    result,
-  }, (...args) => {
-    if (target) {
-      return callback(target, ...args.slice(1).map(parseArgs));
-    }
+  if (target) {
+    return new Deno.UnsafeCallback({
+      parameters: ["pointer", ...parameters],
+      result,
+    }, (_, ...args) => {
+      return callback.bind(target)(...args.map(parseArgs));
+    });
+  }
 
-    return callback(...args.map(parseArgs));
-  });
+  return new Deno.UnsafeCallback(
+    { parameters, result },
+    (...args) => callback(...args.map(parseArgs)),
+  );
 }
