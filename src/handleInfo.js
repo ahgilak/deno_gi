@@ -1,5 +1,4 @@
 import GIRepository from "./bindings/gobject-introspection/girepository.js";
-
 import { createFunction } from "./types/callable.js";
 import { createConstant } from "./types/constant.js";
 import { createEnum } from "./types/enum.js";

@@ -130,7 +130,7 @@ export function extendObject(self, info) {
   defineMethods(self, info);
   defineSignals(self, info);
   const parent = GIRepository.g_object_info_get_parent(info);
-  if(parent){
+  if (parent) {
     extendObject(self, parent);
     GIRepository.g_base_info_unref(parent);
   }
