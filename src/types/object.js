@@ -61,7 +61,7 @@ export function createObject(info) {
       const values = new BigUint64Array(length * 3);
 
       Object.entries(props).forEach(([key, value], i) => {
-        const name = Deno.UnsafePointer.of(toCString(toSnakeCase(key)));
+        const name = BigInt(Deno.UnsafePointer.of(toCString(toSnakeCase(key))));
         const param = GObject.g_object_class_find_property(
           this.constructor.__klass__,
           name,
@@ -75,12 +75,12 @@ export function createObject(info) {
       });
 
       Object.defineProperty(this, "__ref__", {
-        value: GObject.g_object_new_with_properties(
+        value: BigInt(GObject.g_object_new_with_properties(
           this.constructor.__gtype__,
           length,
           names,
           values,
-        ),
+        )),
       });
     }
 

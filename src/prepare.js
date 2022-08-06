@@ -61,7 +61,7 @@ export function prepareArg(type, value) {
     case GIRepository.GITypeTag.GI_TYPE_TAG_FILENAME:
       dataView.setBigUint64(
         0,
-        Deno.UnsafePointer.of(toCString(value)),
+        BigInt(Deno.UnsafePointer.of(toCString(value))),
         isLittleEndian,
       );
       break;
