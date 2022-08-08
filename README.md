@@ -37,14 +37,14 @@ Signals are connected using `on` method.
 
 ```js
 button.on("clicked", () => {
-    console.log("Clicked");
+  console.log("Clicked");
 });
 ```
 
 ## Example
 
 ```js
-import * as gi from "../mod.js";
+import * as gi from "https://deno.land/x/deno_gi/mod.js";
 
 const Gtk = gi.require("Gtk", "4.0");
 
@@ -61,7 +61,6 @@ app.on("activate", () => {
 });
 
 app.run();
-
 ```
 
 > Run the example with `--allow-ffi` and `--unstable` flags.
