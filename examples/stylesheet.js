@@ -3,7 +3,8 @@ import * as gi from "../mod.js";
 const Gtk = gi.require("Gtk", "4.0");
 const Gdk = gi.require("Gdk", "4.0");
 
-const style = await Deno.readFile(new URL(import.meta.resolve("./style.css")));
+const file = await fetch(import.meta.resolve("./style.css"));
+const style = await file.arrayBuffer();
 
 const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();

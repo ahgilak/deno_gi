@@ -4,9 +4,8 @@ const Gtk = gi.require("Gtk", "4.0");
 
 const app = Gtk.Application.new("com.deno_gi.builder", 0);
 
-const template = await Deno.readTextFile(
-  new URL(import.meta.resolve("./template.ui")),
-);
+const file = await fetch(import.meta.resolve("./template.ui"));
+const template = await file.text();
 
 app.on("activate", activate);
 
