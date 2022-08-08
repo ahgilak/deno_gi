@@ -20,13 +20,15 @@ function ffiType(tag) {
   return nativeTypes[tag] || "pointer";
 }
 
-function parseArgs(val, i) {
-  const argInfo = GIRepository.g_callable_info_get_arg(info, i);
-  const argType = GIRepository.g_arg_info_get_type(argInfo);
-  const result = prepareParam(argType, val);
-  GIRepository.g_base_info_unref(argInfo);
-  GIRepository.g_base_info_unref(argType);
-  return result;
+function parseArgs(info, args) {
+  return args.map((val, i) => {
+    const argInfo = GIRepository.g_callable_info_get_arg(info, i);
+    const argType = GIRepository.g_arg_info_get_type(argInfo);
+    const result = prepareParam(argType, val);
+    GIRepository.g_base_info_unref(argInfo);
+    GIRepository.g_base_info_unref(argType);
+    return result;
+  });
 }
 
 export function createCallback(info, callback, target) {
@@ -46,14 +48,10 @@ export function createCallback(info, callback, target) {
     GIRepository.g_base_info_unref(argInfo);
   }
 
-  return new Deno.UnsafeCallback({
-    parameters,
-    result,
-  }, (...args) => {
-    if (target) {
-      return callback(target, ...args.slice(1).map(parseArgs));
-    }
-
-    return callback(...args.map(parseArgs));
-  });
+  return new Deno.UnsafeCallback(
+    { parameters, result },
+    target
+      ? (...args) => callback(target, ...parseArgs(info, args.slice(1)))
+      : (...args) => callback(...parseArgs(info, args)),
+  );
 }
