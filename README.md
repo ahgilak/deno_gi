@@ -30,3 +30,13 @@ const button = Gtk.Button.newWithLabel("Click Me!");
 // js constructor
 const button = new Gtk.Button({ label: "Click Me!" });
 ```
+
+### Signals
+
+Signals are connected using `on` method.
+
+```js
+button.on("clicked", () => { 
+    console.log("Clicked");
+});
+```
