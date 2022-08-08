@@ -2,10 +2,10 @@ import * as gi from "../mod.js";
 
 const Gtk = gi.require("Gtk", "4.0");
 
-const application = new Gtk.Application();
+const app = new Gtk.Application();
 
-application.on("activate", () => {
-  const win = new Gtk.ApplicationWindow({ application });
+app.on("activate", () => {
+  const win = new Gtk.ApplicationWindow({ application: app });
   const contentArea = new Gtk.Box({
     marginTop: 50,
     marginBottom: 50,
@@ -19,4 +19,4 @@ application.on("activate", () => {
   win.present();
 });
 
-application.run();
+app.run();
