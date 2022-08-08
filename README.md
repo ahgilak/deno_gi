@@ -44,14 +44,14 @@ button.on("clicked", () => {
 ## Example
 
 ```js
-import * as gi from "https://deno.land/x/deno_gi/mod.js";
+import * as gi from "https://deno.land/x/deno_gi@v0.2.1/mod.js";
 
 const Gtk = gi.require("Gtk", "4.0");
 
 const app = new Gtk.Application();
 
 app.on("activate", () => {
-  const win = new Gtk.ApplicationWindow({ app: application });
+  const win = new Gtk.ApplicationWindow({ application: app });
   const contentArea = new Gtk.Box();
   const label = new Gtk.Label({ label: "Hello World!" });
 
