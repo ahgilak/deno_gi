@@ -40,3 +40,30 @@ button.on("clicked", () => {
     console.log("Clicked");
 });
 ```
+
+## Example
+
+```js
+import * as gi from "../mod.js";
+
+const Gtk = gi.require("Gtk", "4.0");
+
+const app = new Gtk.Application();
+
+app.on("activate", () => {
+  const win = new Gtk.ApplicationWindow({ app: application });
+  const contentArea = new Gtk.Box();
+  const label = new Gtk.Label({ label: "Hello World!" });
+
+  contentArea.append(label);
+  win.setChild(contentArea);
+  win.present();
+});
+
+app.run();
+
+```
+
+> Run the example with `--allow-ffi` and `--unstable` flags.
+
+See more examples on [examples](./examples) folder.
