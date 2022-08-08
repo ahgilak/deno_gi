@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+    <requires lib="gtk" version="4.0"/>
+    <object class="GtkBox" id="root">
+        <property name="orientation">vertical</property>
+        <child>
+            <object class="GtkLabel">
+                <property name="vexpand">true</property>
+                <property name="label">Hello World!</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton" id="actionButton">
+                <property name="label" translatable="yes">Action</property>
+            </object>
+        </child>
+        <child>
+            <object class="GtkButton" id="closeButton">
+                <property name="label">Close</property>
+            </object>
+        </child>
+    </object>
+</interface>
