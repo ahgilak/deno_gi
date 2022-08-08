@@ -61,34 +61,18 @@ export function prepareArg(type, value) {
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_UTF8:
     case GIRepository.GITypeTag.GI_TYPE_TAG_FILENAME:
-      dataView.setBigUint64(
-        0,
-        BigInt(Deno.UnsafePointer.of(toCString(value))),
-        isLittleEndian,
-      );
-      break;
+      return BigInt(Deno.UnsafePointer.of(toCString(value)));
 
     /* non-basic types */
 
-    case GIRepository.GITypeTag.GI_TYPE_TAG_ARRAY: {
-      dataView.setBigUint64(
-        0,
-        BigInt(Deno.UnsafePointer.of(value)),
-        isLittleEndian,
-      );
+    case GIRepository.GITypeTag.GI_TYPE_TAG_ARRAY:
+      return BigInt(Deno.UnsafePointer.of(value));
 
-      break;
-    }
-
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
-      const info = GIRepository.g_type_info_get_interface(type);
-      dataView.setBigUint64(
-        0,
-        interFromValue(info, value),
-        isLittleEndian,
+    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
+      return interFromValue(
+        GIRepository.g_type_info_get_interface(type),
+        value,
       );
-      break;
-    }
   }
 
   return arg.at(0);
