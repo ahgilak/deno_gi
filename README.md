@@ -1,6 +1,6 @@
 # Deno GI
 
-Port of Gnome Libraries for Deno using gobject-introspection.
+Port of Gnome libraries (like Gtk) for Deno using gobject-introspection.
 
 > **Early Stage and Unstable**
 
@@ -36,7 +36,7 @@ const button = new Gtk.Button({ label: "Click Me!" });
 Signals are connected using `on` method.
 
 ```js
-button.on("clicked", () => { 
+button.on("clicked", () => {
     console.log("Clicked");
 });
 ```
