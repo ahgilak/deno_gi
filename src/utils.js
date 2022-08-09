@@ -1,10 +1,15 @@
 import GIRepository from "./bindings/gobject-introspection/girepository.js";
 
-export const suffix = {
-  "darwin": ".dylib",
-  "linux": ".so",
-  "windows": ".dll",
-}[Deno.build.os];
+export function library(name, version) {
+  switch (Deno.build.os) {
+    case "darwin":
+      return `lib${name}.${version}.dylib`;
+    case "linux":
+      return `lib${name}.so.${version}`;
+    case "windows":
+      return `lib${name}-${version}.dll`;
+  }
+}
 
 export const isLittleEndian =
   (new Uint8Array(new Uint16Array([1]).buffer)[0] === 1);
