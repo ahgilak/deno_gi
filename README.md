@@ -66,3 +66,44 @@ app.run();
 > Run the example with `--allow-ffi` and `--unstable` flags.
 
 See more examples on [examples](./examples) folder.
+
+## Dependencies
+
+Deno GI depends on `gobject-introspection`.
+
+### Fedora
+
+```sh
+dnf install gobject-introspection 
+```
+
+### Ubuntu
+
+```sh
+apt install gobject-introspection
+```
+
+### Arch
+
+```sh
+pacman -S gobject-introspection
+```
+
+### macOS
+
+```sh
+brew install gobject-introspection
+```
+
+### Windows
+
+1. Install MSYS2.
+2. Add `C:\msys64\mingw64\bin` to system path.
+3. Run in msys shell:
+
+```sh
+  pacman -S mingw-w64-x86_64-gobject-introspection
+```
+
+Additional libraries such as `gtk4` and `libadwaita` are used in [examples](./examples).
+Their installation process is the same as `gobject-introspection`.
