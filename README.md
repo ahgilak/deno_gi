@@ -44,7 +44,7 @@ button.on("clicked", () => {
 ## Example
 
 ```js
-import * as gi from "https://deno.land/x/deno_gi@v0.2.1/mod.js";
+import * as gi from "https://deno.land/x/deno_gi/mod.js";
 
 const Gtk = gi.require("Gtk", "4.0");
 
