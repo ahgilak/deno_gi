@@ -115,3 +115,8 @@ brew install gobject-introspection
 
 Additional libraries such as `gtk4` and `libadwaita` are used in [examples](./examples).
 Their installation process is the same as `gobject-introspection`.
+
+## Related Projects
+
+- [Gjs](https://gitlab.gnome.org/GNOME/gjs)
+- [node-gtk](https://github.com/romgrk/node-gtk)
