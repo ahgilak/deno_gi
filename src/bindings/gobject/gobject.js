@@ -1,5 +1,4 @@
 import symbols from "./symbols.json" assert { type: "json" };
-import enums from "./enums.json" assert { type: "json" };
 import { library } from "../../utils.js";
 
 const gobject = Deno.dlopen(
@@ -7,4 +6,4 @@ const gobject = Deno.dlopen(
   symbols,
 );
 
-export default { ...gobject.symbols, ...enums };
+export default gobject.symbols;
