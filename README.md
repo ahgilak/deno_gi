@@ -82,7 +82,7 @@ Deno GI depends on `gobject-introspection`.
 ### Fedora
 
 ```sh
-dnf install gobject-introspection 
+dnf install gobject-introspection
 ```
 
 ### Ubuntu
@@ -110,11 +110,12 @@ brew install gobject-introspection
 3. Run in msys shell:
 
 ```sh
-  pacman -S mingw-w64-x86_64-gobject-introspection
+pacman -S mingw-w64-x86_64-gobject-introspection
 ```
 
-Additional libraries such as `gtk4` and `libadwaita` are used in [examples](./examples).
-Their installation process is the same as `gobject-introspection`.
+Additional libraries such as `gtk4` and `libadwaita` are used in
+[examples](./examples). Their installation process is the same as
+`gobject-introspection`.
 
 ## Related Projects
 
