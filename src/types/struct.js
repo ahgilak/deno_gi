@@ -43,6 +43,5 @@ export function createStruct(info) {
   };
 
   defineMethods(ResultClass, info);
-  GIRepository.g_base_info_unref(info);
   return ResultClass;
 }

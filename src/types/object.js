@@ -14,13 +14,11 @@ function defineMethods(target, info) {
     const name = getName(methodInfo);
 
     if (isMethod) {
-      if (!Object.hasOwn(target.prototype, name)) {
-        Object.defineProperty(target.prototype, name, {
-          value(...args) {
-            return createMethod(methodInfo, this.__ref__)(...args);
-          },
-        });
-      }
+      Object.defineProperty(target.prototype, name, {
+        value(...args) {
+          return createMethod(methodInfo, this.__ref__)(...args);
+        },
+      });
     } else {
       const flags = GIRepository.g_function_info_get_flags(methodInfo);
       const isConstructor =
@@ -30,53 +28,59 @@ function defineMethods(target, info) {
         ? createConstructor(methodInfo, target)
         : createFunction(methodInfo);
 
-      if (!Object.hasOwn(target, name)) {
-        Object.defineProperty(target, name, { value });
-      }
+      Object.defineProperty(target, name, { value });
     }
   }
 }
 
-function defineSignals(target, info) {
+function getSignals(info) {
   const nSignals = GIRepository.g_object_info_get_n_signals(info);
+  const result = {};
 
   for (let i = 0; i < nSignals; i++) {
     const singalInfo = GIRepository.g_object_info_get_signal(info, i);
     const name = getName(singalInfo);
 
-    target.__signals__[name] = singalInfo;
+    result[name] = singalInfo;
   }
+
+  return result;
 }
 
+const cache = {};
+
 export function createObject(info) {
+  const gtype = GIRepository.g_registered_type_info_get_g_type(info);
+
+  if (cache[gtype]) {
+    return cache[gtype];
+  }
+
   const ResultClass = class {
     static name = getName(info);
-    static __gtype__ = GIRepository.g_registered_type_info_get_g_type(info);
-    static __klass__ = GObject.g_type_class_ref(this.__gtype__);
-    static __signals__ = [];
+    static __signals__ = getSignals(info);
 
     constructor(props = {}) {
+      const klass = GObject.g_type_class_ref(gtype);
+
       const length = Object.keys(props).length;
       const names = new BigUint64Array(length);
       const values = new BigUint64Array(length * 3);
 
       Object.entries(props).forEach(([key, value], i) => {
-        const name = BigInt(Deno.UnsafePointer.of(toCString(toSnakeCase(key))));
-        const param = GObject.g_object_class_find_property(
-          this.constructor.__klass__,
-          name,
-        );
+        const name = toCString(toSnakeCase(key));
+        const param = GObject.g_object_class_find_property(klass, name);
         const gvalue = new BigUint64Array(3); // GValue is 24 byte
         const gtype = new Deno.UnsafePointerView(param).getBigUint64(24); // param->value_type
 
         setGValue(gvalue, gtype, value, true);
-        names[i] = name;
+        names[i] = BigInt(Deno.UnsafePointer.of(name));
         values.set(gvalue, i * 3);
       });
 
       Object.defineProperty(this, "__ref__", {
         value: BigInt(GObject.g_object_new_with_properties(
-          this.constructor.__gtype__,
+          gtype,
           length,
           names,
           values,
@@ -122,16 +126,18 @@ export function createObject(info) {
   };
 
   extendObject(ResultClass, info);
-  GIRepository.g_base_info_unref(info);
-  return ResultClass;
+
+  return cache[gtype] = ResultClass;
 }
 
-export function extendObject(self, info) {
-  defineMethods(self, info);
-  defineSignals(self, info);
+function extendObject(obj, info) {
+  defineMethods(obj, info);
+
   const parent = GIRepository.g_object_info_get_parent(info);
   if (parent) {
-    extendObject(self, parent);
+    const Parent = createObject(parent);
+    Object.setPrototypeOf(obj.prototype, Parent.prototype);
+    Object.assign(obj.__signals__, Parent.__signals__);
     GIRepository.g_base_info_unref(parent);
   }
 }

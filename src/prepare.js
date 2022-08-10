@@ -68,11 +68,12 @@ export function prepareArg(type, value) {
     case GIRepository.GITypeTag.GI_TYPE_TAG_ARRAY:
       return BigInt(Deno.UnsafePointer.of(value));
 
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
-      return interFromValue(
-        GIRepository.g_type_info_get_interface(type),
-        value,
-      );
+    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
+      const info = GIRepository.g_type_info_get_interface(type);
+      const result = interFromValue(info, value);
+      GIRepository.g_base_info_unref(info);
+      return result;
+    }
   }
 
   return arg.at(0);
@@ -131,11 +132,12 @@ export function prepareRet(type, buffer) {
 
     /* non-basic types */
 
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
-      return valueFromInter(
-        GIRepository.g_type_info_get_interface(type),
-        ptr,
-      );
+    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
+      const info = GIRepository.g_type_info_get_interface(type);
+      const result = valueFromInter(info, ptr);
+      GIRepository.g_base_info_unref(info);
+      return result;
+    }
 
     default:
       return ptr;
@@ -160,11 +162,12 @@ export function prepareParam(type, value) {
 
     /* non-basic types */
 
-    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE:
-      return valueFromInter(
-        GIRepository.g_type_info_get_interface(type),
-        value,
-      );
+    case GIRepository.GITypeTag.GI_TYPE_TAG_INTERFACE: {
+      const info = GIRepository.g_type_info_get_interface(type);
+      const result = valueFromInter(info, value);
+      GIRepository.g_base_info_unref(info);
+      return result;
+    }
 
     default:
       return value;

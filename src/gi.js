@@ -38,6 +38,8 @@ export function require(namespace, version) {
     Object.defineProperty(result, getName(info), {
       value: handleInfo(info),
     });
+
+    GIRepository.g_base_info_unref(info);
   }
 
   return Object.freeze(result);
