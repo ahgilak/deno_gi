@@ -24,7 +24,7 @@ export function prepareArg(type, value) {
       break;
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_INT8:
-      dataView.setInt8(0, Number(value), isLittleEndian);
+      dataView.setInt8(0, Number(value));
       break;
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_UINT16:
@@ -100,7 +100,7 @@ export function prepareRet(type, buffer) {
       return dataView.getUint8(0);
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_INT8:
-      return dataView.getInt8(0, isLittleEndian);
+      return dataView.getInt8(0);
 
     case GIRepository.GITypeTag.GI_TYPE_TAG_UINT16:
       return dataView.getUint16(0, isLittleEndian);
