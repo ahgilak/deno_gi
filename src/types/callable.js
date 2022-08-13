@@ -1,4 +1,5 @@
-import GIRepository from "../bindings/gobject-introspection/girepository.js";
+import GIRepository from "../bindings/gobject-introspection/symbols.ts";
+import { GIDirection } from "../bindings/gobject-introspection/enums.ts";
 import { prepareArg, prepareRet } from "../prepare.js";
 
 function createCallable({
@@ -19,14 +20,14 @@ function createCallable({
       const argDirection = GIRepository.g_arg_info_get_direction(argInfo);
       const arg = prepareArg(argType, args[i]);
       if (
-        argDirection === GIRepository.GIDirection.GI_DIRECTION_IN ||
-        argDirection === GIRepository.GIDirection.GI_DIRECTION_INOUT
+        argDirection === GIDirection.GI_DIRECTION_IN ||
+        argDirection === GIDirection.GI_DIRECTION_INOUT
       ) {
         inArgs.push(arg);
       }
       if (
-        argDirection === GIRepository.GIDirection.GI_DIRECTION_OUT ||
-        argDirection === GIRepository.GIDirection.GI_DIRECTION_INOUT
+        argDirection === GIDirection.GI_DIRECTION_OUT ||
+        argDirection === GIDirection.GI_DIRECTION_INOUT
       ) {
         outArgs.push(arg);
       }

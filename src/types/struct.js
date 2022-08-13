@@ -1,4 +1,5 @@
-import GIRepository from "../bindings/gobject-introspection/girepository.js";
+import GIRepository from "../bindings/gobject-introspection/symbols.ts";
+import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
 import { getName } from "../utils.js";
 
@@ -21,8 +22,8 @@ function defineMethods(target, info) {
       }
     } else {
       const flags = GIRepository.g_function_info_get_flags(methodInfo);
-      const isConstructor =
-        GIRepository.GIFunctionInfoFlags.GI_FUNCTION_IS_CONSTRUCTOR & flags;
+      const isConstructor = GIFunctionInfoFlags.GI_FUNCTION_IS_CONSTRUCTOR &
+        flags;
 
       const value = isConstructor
         ? createConstructor(methodInfo, target)

@@ -1,4 +1,4 @@
-import GIRepository from "./bindings/gobject-introspection/girepository.js";
+import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { getName, toCString } from "./utils.js";
 import handleInfo from "./handleInfo.js";
 

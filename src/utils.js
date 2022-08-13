@@ -1,4 +1,5 @@
-import GIRepository from "./bindings/gobject-introspection/girepository.js";
+import GIRepository from "./bindings/gobject-introspection/symbols.ts";
+import { GIInfoType }from "./bindings/gobject-introspection/enums.ts";
 
 export function library(name, version) {
   switch (Deno.build.os) {
@@ -39,10 +40,10 @@ export function getName(info) {
   const type = GIRepository.g_base_info_get_type(info);
 
   const isCallableInfo =
-    (type === GIRepository.GIInfoType.GI_INFO_TYPE_FUNCTION) ||
-    (type === GIRepository.GIInfoType.GI_INFO_TYPE_CALLBACK) ||
-    (type === GIRepository.GIInfoType.GI_INFO_TYPE_SIGNAL) ||
-    (type === GIRepository.GIInfoType.GI_INFO_TYPE_VFUNC);
+    (type === GIInfoType.GI_INFO_TYPE_FUNCTION) ||
+    (type === GIInfoType.GI_INFO_TYPE_CALLBACK) ||
+    (type === GIInfoType.GI_INFO_TYPE_SIGNAL) ||
+    (type === GIInfoType.GI_INFO_TYPE_VFUNC);
 
   if (isCallableInfo) {
     return toCamelCase(nameStr);

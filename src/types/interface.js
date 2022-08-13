@@ -1,4 +1,4 @@
-import GIRepository from "../bindings/gobject-introspection/girepository.js";
+import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { createFunction, createMethod } from "./callable.js";
 import { getName } from "../utils.js";
 

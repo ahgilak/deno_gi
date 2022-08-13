@@ -1,5 +1,5 @@
-import GObject from "./bindings/gobject/gobject.js";
-import * as GType from "./bindings/gtypes.js";
+import GObject from "./bindings/gobject/symbols.ts";
+import * as GType from "./bindings/gtypes.ts";
 import { toCString } from "./utils.js";
 
 export function setGValue(gvalue, gtype, value, init = false) {

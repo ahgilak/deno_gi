@@ -1,4 +1,4 @@
-import GIRepository from "../bindings/gobject-introspection/girepository.js";
+import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { prepareRet } from "../prepare.js";
 
 export function createConstant(info) {

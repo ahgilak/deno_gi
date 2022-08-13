@@ -1,4 +1,6 @@
-import GIRepository from "./bindings/gobject-introspection/girepository.js";
+import GIRepository from "./bindings/gobject-introspection/symbols.ts";
+import { GIInfoType } from "./bindings/gobject-introspection/enums.ts";
+
 import { createFunction } from "./types/callable.js";
 import { createConstant } from "./types/constant.js";
 import { createEnum } from "./types/enum.js";
@@ -10,46 +12,46 @@ function handleInfo(info) {
   const type = GIRepository.g_base_info_get_type(info);
 
   switch (type) {
-    case GIRepository.GIInfoType.GI_INFO_TYPE_FUNCTION:
+    case GIInfoType.GI_INFO_TYPE_FUNCTION:
       return createFunction(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_CONSTANT:
+    case GIInfoType.GI_INFO_TYPE_CONSTANT:
       return createConstant(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_ENUM:
-    case GIRepository.GIInfoType.GI_INFO_TYPE_FLAGS:
+    case GIInfoType.GI_INFO_TYPE_ENUM:
+    case GIInfoType.GI_INFO_TYPE_FLAGS:
       return createEnum(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_OBJECT:
+    case GIInfoType.GI_INFO_TYPE_OBJECT:
       return createObject(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_STRUCT:
+    case GIInfoType.GI_INFO_TYPE_STRUCT:
       return createStruct(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_INTERFACE:
+    case GIInfoType.GI_INFO_TYPE_INTERFACE:
       return createInterface(info);
 
-    case GIRepository.GIInfoType.GI_INFO_TYPE_ARG:
+    case GIInfoType.GI_INFO_TYPE_ARG:
       return "Unhandled Type: Arg";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_BOXED:
+    case GIInfoType.GI_INFO_TYPE_BOXED:
       return "Unhandled Type: Boxed";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_CALLBACK:
+    case GIInfoType.GI_INFO_TYPE_CALLBACK:
       return "Unhandled Type: Callback";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_FIELD:
+    case GIInfoType.GI_INFO_TYPE_FIELD:
       return "Unhandled Type: Field";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_PROPERTY:
+    case GIInfoType.GI_INFO_TYPE_PROPERTY:
       return "Unhandled Type: Property";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_SIGNAL:
+    case GIInfoType.GI_INFO_TYPE_SIGNAL:
       return "Unhandled Type: Signal";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_TYPE:
+    case GIInfoType.GI_INFO_TYPE_TYPE:
       return "Unhandled Type: Type";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_UNION:
+    case GIInfoType.GI_INFO_TYPE_UNION:
       return "Unhandled Type: Union";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_UNRESOLVED:
+    case GIInfoType.GI_INFO_TYPE_UNRESOLVED:
       return "Unhandled Type: Unresolved";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_VALUE:
+    case GIInfoType.GI_INFO_TYPE_VALUE:
       return "Unhandled Type: Value";
-    case GIRepository.GIInfoType.GI_INFO_TYPE_VFUNC:
+    case GIInfoType.GI_INFO_TYPE_VFUNC:
       return "Unhandled type: VFunc";
 
     default:

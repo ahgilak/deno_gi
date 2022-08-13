@@ -1,19 +1,20 @@
-import GIRepository from "../bindings/gobject-introspection/girepository.js";
+import GIRepository from "../bindings/gobject-introspection/symbols.ts";
+import { GITypeTag } from "../bindings/gobject-introspection/enums.ts"
 import { prepareParam } from "../prepare.js";
 
 const nativeTypes = {
-  [GIRepository.GITypeTag.GI_TYPE_TAG_BOOLEAN]: "i32",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT8]: "u8",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_INT8]: "i8",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT16]: "u16",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_INT16]: "i16",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT32]: "u32",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_INT32]: "i32",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_UINT64]: "u64",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_INT64]: "i64",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_FLOAT]: "f32",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_DOUBLE]: "f64",
-  [GIRepository.GITypeTag.GI_TYPE_TAG_VOID]: "void",
+  [GITypeTag.GI_TYPE_TAG_BOOLEAN]: "i32",
+  [GITypeTag.GI_TYPE_TAG_UINT8]: "u8",
+  [GITypeTag.GI_TYPE_TAG_INT8]: "i8",
+  [GITypeTag.GI_TYPE_TAG_UINT16]: "u16",
+  [GITypeTag.GI_TYPE_TAG_INT16]: "i16",
+  [GITypeTag.GI_TYPE_TAG_UINT32]: "u32",
+  [GITypeTag.GI_TYPE_TAG_INT32]: "i32",
+  [GITypeTag.GI_TYPE_TAG_UINT64]: "u64",
+  [GITypeTag.GI_TYPE_TAG_INT64]: "i64",
+  [GITypeTag.GI_TYPE_TAG_FLOAT]: "f32",
+  [GITypeTag.GI_TYPE_TAG_DOUBLE]: "f64",
+  [GITypeTag.GI_TYPE_TAG_VOID]: "void",
 };
 
 function ffiType(tag) {
