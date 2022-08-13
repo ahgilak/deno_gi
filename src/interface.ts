@@ -4,7 +4,7 @@ import { createObject } from "./types/object.js";
 import { createStruct } from "./types/struct.js";
 import { createCallback } from "./types/callback.js";
 
-export function valueFromInter(info, ref) {
+export function valueFromInter(info: Deno.PointerValue, ref: bigint) {
   const type = GIRepository.g_base_info_get_type(info);
 
   switch (type) {
@@ -21,7 +21,8 @@ export function valueFromInter(info, ref) {
   }
 }
 
-export function interFromValue(info, value) {
+// deno-lint-ignore no-explicit-any
+export function interFromValue(info: Deno.PointerValue, value: any) {
   const type = GIRepository.g_base_info_get_type(info);
 
   switch (type) {

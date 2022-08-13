@@ -1,5 +1,5 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
-import { prepareRet } from "../prepare.js";
+import { prepareRet } from "../prepare.ts";
 
 export function createConstant(info) {
   const arg = new ArrayBuffer(8);

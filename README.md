@@ -19,7 +19,7 @@ Loading a library is done by calling `require` function.
 Loading Gtk:
 
 ```js
-import * as gi from "https://deno.land/x/deno_gi/mod.js";
+import * as gi from "https://deno.land/x/deno_gi/mod.ts";
 const Gtk = gi.require("Gtk", "4.0");
 ```
 
@@ -54,7 +54,7 @@ button.on("clicked", () => {
 ## Example
 
 ```js
-import * as gi from "https://deno.land/x/deno_gi/mod.js";
+import * as gi from "https://deno.land/x/deno_gi/mod.ts";
 
 const Gtk = gi.require("Gtk", "4.0");
 

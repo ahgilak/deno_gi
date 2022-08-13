@@ -1,4 +1,4 @@
-import * as gi from "../mod.js";
+import * as gi from "../mod.ts";
 
 const Gtk = gi.require("Gtk", "4.0");
 

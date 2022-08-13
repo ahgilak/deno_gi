@@ -4,7 +4,7 @@ import GObject from "../bindings/gobject/symbols.ts";
 import { GParamFlags } from "../bindings/gobject/enums.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
 import { getName, toCamelCase, toCString, toKebabCase } from "../utils.ts";
-import { setGValue } from "../gvalue.js";
+import { setGValue } from "../gvalue.ts";
 import { createCallback } from "./callback.js";
 
 function defineMethods(target, info) {

@@ -1,5 +1,5 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
-import { GIInfoType }from "./bindings/gobject-introspection/enums.ts";
+import { GIInfoType } from "./bindings/gobject-introspection/enums.ts";
 
 export function library(name: string, version: number | string) {
   switch (Deno.build.os) {
@@ -17,12 +17,8 @@ export const isLittleEndian =
 
 export const encoder = new TextEncoder();
 
-export function toCString(text?: string) {
-  if (text !== undefined) {
-    return encoder.encode(text + "\0");
-  }
-
-  return null;
+export function toCString(text: string) {
+  return encoder.encode(text + "\0");
 }
 
 export function getName(info: Deno.PointerValue) {
@@ -31,8 +27,7 @@ export function getName(info: Deno.PointerValue) {
 
   const type = GIRepository.g_base_info_get_type(info);
 
-  const isCallableInfo =
-    (type === GIInfoType.GI_INFO_TYPE_FUNCTION) ||
+  const isCallableInfo = (type === GIInfoType.GI_INFO_TYPE_FUNCTION) ||
     (type === GIInfoType.GI_INFO_TYPE_CALLBACK) ||
     (type === GIInfoType.GI_INFO_TYPE_SIGNAL) ||
     (type === GIInfoType.GI_INFO_TYPE_VFUNC);

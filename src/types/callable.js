@@ -1,6 +1,6 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIDirection } from "../bindings/gobject-introspection/enums.ts";
-import { prepareArg, prepareRet } from "../prepare.js";
+import { prepareArg, prepareRet } from "../prepare.ts";
 
 function createCallable({
   targetClass,

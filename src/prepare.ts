@@ -1,14 +1,10 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { GITypeTag } from "./bindings/gobject-introspection/enums.ts";
 import { isLittleEndian, toCString } from "./utils.ts";
-import { interFromValue, valueFromInter } from "./interface.js";
+import { interFromValue, valueFromInter } from "./interface.ts";
 
-/**
- * @param {bigint} type
- * @param {*} value
- * @returns {bigint}
- */
-export function prepareArg(type, value) {
+// deno-lint-ignore no-explicit-any
+export function prepareArg(type: Deno.PointerValue, value: any) {
   if (!value) return 0n;
 
   const arg = new BigUint64Array(1);
@@ -80,12 +76,7 @@ export function prepareArg(type, value) {
   return arg.at(0);
 }
 
-/**
- * @param {bigint} type
- * @param {ArrayBufferLike} buffer
- * @returns
- */
-export function prepareRet(type, buffer) {
+export function prepareRet(type: Deno.PointerValue, buffer: ArrayBufferLike) {
   const dataView = new DataView(buffer);
   const tag = GIRepository.g_type_info_get_tag(type);
   const ptr = dataView.getBigUint64(0, isLittleEndian);
@@ -154,12 +145,8 @@ export function prepareRet(type, buffer) {
   }
 }
 
-/**
- * @param {bigint} type
- * @param {*} value
- * @returns
- */
-export function prepareParam(type, value) {
+// deno-lint-ignore no-explicit-any
+export function prepareParam(type: Deno.PointerValue, value: any) {
   const tag = GIRepository.g_type_info_get_tag(type);
 
   switch (tag) {

@@ -1,19 +1,14 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { getName, toCString } from "./utils.ts";
-import handleInfo from "./handleInfo.js";
+import handleInfo from "./handleInfo.ts";
 
 const repository = GIRepository.g_irepository_get_default();
 
-/**
- * @param {string} namespace
- * @param {string?} version
- * @returns
- */
-export function require(namespace, version) {
+export function require(namespace: string, version?: string) {
   const result = new Object();
 
   const namespace_ = toCString(namespace);
-  const version_ = toCString(version);
+  const version_ = version ? toCString(version) : null;
 
   GIRepository.g_irepository_require(
     repository,

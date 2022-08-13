@@ -1,6 +1,6 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
-import { GITypeTag } from "../bindings/gobject-introspection/enums.ts"
-import { prepareParam } from "../prepare.js";
+import { GITypeTag } from "../bindings/gobject-introspection/enums.ts";
+import { prepareParam } from "../prepare.ts";
 
 const nativeTypes = {
   [GITypeTag.GI_TYPE_TAG_BOOLEAN]: "i32",

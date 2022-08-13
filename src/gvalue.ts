@@ -2,7 +2,13 @@ import GObject from "./bindings/gobject/symbols.ts";
 import * as GType from "./bindings/gtypes.ts";
 import { toCString } from "./utils.ts";
 
-export function setGValue(gvalue, gtype, value, init = false) {
+export function setGValue(
+  gvalue: Deno.PointerValue,
+  gtype: Deno.PointerValue,
+  // deno-lint-ignore no-explicit-any
+  value: any,
+  init = false,
+): void {
   if (init) {
     GObject.g_value_init(gvalue, gtype);
   }
@@ -42,15 +48,11 @@ export function setGValue(gvalue, gtype, value, init = false) {
       return GObject.g_value_set_object(gvalue, value.__ref__);
     default: {
       if (gtype > GType.G_TYPE_FUNDAMENTAL_MAX) {
-        const parent_type = GObject.g_type_parent(gtype);
-        return setGValue(gvalue, parent_type, value, false);
+        const parentType = GObject.g_type_parent(gtype);
+        return setGValue(gvalue, parentType, value, false);
       }
 
-      throw new Error(
-        `Invalid Type ${
-          new Deno.UnsafePointerView(GObject.g_type_name(gtype)).getCString()
-        }`,
-      );
+      throw new Error("Invalid Type");
     }
   }
 }
