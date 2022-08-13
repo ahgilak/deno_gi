@@ -1,7 +1,7 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
-import { getName } from "../utils.js";
+import { getName } from "../utils.ts";
 
 function defineMethods(target, info) {
   const nMethods = GIRepository.g_struct_info_get_n_methods(info);

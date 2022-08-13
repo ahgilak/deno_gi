@@ -1,4 +1,4 @@
-import { library } from "../../utils.js";
+import { library } from "../../utils.ts";
 
 const gobject = Deno.dlopen(library("gobject-2.0", 0), {
   g_object_class_find_property: {

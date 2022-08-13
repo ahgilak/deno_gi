@@ -1,5 +1,5 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
-import { getName } from "../utils.js";
+import { getName } from "../utils.ts";
 
 export function createEnum(info) {
   const result = new Object();

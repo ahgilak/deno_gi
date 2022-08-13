@@ -1,5 +1,5 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
-import { getName, toCString } from "./utils.js";
+import { getName, toCString } from "./utils.ts";
 import handleInfo from "./handleInfo.js";
 
 const repository = GIRepository.g_irepository_get_default();

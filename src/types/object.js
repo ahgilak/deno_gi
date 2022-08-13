@@ -2,7 +2,7 @@ import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts";
 import GObject from "../bindings/gobject/symbols.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
-import { getName, toCString, toKebabCase } from "../utils.js";
+import { getName, toCString, toKebabCase } from "../utils.ts";
 import { setGValue } from "../gvalue.js";
 import { createCallback } from "./callback.js";
 

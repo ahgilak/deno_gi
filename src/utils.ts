@@ -1,7 +1,7 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { GIInfoType }from "./bindings/gobject-introspection/enums.ts";
 
-export function library(name, version) {
+export function library(name: string, version: number | string) {
   switch (Deno.build.os) {
     case "darwin":
       return `lib${name}.${version}.dylib`;
@@ -17,11 +17,7 @@ export const isLittleEndian =
 
 export const encoder = new TextEncoder();
 
-/**
- * @param {string?} text
- * @returns {Uint8Array?}
- */
-export function toCString(text) {
+export function toCString(text?: string) {
   if (text !== undefined) {
     return encoder.encode(text + "\0");
   }
@@ -29,13 +25,9 @@ export function toCString(text) {
   return null;
 }
 
-/**
- * @param {bigint} info
- * @returns {string}
- */
-export function getName(info) {
+export function getName(info: Deno.PointerValue) {
   const namePtr = GIRepository.g_base_info_get_name(info);
-  const nameStr = new Deno.UnsafePointerView(namePtr).getCString();
+  const nameStr = new Deno.UnsafePointerView(BigInt(namePtr)).getCString();
 
   const type = GIRepository.g_base_info_get_type(info);
 
@@ -52,33 +44,21 @@ export function getName(info) {
   return nameStr;
 }
 
-/**
- * @param {string} text
- * @returns {string}
- */
-export function toSnakeCase(text) {
+export function toSnakeCase(text: string) {
   return text.replaceAll(
     /[A-Z]/g,
     (s) => "_" + s.toLowerCase(),
   );
 }
 
-/**
- * @param {string} text
- * @returns {string}
- */
-export function toKebabCase(text) {
+export function toKebabCase(text: string) {
   return text.replaceAll(
     /[A-Z]/g,
     (s) => "-" + s.toLowerCase(),
   );
 }
 
-/**
- * @param {string} text
- * @returns {string}
- */
-export function toCamelCase(text) {
+export function toCamelCase(text: string) {
   return text.replaceAll(
     /[_-][a-z]/g,
     (s) => s.substring(1).toUpperCase(),

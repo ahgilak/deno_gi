@@ -1,6 +1,6 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { GITypeTag } from "./bindings/gobject-introspection/enums.ts";
-import { isLittleEndian, toCString } from "./utils.js";
+import { isLittleEndian, toCString } from "./utils.ts";
 import { interFromValue, valueFromInter } from "./interface.js";
 
 /**

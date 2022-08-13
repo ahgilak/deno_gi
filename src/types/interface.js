@@ -1,6 +1,6 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { createFunction, createMethod } from "./callable.js";
-import { getName } from "../utils.js";
+import { getName } from "../utils.ts";
 
 function defineMethods(target, info) {
   const nMethods = GIRepository.g_interface_info_get_n_methods(info);

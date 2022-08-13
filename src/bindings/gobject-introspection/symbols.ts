@@ -1,4 +1,4 @@
-import { library } from "../../utils.js";
+import { library } from "../../utils.ts";
 
 const girepository = Deno.dlopen(library("girepository-1.0", 1), {
   g_arg_info_get_direction: {
