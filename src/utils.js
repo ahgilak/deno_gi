@@ -67,9 +67,20 @@ export function toSnakeCase(text) {
  * @param {string} text
  * @returns {string}
  */
+export function toKebabCase(text) {
+  return text.replaceAll(
+    /[A-Z]/g,
+    (s) => "-" + s.toLowerCase(),
+  );
+}
+
+/**
+ * @param {string} text
+ * @returns {string}
+ */
 export function toCamelCase(text) {
   return text.replaceAll(
-    /_[a-z]/g,
+    /[_-][a-z]/g,
     (s) => s.substring(1).toUpperCase(),
   );
 }

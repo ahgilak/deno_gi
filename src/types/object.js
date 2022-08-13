@@ -2,7 +2,7 @@ import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts";
 import GObject from "../bindings/gobject/symbols.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
-import { getName, toCString, toSnakeCase } from "../utils.js";
+import { getName, toCString, toKebabCase } from "../utils.js";
 import { setGValue } from "../gvalue.js";
 import { createCallback } from "./callback.js";
 
@@ -69,7 +69,7 @@ export function createObject(info) {
       const values = new BigUint64Array(length * 3);
 
       Object.entries(props).forEach(([key, value], i) => {
-        const name = toCString(toSnakeCase(key));
+        const name = toCString(toKebabCase(key));
         const param = GObject.g_object_class_find_property(klass, name);
         const gvalue = new BigUint64Array(3); // GValue is 24 byte
         const gtype = new Deno.UnsafePointerView(param).getBigUint64(24); // param->value_type
