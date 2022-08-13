@@ -1,8 +1,9 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts";
 import GObject from "../bindings/gobject/symbols.ts";
+import { GParamFlags } from "../bindings/gobject/enums.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
-import { getName, toCString, toKebabCase } from "../utils.ts";
+import { getName, toCamelCase, toCString, toKebabCase } from "../utils.ts";
 import { setGValue } from "../gvalue.js";
 import { createCallback } from "./callback.js";
 
@@ -31,6 +32,44 @@ function defineMethods(target, info) {
 
       Object.defineProperty(target, name, { value });
     }
+  }
+}
+
+function defineProperties(target, info) {
+  const nProps = GIRepository.g_object_info_get_n_properties(info);
+
+  for (let i = 0; i < nProps; i++) {
+    const propInfo = GIRepository.g_object_info_get_property(info, i);
+    const name = toCamelCase(getName(propInfo));
+    if (Object.hasOwn(target.prototype, name)) {
+      continue;
+    }
+
+    const flags = GIRepository.g_property_info_get_flags(propInfo);
+
+    Object.defineProperty(target.prototype, name, {
+      get() {
+        if (!(flags & GParamFlags.READABLE)) {
+          throw new Error(`Property ${name} is not readable`);
+        }
+
+        const getter = GIRepository.g_property_info_get_getter(propInfo);
+        const result = createMethod(getter, this.__ref__)();
+        GIRepository.g_base_info_unref(getter);
+        return result;
+      },
+
+      set(v) {
+        if (!(flags & GParamFlags.WRITABLE)) {
+          throw new Error(`Property ${name} is not writable`);
+        }
+
+        const setter = GIRepository.g_property_info_get_setter(propInfo);
+        const result = createMethod(setter, this.__ref__)(v);
+        GIRepository.g_base_info_unref(setter);
+        return result;
+      },
+    });
   }
 }
 
@@ -133,6 +172,7 @@ export function createObject(info) {
 
 function extendObject(obj, info) {
   defineMethods(obj, info);
+  defineProperties(obj, info);
 
   const parent = GIRepository.g_object_info_get_parent(info);
   if (parent) {

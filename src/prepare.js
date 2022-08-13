@@ -128,12 +128,21 @@ export function prepareRet(type, buffer) {
       return dataView.getFloat64(0, isLittleEndian);
 
     case GITypeTag.GI_TYPE_TAG_UTF8:
-    case GITypeTag.GI_TYPE_TAG_FILENAME:
+    case GITypeTag.GI_TYPE_TAG_FILENAME: {
+      if (!ptr) {
+        return null;
+      }
+
       return new Deno.UnsafePointerView(ptr).getCString();
+    }
 
     /* non-basic types */
 
     case GITypeTag.GI_TYPE_TAG_INTERFACE: {
+      if (!ptr) {
+        return null;
+      }
+
       const info = GIRepository.g_type_info_get_interface(type);
       const result = valueFromInter(info, ptr);
       GIRepository.g_base_info_unref(info);
