@@ -1,18 +1,18 @@
-import * as gi from "../mod.ts";
-
-const Gtk = gi.require("Gtk", "4.0");
-const Gdk = gi.require("Gdk", "4.0");
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
+import Gdk from "https://gir.deno.dev/Gdk-4.0";
 
 const file = await fetch(import.meta.resolve("./style.css"));
 const style = await file.arrayBuffer();
 
 const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();
+
+// @ts-ignore type mismatch
 provider.loadFromData(style, -1);
 
 app.on("activate", () => {
   Gtk.StyleContext.addProviderForDisplay(
-    Gdk.Display.getDefault(),
+    Gdk.Display.getDefault()!,
     provider,
     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
   );
@@ -27,4 +27,4 @@ app.on("activate", () => {
   win.present();
 });
 
-app.run();
+app.run([]);

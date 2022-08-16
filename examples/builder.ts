@@ -1,6 +1,4 @@
-import * as gi from "../mod.ts";
-
-const Gtk = gi.require("Gtk", "4.0");
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const app = Gtk.Application.new("com.deno_gi.builder", 0);
 
@@ -11,13 +9,13 @@ app.on("activate", activate);
 
 function activate() {
   const builder = Gtk.Builder.newFromString(template, -1);
-  const root = builder.getObject("root");
+  const root = builder.getObject("root") as Gtk.Widget;
 
-  const actionButton = builder.getObject("actionButton");
+  const actionButton = builder.getObject("actionButton") as Gtk.Button;
   Object.setPrototypeOf(actionButton, Gtk.Button.prototype);
   actionButton.on("clicked", () => console.log("Action!"));
 
-  const closeButton = builder.getObject("closeButton");
+  const closeButton = builder.getObject("closeButton") as Gtk.Button;
   Object.setPrototypeOf(closeButton, Gtk.Button.prototype);
   closeButton.on("clicked", () => win.close());
 
@@ -27,4 +25,4 @@ function activate() {
   win.present();
 }
 
-app.run();
+app.run([]);

@@ -1,6 +1,4 @@
-import * as gi from "../mod.ts";
-
-const Gtk = gi.require("Gtk", "4.0");
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const app = new Gtk.Application();
 
@@ -19,4 +17,4 @@ app.on("activate", () => {
   win.present();
 });
 
-app.run();
+app.run([]);

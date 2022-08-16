@@ -1,7 +1,5 @@
-import * as gi from "../mod.ts";
-
-const Gtk = gi.require("Gtk", "4.0");
-const Adw = gi.require("Adw", "1");
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
+import Adw from "https://gir.deno.dev/Adw-1";
 
 const app = Adw.Application.new("com.deno_gi.adwaita", 0);
 
@@ -44,4 +42,4 @@ function toggleTheme() {
   );
 }
 
-app.run();
+app.run([]);

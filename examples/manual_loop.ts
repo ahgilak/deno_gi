@@ -1,7 +1,5 @@
-import * as gi from "../mod.ts";
-
-const GLib = gi.require("GLib", "2.0");
-const Gtk = gi.require("Gtk", "4.0");
+import GLib from "https://gir.deno.dev/GLib-2.0";
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const loop = GLib.MainLoop.new(null, false);
 
