@@ -30,7 +30,7 @@ function activate() {
   const win = Adw.ApplicationWindow.new(app);
   win.setContent(content);
   win.setDefaultSize(400, 400);
-  win.present();
+  win.show();
 }
 
 function toggleTheme() {

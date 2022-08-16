@@ -22,7 +22,7 @@ function activate() {
   const win = Gtk.ApplicationWindow.new(app);
   win.setDefaultSize(200, 200);
   win.setChild(root);
-  win.present();
+  win.show();
 }
 
 app.run([]);

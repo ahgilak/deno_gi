@@ -24,7 +24,7 @@ app.on("activate", () => {
   box.append(label);
 
   win.setChild(box);
-  win.present();
+  win.show();
 });
 
 app.run([]);
