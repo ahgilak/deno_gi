@@ -3,7 +3,13 @@ import { GIFunctionInfoFlags } from "../bindings/gobject-introspection/enums.ts"
 import GObject from "../bindings/gobject/symbols.ts";
 import { GParamFlags } from "../bindings/gobject/enums.ts";
 import { createConstructor, createFunction, createMethod } from "./callable.js";
-import { getName, toCamelCase, toCString, toKebabCase } from "../utils.ts";
+import {
+  getName,
+  LocalDataView,
+  toCamelCase,
+  toCString,
+  toKebabCase,
+} from "../utils.ts";
 import { setGValue } from "../gvalue.ts";
 import { createCallback } from "./callback.js";
 
@@ -97,9 +103,6 @@ export function createObject(info) {
   }
 
   const ResultClass = class {
-    static name = getName(info);
-    static __signals__ = getSignals(info);
-
     constructor(props = {}) {
       const klass = GObject.g_type_class_ref(gtype);
 
@@ -111,7 +114,7 @@ export function createObject(info) {
         const name = toCString(toKebabCase(key));
         const param = GObject.g_object_class_find_property(klass, name);
         const gvalue = new BigUint64Array(3); // GValue is 24 byte
-        const gtype = new Deno.UnsafePointerView(param).getBigUint64(24); // param->value_type
+        const gtype = new LocalDataView(param, 32).getBigUint64(24); // param->value_type
 
         setGValue(gvalue, gtype, value, true);
         names[i] = BigInt(Deno.UnsafePointer.of(name));
@@ -165,6 +168,10 @@ export function createObject(info) {
     }
   };
 
+  Object.defineProperties(ResultClass, {
+    name: { value: getName(info) },
+    __signals__: { value: getSignals(info) },
+  });
   extendObject(ResultClass, info);
 
   return cache[gtype] = ResultClass;

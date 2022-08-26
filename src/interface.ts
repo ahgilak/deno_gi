@@ -34,7 +34,7 @@ export function interFromValue(info: Deno.PointerValue, value: any) {
     case GIInfoType.GI_INFO_TYPE_FLAGS:
       return BigInt(value);
     case GIInfoType.GI_INFO_TYPE_CALLBACK:
-      return createCallback(info, value).pointer;
+      return BigInt(createCallback(info, value).pointer);
     default:
       return BigInt(value);
   }

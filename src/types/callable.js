@@ -1,6 +1,7 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GIDirection } from "../bindings/gobject-introspection/enums.ts";
 import { prepareArg, prepareRet } from "../prepare.ts";
+import { LocalDataView } from "../utils.ts";
 
 function createCallable({
   targetClass,
@@ -35,7 +36,7 @@ function createCallable({
       GIRepository.g_base_info_unref(argType);
     }
 
-    const retVal = new BigUint64Array(1);
+    const retVal = new ArrayBuffer(64);
 
     GIRepository.g_function_info_invoke(
       methodInfo,
@@ -43,18 +44,18 @@ function createCallable({
       inArgs.length,
       new BigUint64Array(outArgs),
       outArgs.length,
-      retVal,
+      Deno.UnsafePointer.of(retVal),
       null,
     );
 
     if (targetClass) {
       return Object.create(
         targetClass.prototype,
-        { __ref__: { value: retVal.at(0) } },
+        { __ref__: { value: new LocalDataView(retVal).getBigUint64() } },
       );
     }
 
-    return prepareRet(retType, retVal.buffer);
+    return prepareRet(retType, retVal);
   };
 }
 

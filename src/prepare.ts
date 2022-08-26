@@ -1,59 +1,59 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { GITypeTag } from "./bindings/gobject-introspection/enums.ts";
-import { isLittleEndian, toCString } from "./utils.ts";
+import { fromCString, LocalDataView, toCString } from "./utils.ts";
 import { interFromValue, valueFromInter } from "./interface.ts";
 
 // deno-lint-ignore no-explicit-any
 export function prepareArg(type: Deno.PointerValue, value: any) {
   if (!value) return 0n;
 
-  const arg = new BigUint64Array(1);
-  const dataView = new DataView(arg.buffer);
+  const arg = new ArrayBuffer(64);
+  const dataView = new LocalDataView(arg);
   const tag = GIRepository.g_type_info_get_tag(type);
 
   switch (tag) {
     case GITypeTag.GI_TYPE_TAG_BOOLEAN:
-      dataView.setInt32(0, Number(value), isLittleEndian);
+      dataView.setInt32(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_UINT8:
-      dataView.setUint8(0, Number(value));
+      dataView.setUint8(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_INT8:
-      dataView.setInt8(0, Number(value));
+      dataView.setInt8(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_UINT16:
-      dataView.setUint16(0, Number(value), isLittleEndian);
+      dataView.setUint16(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_INT16:
-      dataView.setInt16(0, Number(value), isLittleEndian);
+      dataView.setInt16(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_UINT32:
-      dataView.setUint32(0, Number(value), isLittleEndian);
+      dataView.setUint32(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_INT32:
-      dataView.setInt32(0, Number(value), isLittleEndian);
+      dataView.setInt32(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_UINT64:
-      dataView.setBigUint64(0, BigInt(value), isLittleEndian);
+      dataView.setBigUint64(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_INT64:
-      dataView.setBigInt64(0, BigInt(value), isLittleEndian);
+      dataView.setBigInt64(value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_FLOAT:
-      dataView.setFloat32(0, Number(value), isLittleEndian);
+      dataView.setFloat32(0, value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_DOUBLE:
-      dataView.setFloat64(0, Number(value), isLittleEndian);
+      dataView.setFloat64(0, value);
       break;
 
     case GITypeTag.GI_TYPE_TAG_UTF8:
@@ -73,50 +73,50 @@ export function prepareArg(type: Deno.PointerValue, value: any) {
     }
   }
 
-  return arg.at(0);
+  return dataView.getBigUint64();
 }
 
 export function prepareRet(type: Deno.PointerValue, buffer: ArrayBufferLike) {
-  const dataView = new DataView(buffer);
+  const dataView = new LocalDataView(buffer);
   const tag = GIRepository.g_type_info_get_tag(type);
-  const ptr = dataView.getBigUint64(0, isLittleEndian);
+  const ptr = dataView.getBigUint64();
 
   switch (tag) {
     case GITypeTag.GI_TYPE_TAG_VOID:
       return;
 
     case GITypeTag.GI_TYPE_TAG_BOOLEAN:
-      return Boolean(dataView.getInt32(0, isLittleEndian));
+      return Boolean(dataView.getInt32());
 
     case GITypeTag.GI_TYPE_TAG_UINT8:
-      return dataView.getUint8(0);
+      return dataView.getUint8();
 
     case GITypeTag.GI_TYPE_TAG_INT8:
-      return dataView.getInt8(0);
+      return dataView.getInt8();
 
     case GITypeTag.GI_TYPE_TAG_UINT16:
-      return dataView.getUint16(0, isLittleEndian);
+      return dataView.getUint16();
 
     case GITypeTag.GI_TYPE_TAG_INT16:
-      return dataView.getInt16(0, isLittleEndian);
+      return dataView.getInt16();
 
     case GITypeTag.GI_TYPE_TAG_UINT32:
-      return dataView.getUint32(0, isLittleEndian);
+      return dataView.getUint32();
 
     case GITypeTag.GI_TYPE_TAG_INT32:
-      return dataView.getInt32(0, isLittleEndian);
+      return dataView.getInt32();
 
     case GITypeTag.GI_TYPE_TAG_UINT64:
-      return dataView.getBigUint64(0, isLittleEndian);
+      return dataView.getBigUint64();
 
     case GITypeTag.GI_TYPE_TAG_INT64:
-      return dataView.getBigInt64(0, isLittleEndian);
+      return dataView.getBigInt64();
 
     case GITypeTag.GI_TYPE_TAG_FLOAT:
-      return dataView.getFloat32(0, isLittleEndian);
+      return dataView.getFloat32();
 
     case GITypeTag.GI_TYPE_TAG_DOUBLE:
-      return dataView.getFloat64(0, isLittleEndian);
+      return dataView.getFloat64();
 
     case GITypeTag.GI_TYPE_TAG_UTF8:
     case GITypeTag.GI_TYPE_TAG_FILENAME: {
@@ -124,7 +124,7 @@ export function prepareRet(type: Deno.PointerValue, buffer: ArrayBufferLike) {
         return null;
       }
 
-      return new Deno.UnsafePointerView(ptr).getCString();
+      return fromCString(ptr);
     }
 
     /* non-basic types */
@@ -155,7 +155,7 @@ export function prepareParam(type: Deno.PointerValue, value: any) {
 
     case GITypeTag.GI_TYPE_TAG_UTF8:
     case GITypeTag.GI_TYPE_TAG_FILENAME:
-      return new Deno.UnsafePointerView(value).getCString();
+      return fromCString(value);
 
     /* non-basic types */
 

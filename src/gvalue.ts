@@ -3,7 +3,7 @@ import * as GType from "./bindings/gtypes.ts";
 import { toCString } from "./utils.ts";
 
 export function setGValue(
-  gvalue: Deno.PointerValue,
+  gvalue: BigUint64Array,
   gtype: Deno.PointerValue,
   // deno-lint-ignore no-explicit-any
   value: any,

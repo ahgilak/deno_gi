@@ -60,9 +60,9 @@ const girepository = Deno.dlopen(library("girepository-1.0", 1), {
   g_function_info_invoke: {
     parameters: [
       "pointer",
-      "pointer",
+      "buffer",
       "i32",
-      "pointer",
+      "buffer",
       "i32",
       "pointer",
       "pointer",
@@ -82,15 +82,15 @@ const girepository = Deno.dlopen(library("girepository-1.0", 1), {
     result: "pointer",
   },
   g_irepository_get_info: {
-    parameters: ["pointer", "pointer", "i32"],
+    parameters: ["pointer", "buffer", "i32"],
     result: "pointer",
   },
   g_irepository_get_n_infos: {
-    parameters: ["pointer", "pointer"],
+    parameters: ["pointer", "buffer"],
     result: "i32",
   },
   g_irepository_require: {
-    parameters: ["pointer", "pointer", "pointer", "i32", "pointer"],
+    parameters: ["pointer", "buffer", "buffer", "i32", "pointer"],
     result: "pointer",
   },
   g_object_info_get_method: {
