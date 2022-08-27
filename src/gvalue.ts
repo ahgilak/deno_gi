@@ -1,5 +1,6 @@
 import GObject from "./bindings/gobject/symbols.ts";
 import * as GType from "./bindings/gtypes.ts";
+import { convertArrayType } from "./prepare.ts";
 import { toCString } from "./utils.ts";
 
 export function setGValue(
@@ -46,13 +47,16 @@ export function setGValue(
       return GObject.g_value_set_pointer(gvalue, Deno.UnsafePointer.of(value));
     case GType.G_TYPE_OBJECT:
       return GObject.g_value_set_object(gvalue, value.__ref__);
+    case GType.G_TYPE_BOXED:
+      return GObject.g_value_set_boxed(gvalue, Deno.UnsafePointer.of(convertArrayType(value)));
+    
     default: {
       if (gtype > GType.G_TYPE_FUNDAMENTAL_MAX) {
         const parentType = GObject.g_type_parent(gtype);
         return setGValue(gvalue, parentType, value, false);
       }
 
-      throw new Error("Invalid Type");
+      throw new Error("Invalid Type " + gtype + " " + GType.G_TYPE_BOXED);
     }
   }
 }

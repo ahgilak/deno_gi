@@ -77,6 +77,10 @@ const gobject = Deno.dlopen(library("gobject-2.0", 0), {
     parameters: ["buffer", "pointer"],
     result: "void",
   },
+  g_value_set_boxed: {
+    parameters: ["buffer", "pointer"],
+    result: "void",
+  },
   g_value_set_pointer: {
     parameters: ["buffer", "pointer"],
     result: "void",
