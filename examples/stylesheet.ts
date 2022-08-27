@@ -8,7 +8,7 @@ const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();
 
 // @ts-ignore type mismatch
-provider.loadFromData(style, -1);
+provider.loadFromData(style, style.byteLength);
 
 app.on("activate", () => {
   Gtk.StyleContext.addProviderForDisplay(
