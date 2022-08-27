@@ -4,6 +4,26 @@ import { fromCString, LocalDataView, toCString } from "./utils.ts";
 import { interFromValue, valueFromInter } from "./interface.ts";
 
 // deno-lint-ignore no-explicit-any
+export function convertArrayType(value: any[]) {
+  if (value.length === 0) {
+    return new Uint8Array(0);
+  }
+
+  switch (typeof value[0]) {
+    case "string":
+      return new BigUint64Array(
+        value.map((v) => BigInt(Deno.UnsafePointer.of(toCString(v)))),
+      );
+    case "number":
+      return new Int32Array(value);
+    case "boolean":
+      return new Int32Array(value.map((v) => Number(v)));
+    case "bigint":
+      return new BigInt64Array(value);
+  }
+}
+
+// deno-lint-ignore no-explicit-any
 export function prepareArg(type: Deno.PointerValue, value: any) {
   if (!value) return 0n;
 
@@ -62,8 +82,13 @@ export function prepareArg(type: Deno.PointerValue, value: any) {
 
     /* non-basic types */
 
-    case GITypeTag.GI_TYPE_TAG_ARRAY:
+    case GITypeTag.GI_TYPE_TAG_ARRAY: {
+      if (Array.isArray(value)) {
+        value = convertArrayType(value);
+      }
+
       return BigInt(Deno.UnsafePointer.of(value));
+    }
 
     case GITypeTag.GI_TYPE_TAG_INTERFACE: {
       const info = GIRepository.g_type_info_get_interface(type);
