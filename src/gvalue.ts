@@ -48,7 +48,7 @@ export function setGValue(
     case GType.G_TYPE_OBJECT:
       return GObject.g_value_set_object(gvalue, value.__ref__);
     case GType.G_TYPE_BOXED:
-      return GObject.g_value_set_boxed(gvalue, Deno.UnsafePointer.of(convertArrayType(value)));
+      return GObject.g_value_set_boxed(gvalue, Deno.UnsafePointer.of(convertArrayType(value)!));
     
     default: {
       if (gtype > GType.G_TYPE_FUNDAMENTAL_MAX) {
