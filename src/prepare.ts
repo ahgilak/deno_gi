@@ -186,7 +186,7 @@ export function prepareParam(type: Deno.PointerValue, value: any) {
 
     case GITypeTag.GI_TYPE_TAG_INTERFACE: {
       const info = GIRepository.g_type_info_get_interface(type);
-      const result = valueFromInter(info, value);
+      const result = valueFromInter(info, BigInt(value));
       GIRepository.g_base_info_unref(info);
       return result;
     }
