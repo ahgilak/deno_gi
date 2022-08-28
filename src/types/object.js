@@ -132,6 +132,17 @@ export function createObject(info) {
     }
 
     on(action, callback) {
+      if (action.startsWith("notify::")) {
+        const notify = action.substring(8);
+        action = "notify";
+        const originalCallback = callback;
+        callback = (target, data) => {
+          if (data.getName() === notify) {
+            return originalCallback(target, data);
+          }
+        };
+      }
+
       const signalInfo = this.constructor.__signals__[action];
       const cb = createCallback(signalInfo, callback, this);
 
