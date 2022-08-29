@@ -121,7 +121,6 @@ export function getName(info: Deno.PointerValue) {
 
   const isCallableInfo = (type === GIInfoType.GI_INFO_TYPE_FUNCTION) ||
     (type === GIInfoType.GI_INFO_TYPE_CALLBACK) ||
-    (type === GIInfoType.GI_INFO_TYPE_SIGNAL) ||
     (type === GIInfoType.GI_INFO_TYPE_VFUNC);
 
   if (isCallableInfo) {
