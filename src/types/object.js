@@ -93,13 +93,13 @@ function getSignals(info) {
   return result;
 }
 
-const cache = {};
+export const objectCache = {};
 
 export function createObject(info) {
   const gtype = GIRepository.g_registered_type_info_get_g_type(info);
 
-  if (cache[gtype]) {
-    return cache[gtype];
+  if (objectCache[gtype]) {
+    return objectCache[gtype];
   }
 
   const ResultClass = class {
@@ -185,7 +185,7 @@ export function createObject(info) {
   });
   extendObject(ResultClass, info);
 
-  return cache[gtype] = ResultClass;
+  return objectCache[gtype] = ResultClass;
 }
 
 function extendObject(obj, info) {
