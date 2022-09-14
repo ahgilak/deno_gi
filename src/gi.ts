@@ -1,8 +1,6 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
-import { getName, toCString } from "./utils.ts";
+import { getName, toCString } from "./utils/string.ts";
 import handleInfo from "./handleInfo.ts";
-
-const repository = GIRepository.g_irepository_get_default();
 
 export function require(namespace: string, version?: string) {
   const result = new Object();
@@ -11,7 +9,7 @@ export function require(namespace: string, version?: string) {
   const version_ = version ? toCString(version) : null;
 
   GIRepository.g_irepository_require(
-    repository,
+    null,
     namespace_,
     version_,
     0, // disable lazy load
@@ -19,18 +17,15 @@ export function require(namespace: string, version?: string) {
   );
 
   const nInfos = GIRepository.g_irepository_get_n_infos(
-    repository,
+    null,
     namespace_,
   );
 
   for (let i = 0; i < nInfos; i++) {
-    const info = GIRepository.g_irepository_get_info(
-      repository,
-      namespace_,
-      i,
-    );
+    const info = GIRepository.g_irepository_get_info(null, namespace_, i);
+    const name = getName(info);
 
-    Object.defineProperty(result, getName(info), {
+    Object.defineProperty(result, name, {
       value: handleInfo(info),
     });
 
