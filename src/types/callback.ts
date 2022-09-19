@@ -1,8 +1,10 @@
+// deno-lint-ignore-file no-explicit-any
+
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
 import { GITypeTag } from "../bindings/gobject-introspection/enums.ts";
-import { prepareParam } from "../prepare.ts";
+import { GIArgumentToJS } from "./argument.ts";
 
-const nativeTypes = {
+const nativeTypes: Record<number, Deno.NativeResultType> = {
   [GITypeTag.GI_TYPE_TAG_BOOLEAN]: "i32",
   [GITypeTag.GI_TYPE_TAG_UINT8]: "u8",
   [GITypeTag.GI_TYPE_TAG_INT8]: "i8",
@@ -17,24 +19,35 @@ const nativeTypes = {
   [GITypeTag.GI_TYPE_TAG_VOID]: "void",
 };
 
-function ffiType(tag) {
+function ffiType(tag: number): Deno.NativeResultType {
   return nativeTypes[tag] || "pointer";
 }
 
-function parseArgs(info, args) {
-  return args.map((val, i) => {
+function parseArgs(
+  info: Deno.PointerValue,
+  args: (number | Deno.PointerValue)[],
+) {
+  return args.map((value, i) => {
     const argInfo = GIRepository.g_callable_info_get_arg(info, i);
     const argType = GIRepository.g_arg_info_get_type(argInfo);
-    const result = prepareParam(argType, val);
+    const tag = GIRepository.g_type_info_get_tag(argType);
+    const result = nativeTypes[tag]
+      ? value
+      : GIArgumentToJS(argType, new BigUint64Array([BigInt(value)]).buffer);
+
     GIRepository.g_base_info_unref(argInfo);
     GIRepository.g_base_info_unref(argType);
     return result;
   });
 }
 
-export function createCallback(info, callback, target) {
+export function createCallback(
+  info: Deno.PointerValue,
+  callback: (...args: any[]) => any,
+  caller?: any,
+) {
   const nArgs = GIRepository.g_callable_info_get_n_args(info);
-  const parameters = target ? ["pointer"] : [];
+  const parameters = caller ? ["pointer"] : caller;
   const returnType = GIRepository.g_callable_info_get_return_type(info);
   const returnTypeTag = GIRepository.g_type_info_get_tag(returnType);
   const result = ffiType(returnTypeTag);
@@ -51,8 +64,8 @@ export function createCallback(info, callback, target) {
 
   return new Deno.UnsafeCallback(
     { parameters, result },
-    target
-      ? (...args) => callback(target, ...parseArgs(info, args.slice(1)))
-      : (...args) => callback(...parseArgs(info, args)),
+    caller
+      ? (_, ...args) => callback(caller, ...parseArgs(info, args))
+      : (...args: any[]) => callback(...parseArgs(info, args)),
   );
 }

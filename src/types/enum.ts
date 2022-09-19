@@ -1,7 +1,7 @@
 import GIRepository from "../bindings/gobject-introspection/symbols.ts";
-import { getName } from "../utils.ts";
+import { getName } from "../utils/string.ts";
 
-export function createEnum(info) {
+export function createEnum(info: Deno.PointerValue) {
   const result = new Object();
 
   const nValues = GIRepository.g_enum_info_get_n_values(info);
@@ -10,7 +10,13 @@ export function createEnum(info) {
     const valueInfo = GIRepository.g_enum_info_get_value(info, i);
     const value = GIRepository.g_value_info_get_value(valueInfo);
     const name = getName(valueInfo).toUpperCase();
-    result[name] = Number(value);
+
+    Object.defineProperty(result, name, {
+      enumerable: true,
+      value: Number(value),
+    });
+
+    GIRepository.g_base_info_unref(valueInfo);
   }
 
   return Object.freeze(result);

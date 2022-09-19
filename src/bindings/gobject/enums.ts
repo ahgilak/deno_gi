@@ -11,3 +11,8 @@ export const GParamFlags = {
   EXPLICIT_NOTIFY: 1 << 30,
   DEPRECATED: 1 << 31,
 };
+
+export const GConnectFlags = {
+  G_CONNECT_AFTER: 1 << 0,
+  G_CONNECT_SWAPPED: 1 << 1,
+};

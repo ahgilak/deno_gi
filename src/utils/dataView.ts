@@ -1,39 +1,13 @@
-import GIRepository from "./bindings/gobject-introspection/symbols.ts";
-import { GIInfoType } from "./bindings/gobject-introspection/enums.ts";
-
-export function library(name: string, version: number | string) {
-  switch (Deno.build.os) {
-    case "darwin":
-      return `lib${name}.${version}.dylib`;
-    case "linux":
-      return `lib${name}.so.${version}`;
-    case "windows":
-      return `lib${name}-${version}.dll`;
-  }
-}
-
 export const isLittleEndian =
   (new Uint8Array(new Uint16Array([1]).buffer)[0] === 1);
 
-export const encoder = new TextEncoder();
-
 export class LocalDataView {
+  buffer: ArrayBufferLike;
   #dataView: DataView;
 
-  constructor(buffer: ArrayBufferLike);
-  constructor(pointer: Deno.PointerValue, length: number);
-  constructor(buffer: ArrayBufferLike | Deno.PointerValue, length: number = 0) {
-    if (
-      !(buffer instanceof ArrayBuffer ||
-        buffer instanceof SharedArrayBuffer)
-    ) {
-      buffer = Deno.UnsafePointerView.getArrayBuffer(
-        BigInt(buffer),
-        length,
-      );
-    }
-
-    this.#dataView = new DataView(buffer);
+  constructor(buffer: ArrayBufferLike, offset = 0) {
+    this.buffer = buffer;
+    this.#dataView = new DataView(buffer, offset);
   }
 
   getUint8(offset = 0) {
@@ -103,50 +77,4 @@ export class LocalDataView {
   setFloat64(value: number, offset = 0) {
     return this.#dataView.setFloat64(offset, value, isLittleEndian);
   }
-}
-
-export function toCString(text: string) {
-  return encoder.encode(text + "\0");
-}
-
-export function fromCString(pointer: Deno.PointerValue, offset = 0) {
-  return Deno.UnsafePointerView.getCString(BigInt(pointer), offset);
-}
-
-export function getName(info: Deno.PointerValue) {
-  const namePtr = GIRepository.g_base_info_get_name(info);
-  const nameStr = fromCString(namePtr);
-
-  const type = GIRepository.g_base_info_get_type(info);
-
-  const isCallableInfo = (type === GIInfoType.GI_INFO_TYPE_FUNCTION) ||
-    (type === GIInfoType.GI_INFO_TYPE_CALLBACK) ||
-    (type === GIInfoType.GI_INFO_TYPE_VFUNC);
-
-  if (isCallableInfo) {
-    return toCamelCase(nameStr);
-  }
-
-  return nameStr;
-}
-
-export function toSnakeCase(text: string) {
-  return text.replaceAll(
-    /[A-Z]/g,
-    (s) => "_" + s.toLowerCase(),
-  );
-}
-
-export function toKebabCase(text: string) {
-  return text.replaceAll(
-    /[A-Z]/g,
-    (s) => "-" + s.toLowerCase(),
-  );
-}
-
-export function toCamelCase(text: string) {
-  return text.replaceAll(
-    /[_-][a-z]/g,
-    (s) => s.substring(1).toUpperCase(),
-  );
 }

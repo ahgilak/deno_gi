@@ -1,11 +1,11 @@
 import GIRepository from "./bindings/gobject-introspection/symbols.ts";
 import { GIInfoType } from "./bindings/gobject-introspection/enums.ts";
-import { createFunction } from "./types/callable.js";
-import { createConstant } from "./types/constant.js";
-import { createEnum } from "./types/enum.js";
-import { createObject } from "./types/object.js";
-import { createStruct } from "./types/struct.js";
-import { createInterface } from "./types/interface.js";
+import { createFunction } from "./types/callable.ts";
+import { createConstant } from "./types/constant.ts";
+import { createEnum } from "./types/enum.ts";
+import { createObject } from "./types/object.ts";
+import { createStruct } from "./types/struct.ts";
+import { createInterface } from "./types/interface.ts";
 
 function handleInfo(info: Deno.PointerValue) {
   const type = GIRepository.g_base_info_get_type(info);
