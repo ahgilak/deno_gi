@@ -9,8 +9,15 @@ let isRunning = true;
 const win = Gtk.Window.new();
 win.setDefaultSize(400, 200);
 win.on("destroy", () => isRunning = false);
-win.show();
+win.present();
 
-while (isRunning) {
+setTimeout(() => console.log("Hello World"), 2000);
+
+function iterate() {
   context.iteration(true);
+  if (isRunning) {
+    return setTimeout(iterate, 0);
+  }
 }
+
+iterate();

@@ -10,11 +10,10 @@ app.on("activate", () => {
     marginStart: 100,
     marginEnd: 100,
   });
-  const label = new Gtk.Label({ label: "Hello World!" });
-
+  const label = Gtk.Label.new("Hello World!");
   contentArea.append(label);
   win.setChild(contentArea);
-  win.show();
+  win.present();
 });
 
 app.run([]);

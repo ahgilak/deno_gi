@@ -1,0 +1,5 @@
+.vscode/
+
+deno.json
+deno.jsonc
+deno.lock

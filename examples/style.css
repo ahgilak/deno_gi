@@ -5,7 +5,7 @@ window {
 }
 
 label {
-  font-size: 48px;
+  font-size: 48pt;
   font-weight: 900;
   text-transform: uppercase;
   text-shadow: -4px 4px 0 red;

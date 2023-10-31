@@ -2,12 +2,13 @@ import Gtk from "https://gir.deno.dev/Gtk-4.0";
 import Gdk from "https://gir.deno.dev/Gdk-4.0";
 
 const file = await fetch(import.meta.resolve("./style.css"));
-const style = await file.arrayBuffer();
+const style = await file.text();
 
 const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();
 
-provider.loadFromData(new Uint8Array(style));
+// @ts-expect-error types are outdated
+provider.loadFromString(style);
 
 app.on("activate", () => {
   Gtk.StyleContext.addProviderForDisplay(

@@ -14,7 +14,9 @@ function activate() {
   const headerBar = Adw.HeaderBar.new();
   headerBar.setTitleWidget(title);
   headerBar.packStart(themeButton);
-  headerBar.getStyleContext().addClass("flat");
+
+  const styleContext = headerBar.getStyleContext();
+  styleContext.addClass("flat");
 
   const page = Adw.StatusPage.new();
   page.setTitle("Deno GI Adwaita Example");
@@ -30,7 +32,7 @@ function activate() {
   const win = Adw.ApplicationWindow.new(app);
   win.setContent(content);
   win.setDefaultSize(400, 400);
-  win.show();
+  win.present();
 }
 
 function toggleTheme() {

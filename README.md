@@ -64,7 +64,7 @@ app.on("activate", () => {
 
   contentArea.append(label);
   win.setChild(contentArea);
-  win.show();
+  win.present();
 });
 
 app.run([]);
