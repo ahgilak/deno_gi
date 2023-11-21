@@ -7,6 +7,7 @@ import {
   $i64,
   $pointer,
   $string,
+  $u64,
   $void,
 } from "../base_utils/types.ts";
 
@@ -60,6 +61,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_direction: $i32($pointer),
       get_ownership_transfer: $i32($pointer),
       is_caller_allocates: $bool($pointer),
+      is_return_value: $bool($pointer),
     },
     struct_info: {
       get_n_methods: $i32($pointer),
@@ -76,16 +78,25 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_signal: $pointer($pointer, $i32),
       get_n_properties: $i32($pointer),
       get_property: $pointer($pointer, $i32),
+      get_n_vfuncs: $i32($pointer),
+      get_vfunc: $pointer($pointer, $i32),
     },
     interface_info: {
       get_n_methods: $i32($pointer),
       get_method: $pointer($pointer, $i32),
       get_n_signals: $i32($pointer),
       get_signal: $pointer($pointer, $i32),
+      get_n_vfuncs: $i32($pointer),
+      get_vfunc: $pointer($pointer, $i32),
+      get_n_properties: $i32($pointer),
+      get_property: $pointer($pointer, $i32),
     },
     property_info: {
       get_flags: $i32($pointer),
       get_type: $pointer($pointer),
+    },
+    vfunc_info: {
+      invoke: $bool($pointer, $u64, $buffer, $i32, $buffer, $i32, $buffer, $buffer),
     },
   },
 });

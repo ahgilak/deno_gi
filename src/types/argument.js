@@ -11,6 +11,7 @@ import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
+import { getName } from "../utils/string.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
@@ -95,9 +96,7 @@ export function unboxArgument(type, value) {
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      /*return GSListToJS(type, value);*/
-      console.error("Not Implimented");
-      return;
+      return unboxList(type, value)
     }
 
     case GITypeTag.INTERFACE: {
@@ -121,6 +120,7 @@ export function boxArgument(type, value) {
   if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer);
   const tag = g.type_info.get_tag(type);
+
   switch (tag) {
     case GITypeTag.BOOLEAN:
       dataView.setInt32(value);

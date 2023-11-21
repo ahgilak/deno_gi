@@ -37,9 +37,13 @@ const { g } = openLib(libName("gobject-2.0", 0), {
     },
     type: {
       class_ref: $pointer($i64),
+      default_interface_ref: $pointer($i64),
       parent: $i64($i64),
     },
     object_class: {
+      find_property: $pointer($pointer, $string),
+    },
+    object_interface: {
       find_property: $pointer($pointer, $string),
     },
     value: {

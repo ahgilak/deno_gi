@@ -7,7 +7,7 @@ const style = await file.text();
 const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();
 
-// @ts-expect-error types are outdated
+// @ts-expect-error - mismatch type defenition
 provider.loadFromString(style);
 
 app.on("activate", () => {

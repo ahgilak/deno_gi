@@ -12,7 +12,7 @@ function defineMethods(target, info) {
   }
 }
 
-export function createStruct(info) {
+export function createStruct(info, gType) {
   const size = g.struct_info.get_size(info);
 
   const ObjectClass = class {
@@ -28,6 +28,8 @@ export function createStruct(info) {
   Object.defineProperty(ObjectClass, "name", {
     value: getName(info),
   });
+
+  Reflect.defineMetadata("gi:gtype", gType, ObjectClass);
 
   defineMethods(ObjectClass, info);
 

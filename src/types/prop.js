@@ -9,10 +9,9 @@ import { boxValue, initValue, unboxValue } from "./value.js";
 export function handleProp(
   target,
   propInfo,
+  paramSpecPointer
 ) {
   const cName = g.base_info.get_name(propInfo);
-  const klass = Reflect.getMetadata("gi:klass", target);
-  const paramSpecPointer = g.object_class.find_property(klass, cName);
   const name = getName(propInfo);
   if (Object.hasOwn(target.prototype, name)) {
     return;

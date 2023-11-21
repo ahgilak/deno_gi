@@ -1,6 +1,8 @@
 import g from "../bindings/mod.js";
 import { GITypeTag } from "../bindings/enums.js";
-import { unboxArgument } from "./argument.js";
+import { boxArgument, unboxArgument } from "./argument.js";
+import { cast_ptr_u64, ref_buf } from "../base_utils/convert.ts";
+import { createArg } from "./callable.js";
 
 const nativeTypes = {
   [GITypeTag.BOOLEAN]: "i32",
@@ -29,9 +31,10 @@ function parseArgs(
     const argInfo = g.callable_info.get_arg(info, i);
     const argType = g.arg_info.get_type(argInfo);
     const tag = g.type_info.get_tag(argType);
+
     const result = nativeTypes[tag]
       ? value
-      : unboxArgument(argType, new BigUint64Array([BigInt(value)]).buffer);
+      : unboxArgument(argType, ref_buf(cast_ptr_u64(value)).buffer);
 
     g.base_info.unref(argInfo);
     g.base_info.unref(argType);
@@ -47,23 +50,25 @@ export function createCallback(
   const nArgs = g.callable_info.get_n_args(info);
   const parameters = caller ? ["pointer"] : [];
   const returnType = g.callable_info.get_return_type(info);
-  const returnTypeTag = g.type_info.get_tag(returnType);
-  const result = ffiType(returnTypeTag);
-  g.base_info.unref(returnType);
 
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const argType = g.arg_info.get_type(argInfo);
-    const argTypeTag = g.type_info.get_tag(argType);
-    parameters.push(ffiType(argTypeTag));
+    const { type: argType } = createArg(argInfo);
+    const tag = g.type_info.get_tag(argType);
+    if (tag != GITypeTag.VOID) {
+      parameters.push(ffiType(tag));
+    }
+
     g.base_info.unref(argType);
     g.base_info.unref(argInfo);
   }
 
   return new Deno.UnsafeCallback(
-    { parameters, result },
+    { parameters, result: "buffer" },
     caller
-      ? (_, ...args) => callback(caller, ...parseArgs(info, args))
-      : (...args) => callback(...parseArgs(info, args)),
+      ? (_, ...args) =>
+        boxArgument(returnType, callback(caller, ...parseArgs(info, args)))
+      : (...args) =>
+        boxArgument(returnType, callback(...parseArgs(info, args))),
   );
 }

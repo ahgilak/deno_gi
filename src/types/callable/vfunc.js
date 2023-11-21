@@ -1,15 +1,15 @@
-import g from "../bindings/mod.js";
-import { cast_ptr_u64 } from "../base_utils/convert.ts";
-import { getName } from "../utils/string.ts";
-import { unboxArgument } from "./argument.js";
-import { parseCallableArgs } from "./callable.js";
+import g from "../../bindings/mod.js";
+import { cast_ptr_u64 } from "../../base_utils/convert.ts";
+import { getName } from "../../utils/string.ts";
+import { unboxArgument } from "../argument.js";
+import { parseCallableArgs } from "../callable.js";
 
-export function createMethod(info) {
+export function createVFunc(info) {
   const returnType = g.callable_info.get_return_type(info);
 
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
-  return (caller, ...args) => {
+  return (caller, implimentor, ...args) => {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 
@@ -18,8 +18,9 @@ export function createMethod(info) {
     const error = new ArrayBuffer(16);
     const returnValue = new ArrayBuffer(8);
 
-    const success = g.function_info.invoke(
+    const success = g.vfunc_info.invoke(
       info,
+      implimentor,
       new BigUint64Array(inArgs),
       inArgs.length,
       new BigUint64Array(outArgs),
@@ -29,7 +30,7 @@ export function createMethod(info) {
     );
 
     if (!success) {
-      console.error(`Error invoking method ${getName(info)}`);
+      console.error(`Error invoking vfunc ${getName(info)}`);
       return;
     }
 

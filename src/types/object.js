@@ -7,24 +7,6 @@ import { createCallback } from "./callback.js";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";
 
-function defineMethods(target, info) {
-  const nMethods = g.object_info.get_n_methods(info);
-
-  for (let i = 0; i < nMethods; i++) {
-    const methodInfo = g.object_info.get_method(info, i);
-    handleCallable(target, methodInfo);
-  }
-}
-
-function defineSignals(target, info) {
-  const nSignals = g.object_info.get_n_signals(info);
-
-  for (let i = 0; i < nSignals; i++) {
-    const signalInfo = g.object_info.get_signal(info, i);
-    handleSignal(target, signalInfo);
-  }
-}
-
 function extendObject(target, info) {
   const parent = g.object_info.get_parent(info);
 
@@ -39,12 +21,12 @@ function extendObject(target, info) {
   }
 }
 
-/*function inheritInterfaces(target, info) {
+function inheritInterfaces(target, info) {
   const nInterfaces = g.object_info.get_n_interfaces(info);
   for (let i = 0; i < nInterfaces; i++) {
     const ifaceInfo = g.object_info.get_interface(info, i);
     const ifaceGType = g.registered_type_info.get_g_type(ifaceInfo);
-    const iface = ObjectByGType(ifaceGType);
+    const iface = objectByGType(ifaceGType);
 
     for (const key of Object.keys(iface.prototype)) {
       if (Object.hasOwn(target.prototype, key)) {
@@ -61,14 +43,45 @@ function extendObject(target, info) {
     //Object.assign(target.__signals__, iface.__signals__);
     g.base_info.unref(ifaceInfo);
   }
-}*/
+}
+
+function defineMethods(target, info) {
+  const nMethods = g.object_info.get_n_methods(info);
+
+  for (let i = 0; i < nMethods; i++) {
+    const methodInfo = g.object_info.get_method(info, i);
+    handleCallable(target, methodInfo);
+  }
+}
+
+function defineVFuncs(target, info) {
+  const nMethods = g.object_info.get_n_vfuncs(info);
+
+  for (let i = 0; i < nMethods; i++) {
+    const vFuncInfo = g.object_info.get_vfunc(info, i);
+    handleCallable(target, vFuncInfo);
+  }
+}
+
+function defineSignals(target, info) {
+  const nSignals = g.object_info.get_n_signals(info);
+
+  for (let i = 0; i < nSignals; i++) {
+    const signalInfo = g.object_info.get_signal(info, i);
+    handleSignal(target, signalInfo);
+  }
+}
 
 function defineProps(target, info) {
+  const klass = g.type.class_ref(Reflect.getOwnMetadata("gi:gtype", target));
+
   const nProps = g.object_info.get_n_properties(info);
 
   for (let i = 0; i < nProps; i++) {
     const propInfo = g.object_info.get_property(info, i);
-    handleProp(target, propInfo);
+    const cName = g.base_info.get_name(propInfo);
+    const paramSpecPointer = g.object_class.find_property(klass, cName);
+    handleProp(target, propInfo, paramSpecPointer);
     g.base_info.unref(propInfo);
   }
 }
@@ -130,18 +143,18 @@ export function createObject(info, gType) {
     }
   };
 
-  const klass = g.type.class_ref(gType);
-  Reflect.defineMetadata("gi:klass", klass, ObjectClass);
+  Reflect.defineMetadata("gi:gtype", gType, ObjectClass);
 
   Object.defineProperty(ObjectClass, "name", {
     value: getName(info),
   });
 
   defineMethods(ObjectClass, info);
-  extendObject(ObjectClass, info);
-  defineProps(ObjectClass, info);
-  //inheritInterfaces(ObjectClass, info);
+  defineVFuncs(ObjectClass, info);
   defineSignals(ObjectClass, info);
+  defineProps(ObjectClass, info);
+  extendObject(ObjectClass, info);
+  inheritInterfaces(ObjectClass, info);
 
   return ObjectClass;
 }

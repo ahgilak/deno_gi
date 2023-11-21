@@ -7,6 +7,7 @@ import { createCallback } from "../callback.js";
 
 export function boxInterface(info, value) {
   const type = g.base_info.get_type(info);
+
   switch (type) {
     case GIInfoType.OBJECT:
     case GIInfoType.INTERFACE:
@@ -15,8 +16,11 @@ export function boxInterface(info, value) {
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
       return value;
-    case GIInfoType.CALLBACK:
-      return cast_ptr_u64(createCallback(info, value).pointer);
+    case GIInfoType.CALLBACK: {
+      const cb = createCallback(info, value);
+      const ptr = cast_ptr_u64(cb.pointer);
+      return ptr;
+    }
     default:
       return value;
   }
