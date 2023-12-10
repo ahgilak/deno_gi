@@ -83,6 +83,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_property: $pointer($pointer, $i32),
       get_n_vfuncs: $i32($pointer),
       get_vfunc: $pointer($pointer, $i32),
+      get_class_struct: $pointer($pointer),
     },
     interface_info: {
       get_n_methods: $i32($pointer),

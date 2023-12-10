@@ -1,6 +1,6 @@
 import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
-import { handleCallable } from "./callable.js";
+import { handleCallable, handleMethod } from "./callable.js";
 import { objectByGType } from "../utils/gobject.js";
 import { GConnectFlags } from "../bindings/enums.js";
 import { createCallback } from "./callback.js";
@@ -86,6 +86,17 @@ function defineProps(target, info) {
   }
 }
 
+function defineStructMethods(target, structInfo) {
+  const nMethods = g.struct_info.get_n_methods(structInfo);
+
+  for (let i = 0; i < nMethods; i++) {
+    const methodInfo = g.struct_info.get_method(structInfo, i);
+    if (!Object.hasOwn(target.prototype, getName(methodInfo))) {
+      handleMethod(target, methodInfo);
+    }
+  }
+}
+
 export function createObject(info, gType) {
   const ObjectClass = class {
     constructor(props = {}) {
@@ -159,6 +170,12 @@ export function createObject(info, gType) {
   defineProps(ObjectClass, info);
   extendObject(ObjectClass, info);
   inheritInterfaces(ObjectClass, info);
+
+  const structInfo = g.object_info.get_class_struct(info);
+
+  if (structInfo) {
+    defineStructMethods(ObjectClass, structInfo);
+  }
 
   return ObjectClass;
 }
