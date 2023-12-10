@@ -2,6 +2,7 @@ import { cast_u64_ptr, deref_buf, deref_str } from "./base_utils/convert.ts";
 import g from "./bindings/mod.js";
 import handleInfo from "./handleInfo.js";
 import { ExtendedDataView } from "./utils/dataview.js";
+import { loadOverride } from "./overrides/mod.ts";
 
 const repos = new Map();
 
@@ -93,6 +94,8 @@ export function require(namespace, version) {
     handleInfo(repo, info);
     g.base_info.unref(info);
   }
+
+  loadOverride(namespace, repo);
 
   repos.set(key, repo);
 
