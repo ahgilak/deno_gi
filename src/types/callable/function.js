@@ -33,7 +33,16 @@ export function createFunction(info) {
     const retVal = unboxArgument(returnType, returnValue);
 
     if (outArgs.length > 0) {
-      return [retVal, ...parseOutArgs(outArgs)];
+      const parsedOutArgs = parseOutArgs(outArgs);
+
+      // don't include a return value if it's void
+      if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
+        return [retVal, ...parsedOutArgs];
+      } else if (parsedOutArgs.length === 1) {
+        return parsedOutArgs[0];
+      } else {
+        return parsedOutArgs;
+      }
     }
 
     return retVal;
