@@ -8,7 +8,7 @@ import {
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
-import { objectByGType } from "../utils/gobject.js";
+import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
 
@@ -18,8 +18,7 @@ export function initArgument(type) {
   switch (tag) {
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);
-      const g_type = g.registered_type_info.get_g_type(info);
-      const o = objectByGType(g_type);
+      const o = objectByInfo(info);
       const v = new o();
       const result = cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", v));
       g.base_info.unref(info);

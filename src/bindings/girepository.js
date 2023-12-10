@@ -26,6 +26,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_name: $string($pointer),
       is_deprecated: $bool($pointer),
       get_type: $i32($pointer),
+      ref: $void($pointer),
       unref: $void($pointer),
     },
     constant_info: {

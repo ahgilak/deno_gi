@@ -20,6 +20,20 @@ export function objectByGType(gType) {
   return result;
 }
 
+export function objectByInfo(info) {
+  const gType = g.registered_type_info.get_g_type(info);
+
+  // TODO: 4n is actually G_TYPE_VOID
+  if (gType !== 4n && cache.has(gType)) {
+    return cache.get(gType);
+  }
+
+  const result = createGObject(info, gType);
+  Object.freeze(result);
+  cache.set(gType, result);
+  return result;
+}
+
 function createGObject(info, gType) {
   const type = g.base_info.get_type(info);
 
