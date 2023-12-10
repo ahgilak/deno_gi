@@ -1,3 +1,4 @@
+import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.js";
@@ -18,8 +19,8 @@ export function createFunction(info) {
       info,
       new BigUint64Array(inArgs),
       inArgs.length,
-      new BigUint64Array(0),
-      0,
+      new BigUint64Array(outArgs),
+      outArgs.length,
       returnValue,
       error,
     );
