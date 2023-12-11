@@ -10,7 +10,7 @@ export function createConstructor(info, prototype) {
   return (...args) => {
     const inArgs = parseInArgs(...args);
 
-    const error = new ArrayBuffer(16);
+    const error = new ArrayBuffer(8);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(

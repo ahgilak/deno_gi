@@ -15,7 +15,7 @@ export function createMethod(info) {
 
     inArgs.unshift(cast_ptr_u64(caller));
 
-    const error = new ArrayBuffer(16);
+    const error = new ArrayBuffer(8);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
