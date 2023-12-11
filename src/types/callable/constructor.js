@@ -1,8 +1,7 @@
 import g from "../../bindings/mod.js";
 import { cast_u64_ptr } from "../../base_utils/convert.ts";
-import { gerrorToString } from "../../utils/error.ts";
+import { createGError } from "../../utils/error.ts";
 import { ExtendedDataView } from "../../utils/dataview.js";
-import { getName } from "../../utils/string.ts";
 import { parseCallableArgs } from "../callable.js";
 
 export function createConstructor(info, prototype) {
@@ -25,10 +24,7 @@ export function createConstructor(info, prototype) {
     );
 
     if (!success) {
-      console.error(
-        `Error invoking method ${getName(info)}:`,
-        gerrorToString(error),
-      );
+      throw createGError(error);
     }
 
     const result = Object.create(prototype);

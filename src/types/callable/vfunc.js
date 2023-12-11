@@ -1,7 +1,6 @@
 import g from "../../bindings/mod.js";
 import { cast_ptr_u64 } from "../../base_utils/convert.ts";
-import { gerrorToString } from "../../utils/error.ts";
-import { getName } from "../../utils/string.ts";
+import { createGError } from "../../utils/error.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
@@ -31,11 +30,7 @@ export function createVFunc(info) {
     );
 
     if (!success) {
-      console.error(
-        `Error invoking method ${getName(info)}:`,
-        gerrorToString(error),
-      );
-      return;
+      throw createGError(error);
     }
 
     const retVal = unboxArgument(returnType, returnValue);
