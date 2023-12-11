@@ -1,12 +1,20 @@
 import g from "./bindings/mod.js";
 import handleInfo from "./handleInfo.js";
 
+const repos = new Map();
+
 /**
  * @param {string} namespace
  * @param {string?} version
  * @returns
  */
 export function require(namespace, version) {
+  const key = `${namespace}-${version ?? ""}`;
+
+  if (repos.has(key)) {
+    return repos.get(key);
+  }
+
   const repo = new Object();
 
   g.irepository.require(
@@ -24,6 +32,10 @@ export function require(namespace, version) {
     handleInfo(repo, info);
     g.base_info.unref(info);
   }
+
+  loadOverride(namespace, repo);
+
+  repos.set(key, repo);
 
   return repo;
 }
