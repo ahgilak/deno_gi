@@ -44,6 +44,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     enum_info: {
       get_n_values: $i32($pointer),
       get_value: $pointer($pointer, $i32),
+      get_error_domain: $string($pointer),
     },
     value_info: {
       get_value: $i32($pointer),
