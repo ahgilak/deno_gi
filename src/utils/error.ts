@@ -10,6 +10,8 @@ export function createGError(errorBuffer: ArrayBuffer) {
 
   const error = new GError(pointer);
 
+  error.stack = new Error().stack;
+
   return error;
 }
 
