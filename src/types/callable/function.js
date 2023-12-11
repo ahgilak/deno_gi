@@ -1,5 +1,6 @@
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
+import { gerrorToString } from "../../utils/error.ts";
 import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
@@ -26,7 +27,10 @@ export function createFunction(info) {
     );
 
     if (!success) {
-      console.error(`Error invoking function ${getName(info)}`);
+      console.error(
+        `Error invoking method ${getName(info)}:`,
+        gerrorToString(error),
+      );
       return;
     }
 
