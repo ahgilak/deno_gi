@@ -66,6 +66,8 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     struct_info: {
       get_n_methods: $i32($pointer),
       get_method: $pointer($pointer, $i32),
+      get_n_fields: $i32($pointer),
+      get_field: $pointer($pointer, $i32),
       get_size: $i32($pointer),
     },
     object_info: {
@@ -97,6 +99,12 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     },
     vfunc_info: {
       invoke: $bool($pointer, $u64, $buffer, $i32, $buffer, $i32, $buffer, $buffer),
+    },
+    field_info: {
+      get_flags: $i32($pointer),
+      get_type: $pointer($pointer),
+      get_field: $i32($pointer,$pointer, $buffer),
+      set_field: $i32($pointer,$pointer, $buffer),
     },
   },
 });

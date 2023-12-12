@@ -99,6 +99,11 @@ export const GParamFlags = {
   DEPRECATED: 1 << 31,
 };
 
+export const GFieldInfoFlags = {
+  READABLE: 1 << 0,
+  WRITABLE: 1 << 1,
+};
+
 export const GConnectFlags = {
   AFTER: 1 << 0,
   SWAPPED: 1 << 1,
