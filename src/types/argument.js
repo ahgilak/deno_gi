@@ -11,7 +11,6 @@ import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
-import { getName } from "../utils/string.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
@@ -174,8 +173,7 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.GTYPE:
-      /*dataView.setBigUint64(value.__gtype__ || value);*/
-      console.error("Not Implimented");
+      dataView.setBigUint64(value);
       break;
 
     /* non-basic types */
