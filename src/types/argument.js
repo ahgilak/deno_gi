@@ -10,7 +10,7 @@ import {
 import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.ts";
-import { boxInterface, unboxInterface } from "./argument/interface.js";
+import { boxInterface, unboxInterface } from "./argument/interface.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);

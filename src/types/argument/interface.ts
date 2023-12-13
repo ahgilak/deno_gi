@@ -5,7 +5,7 @@ import { ExtendedDataView } from "../../utils/dataview.js";
 import { objectByGType } from "../../utils/gobject.js";
 import { createCallback } from "../callback.js";
 
-export function boxInterface(info, value) {
+export function boxInterface(info: Deno.PointerObject, value: object) {
   const type = g.base_info.get_type(info);
 
   switch (type) {
@@ -27,10 +27,10 @@ export function boxInterface(info, value) {
 }
 
 export function unboxInterface(
-  info,
-  argValue,
+  info: Deno.PointerObject,
+  buffer: ArrayBufferLike,
 ) {
-  const dataView = new ExtendedDataView(argValue);
+  const dataView = new ExtendedDataView(buffer);
   const type = g.base_info.get_type(info);
   const gType = g.registered_type_info.get_g_type(info);
   /*
