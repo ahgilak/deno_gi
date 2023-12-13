@@ -4,7 +4,7 @@ import g from "../../bindings/mod.ts";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { boxArgument, unboxArgument } from "../argument.js";
 
-function getTypeSize(typeTag) {
+function getTypeSize(typeTag: GITypeTag) {
   switch (typeTag) {
     case GITypeTag.BOOLEAN:
       return 1 << 2;
@@ -36,7 +36,11 @@ function getTypeSize(typeTag) {
   }
 }
 
-export function unboxArray(type, value, length) {
+export function unboxArray(
+  type: Deno.PointerObject,
+  value: ArrayBufferLike,
+  length: number,
+): ArrayBufferLike | unknown[] | null {
   const isZeroTerminated = length === -1;
   const pointer = cast_u64_ptr(new ExtendedDataView(value).getBigUint64());
 
@@ -44,7 +48,7 @@ export function unboxArray(type, value, length) {
     return null;
   }
 
-  const paramType = g.type_info.get_param_type(type, 0);
+  const paramType = g.type_info.get_param_type(type, 0)!;
   const paramTypeTag = g.type_info.get_tag(paramType);
   const paramSize = getTypeSize(paramTypeTag);
 
@@ -95,10 +99,12 @@ export function unboxArray(type, value, length) {
       return new Float32Array(buffer);
     case GITypeTag.DOUBLE:
       return new Float64Array(buffer);
+    default:
+      return null;
   }
 }
 
-export function boxArray(typeInfo, values) {
+export function boxArray(typeInfo: Deno.PointerObject, values: unknown[]) {
   const isZeroTerminated = g.type_info.is_zero_terminated(typeInfo);
 
   const paramType = g.type_info.get_param_type(typeInfo, 0);
@@ -106,7 +112,7 @@ export function boxArray(typeInfo, values) {
   const paramSize = getTypeSize(paramTypeTag);
 
   const giValues = new Uint8Array(
-    (values.length + isZeroTerminated) * paramSize,
+    (values.length + Number(isZeroTerminated)) * paramSize,
   );
 
   for (let i = 0; i < values.length; i++) {

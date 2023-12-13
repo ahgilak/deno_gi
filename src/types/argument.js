@@ -9,7 +9,7 @@ import {
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
-import { boxArray, unboxArray } from "./argument/array.js";
+import { boxArray, unboxArray } from "./argument/array.ts";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
 
 export function initArgument(type) {
