@@ -1,5 +1,5 @@
 import g from "../bindings/mod.js";
-import { GITypeTag } from "../bindings/enums.js";
+import { GITypeTag } from "../bindings/enums.ts";
 import { boxArgument, unboxArgument } from "./argument.js";
 import { cast_ptr_u64, ref_buf } from "../base_utils/convert.ts";
 import { createArg } from "./callable.js";

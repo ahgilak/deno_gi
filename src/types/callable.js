@@ -2,7 +2,7 @@ import {
   GIDirection,
   GIFunctionInfoFlags,
   GIInfoType,
-} from "../bindings/enums.js";
+} from "../bindings/enums.ts";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";

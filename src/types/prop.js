@@ -1,5 +1,5 @@
 import { deref_buf, ref_buf } from "../base_utils/convert.ts";
-import { GParamFlags } from "../bindings/enums.js";
+import { GParamFlags } from "../bindings/enums.ts";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";

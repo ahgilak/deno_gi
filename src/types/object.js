@@ -2,7 +2,7 @@ import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.js";
 import { objectByGType } from "../utils/gobject.js";
-import { GConnectFlags } from "../bindings/enums.js";
+import { GConnectFlags } from "../bindings/enums.ts";
 import { createCallback } from "./callback.js";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";

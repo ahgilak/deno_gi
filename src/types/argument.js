@@ -1,5 +1,5 @@
 import g from "../bindings/mod.js";
-import { GITypeTag } from "../bindings/enums.js";
+import { GITypeTag } from "../bindings/enums.ts";
 import {
   cast_buf_ptr,
   cast_ptr_u64,

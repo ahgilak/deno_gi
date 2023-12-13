@@ -1,4 +1,4 @@
-import { GFieldInfoFlags } from "../bindings/enums.js";
+import { GFieldInfoFlags } from "../bindings/enums.ts";
 import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
 import { boxArgument, unboxArgument } from "./argument.js";

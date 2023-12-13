@@ -1,5 +1,5 @@
 import { cast_u64_ptr, deref_buf } from "../../base_utils/convert.ts";
-import { GITypeTag } from "../../bindings/enums.js";
+import { GITypeTag } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { boxArgument, unboxArgument } from "../argument.js";

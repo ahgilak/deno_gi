@@ -1,4 +1,4 @@
-import { GIInfoType } from "./bindings/enums.js";
+import { GIInfoType } from "./bindings/enums.ts";
 import g from "./bindings/mod.js";
 import { handleCallable } from "./types/callable.js";
 import { createConstant } from "./types/constant.js";

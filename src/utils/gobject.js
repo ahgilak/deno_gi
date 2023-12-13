@@ -1,4 +1,4 @@
-import { GIInfoType } from "../bindings/enums.js";
+import { GIInfoType } from "../bindings/enums.ts";
 import g from "../bindings/mod.js";
 import { createEnum } from "../types/enum.js";
 import { createInterface } from "../types/interface.js";
