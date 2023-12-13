@@ -1,4 +1,4 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { GITypeTag } from "../bindings/enums.ts";
 import {
   cast_buf_ptr,

@@ -1,4 +1,4 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.js";
 import { handleProp } from "./prop.js";

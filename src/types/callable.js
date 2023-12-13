@@ -3,7 +3,7 @@ import {
   GIFunctionInfoFlags,
   GIInfoType,
 } from "../bindings/enums.ts";
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
 import { boxArgument, initArgument, unboxArgument } from "./argument.js";

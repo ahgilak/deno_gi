@@ -1,4 +1,4 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { cast_buf_ptr } from "../base_utils/convert.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.js";

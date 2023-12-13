@@ -1,4 +1,4 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { unboxArgument } from "./argument.js";
 
 export function createConstant(info) {

@@ -1,5 +1,5 @@
 import { GITypeTag } from "../../bindings/enums.ts";
-import g from "../../bindings/mod.js";
+import g from "../../bindings/mod.ts";
 import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
