@@ -1,3 +1,4 @@
+import { cast_u64_ptr, deref_buf } from "../base_utils/convert.ts";
 import {
   GIDirection,
   GIFunctionInfoFlags,
@@ -20,7 +21,15 @@ export function createArg(info) {
   const transfer = g.arg_info.get_ownership_transfer(info);
   const callerAllocates = g.arg_info.is_caller_allocates(info);
   const isReturn = g.arg_info.is_return_value(info);
-  return { type, arrLength, isSkip, direction, transfer, callerAllocates, isReturn };
+  return {
+    type,
+    arrLength,
+    isSkip,
+    direction,
+    transfer,
+    callerAllocates,
+    isReturn,
+  };
 }
 
 export function parseCallableArgs(info) {
@@ -38,7 +47,6 @@ export function parseCallableArgs(info) {
   const inArgsDetail = argDetails.filter(
     (arg) => !(arg.direction & GIDirection.OUT),
   );
-
 
   const outArgsDetail = argDetails.filter(
     (arg) => arg.direction & GIDirection.OUT,
@@ -69,7 +77,8 @@ export function parseCallableArgs(info) {
 
   const parseOutArgs = (outArgs) => {
     return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, new BigUint64Array([outArgs[i]]).buffer);
+      const buffer = deref_buf(cast_u64_ptr(outArgs[i]), 8);
+      return unboxArgument(d.type, buffer);
     });
   };
 

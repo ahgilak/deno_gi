@@ -11,10 +11,11 @@ import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
-import { getName } from "../utils/string.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
+  const buffer = new ArrayBuffer(8);
+  const dataView = new ExtendedDataView(buffer);
 
   switch (tag) {
     case GITypeTag.INTERFACE: {
@@ -22,11 +23,14 @@ export function initArgument(type) {
       const g_type = g.registered_type_info.get_g_type(info);
       const o = objectByGType(g_type);
       const v = new o();
-      const result = cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", v));
+      dataView.setBigUint64(
+        cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", v)),
+      );
       g.base_info.unref(info);
-      return result;
     }
   }
+
+  return cast_ptr_u64(cast_buf_ptr(buffer));
 }
 
 /**
