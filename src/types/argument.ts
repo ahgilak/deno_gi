@@ -31,7 +31,7 @@ export function initArgument(type: Deno.PointerValue) {
 }
 
 export function unboxArgument(
-  type: Deno.PointerObject,
+  type: Deno.PointerValue,
   value: ArrayBufferLike,
 ) {
   const dataView = new ExtendedDataView(value);

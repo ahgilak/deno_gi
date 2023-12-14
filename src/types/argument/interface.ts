@@ -3,7 +3,7 @@ import { GIInfoType } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.ts";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { objectByGType } from "../../utils/gobject.js";
-import { createCallback } from "../callback.js";
+import { createCallback } from "../callback.ts";
 
 export function boxInterface(
   info: Deno.PointerValue,

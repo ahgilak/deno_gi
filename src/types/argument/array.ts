@@ -37,7 +37,7 @@ function getTypeSize(typeTag: GITypeTag) {
 }
 
 export function unboxArray(
-  type: Deno.PointerObject,
+  type: Deno.PointerValue,
   value: ArrayBufferLike,
   length: number,
 ): ArrayBufferLike | unknown[] | null {

@@ -3,7 +3,7 @@ import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
 import { objectByGType } from "../utils/gobject.js";
 import { GConnectFlags } from "../bindings/enums.ts";
-import { createCallback } from "./callback.js";
+import { createCallback } from "./callback.ts";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";
 
