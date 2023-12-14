@@ -60,9 +60,6 @@ export function parseCallableArgs(info: Deno.PointerValue) {
       const pointer = new ExtendedDataView(boxArgument(detail.type, value))
         .getBigUint64();
       inArgs[i] = pointer;
-      if (detail.lengthArg >= 0) {
-        inArgs[detail.lengthArg] = value.length || value.byteLength || 0;
-      }
     }
 
     return inArgs;
