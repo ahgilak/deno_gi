@@ -1,7 +1,7 @@
 import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
-import { handleProp } from "./prop.js";
+import { handleProp } from "./prop.ts";
 import { handleSignal } from "./signal.js";
 
 function defineMethods(target: any, info: Deno.PointerValue) {
@@ -42,7 +42,7 @@ function defineProps(target: any, info: Deno.PointerValue) {
     const propInfo = g.interface_info.get_property(info, i);
     const cName = g.base_info.get_name(propInfo);
     const paramSpecPointer = g.object_interface.find_property(iface, cName);
-    handleProp(target, propInfo, paramSpecPointer);
+    handleProp(target, propInfo, paramSpecPointer!);
     g.base_info.unref(propInfo);
   }
 }

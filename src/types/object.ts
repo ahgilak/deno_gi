@@ -5,7 +5,7 @@ import { objectByGType } from "../utils/gobject.js";
 import { GConnectFlags } from "../bindings/enums.ts";
 import { createCallback } from "./callback.ts";
 import { handleSignal } from "./signal.js";
-import { handleProp } from "./prop.js";
+import { handleProp } from "./prop.ts";
 
 function extendObject(target: any, info: Deno.PointerValue) {
   const parent = g.object_info.get_parent(info);
@@ -81,7 +81,7 @@ function defineProps(target: any, info: Deno.PointerValue) {
     const propInfo = g.object_info.get_property(info, i);
     const cName = g.base_info.get_name(propInfo);
     const paramSpecPointer = g.object_class.find_property(klass, cName);
-    handleProp(target, propInfo, paramSpecPointer);
+    handleProp(target, propInfo, paramSpecPointer!);
     g.base_info.unref(propInfo);
   }
 }

@@ -7,9 +7,9 @@ import { boxArgument, unboxArgument } from "./argument.ts";
 import { boxValue, initValue, unboxValue } from "./value.js";
 
 export function handleProp(
-  target,
-  propInfo,
-  paramSpecPointer
+  target: any,
+  propInfo: Deno.PointerValue,
+  paramSpecPointer: Deno.PointerObject,
 ) {
   const cName = g.base_info.get_name(propInfo);
   const name = getName(propInfo);
@@ -43,7 +43,7 @@ export function handleProp(
       const argValue = unboxValue(boxedValue, boxedType);
       const value = unboxArgument(
         argType,
-        ref_buf(argValue).buffer,
+        ref_buf(argValue as bigint).buffer,
       );
 
       return value;
