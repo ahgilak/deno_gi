@@ -1,6 +1,6 @@
 import g from "../bindings/mod.ts";
 import { G_TYPE_FUNDAMENTAL_MAX, GType } from "../bindings/enums.ts";
-import { ExtendedDataView } from "../utils/dataview.js";
+import { ExtendedDataView } from "../utils/dataview.ts";
 import { TypedArray } from "../base_utils/ffipp.d.ts";
 
 export function initValue(gType: bigint) {

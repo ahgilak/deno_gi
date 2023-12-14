@@ -2,16 +2,10 @@ export const isLittleEndian =
   new Uint8Array(new Uint16Array([1]).buffer)[0] === 1;
 
 export class ExtendedDataView {
-  /** @type {ArrayBufferLike} */
-  buffer;
-  /** @type {DataView} */
-  #dataView;
+  buffer: ArrayBufferLike;
+  #dataView: DataView;
 
-  /**
-   * @param {ArrayBufferLike} buffer
-   * @param {number} [offset=0]
-   */
-  constructor(buffer, offset = 0) {
+  constructor(buffer: ArrayBufferLike, offset: number = 0) {
     this.buffer = buffer;
     this.#dataView = new DataView(buffer, offset);
   }
@@ -50,37 +44,37 @@ export class ExtendedDataView {
     return this.#dataView.getFloat64(offset, isLittleEndian);
   }
 
-  setUint8(value, offset = 0) {
+  setUint8(value: number, offset = 0) {
     return this.#dataView.setUint8(value, offset);
   }
 
-  setInt8(value, offset = 0) {
+  setInt8(value: number, offset = 0) {
     return this.#dataView.setInt8(value, offset);
   }
 
-  setUint16(value, offset = 0) {
+  setUint16(value: number, offset = 0) {
     return this.#dataView.setUint16(offset, value, isLittleEndian);
   }
 
-  setInt16(value, offset = 0) {
+  setInt16(value: number, offset = 0) {
     return this.#dataView.setInt16(offset, value, isLittleEndian);
   }
-  setUint32(value, offset = 0) {
+  setUint32(value: number, offset = 0) {
     return this.#dataView.setUint32(offset, value, isLittleEndian);
   }
-  setInt32(value, offset = 0) {
+  setInt32(value: number, offset = 0) {
     return this.#dataView.setInt32(offset, value, isLittleEndian);
   }
-  setBigUint64(value, offset = 0) {
+  setBigUint64(value: number | bigint, offset = 0) {
     return this.#dataView.setBigUint64(offset, BigInt(value), isLittleEndian);
   }
-  setBigInt64(value, offset = 0) {
+  setBigInt64(value: number | bigint, offset = 0) {
     return this.#dataView.setBigInt64(offset, BigInt(value), isLittleEndian);
   }
-  setFloat32(value, offset = 0) {
+  setFloat32(value: number, offset = 0) {
     return this.#dataView.setFloat32(offset, value, isLittleEndian);
   }
-  setFloat64(value, offset = 0) {
+  setFloat64(value: number, offset = 0) {
     return this.#dataView.setFloat64(offset, value, isLittleEndian);
   }
 }

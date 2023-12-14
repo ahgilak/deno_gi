@@ -4,7 +4,7 @@ import {
   GIInfoType,
 } from "../bindings/enums.ts";
 import g from "../bindings/mod.ts";
-import { ExtendedDataView } from "../utils/dataview.js";
+import { ExtendedDataView } from "../utils/dataview.ts";
 import { getName } from "../utils/string.ts";
 import { boxArgument, initArgument, unboxArgument } from "./argument.ts";
 import { createConstructor } from "./callable/constructor.ts";

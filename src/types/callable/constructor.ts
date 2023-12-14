@@ -1,6 +1,6 @@
 import g from "../../bindings/mod.ts";
 import { cast_u64_ptr } from "../../base_utils/convert.ts";
-import { ExtendedDataView } from "../../utils/dataview.js";
+import { ExtendedDataView } from "../../utils/dataview.ts";
 import { getName } from "../../utils/string.ts";
 import { parseCallableArgs } from "../callable.ts";
 

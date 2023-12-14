@@ -7,7 +7,7 @@ import {
   cast_u64_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
-import { ExtendedDataView } from "../utils/dataview.js";
+import { ExtendedDataView } from "../utils/dataview.ts";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.ts";
 import { boxInterface, unboxInterface } from "./argument/interface.ts";
