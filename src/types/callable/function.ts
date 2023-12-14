@@ -2,9 +2,9 @@ import { GITypeTag } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.ts";
 import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.ts";
-import { parseCallableArgs } from "../callable.js";
+import { parseCallableArgs } from "../callable.ts";
 
-export function createFunction(info: Deno.PointerObject) {
+export function createFunction(info: Deno.PointerValue) {
   const returnType = g.callable_info.get_return_type(info)!;
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 

@@ -15,7 +15,8 @@ import { unboxList } from "./argument/list.ts";
 
 export function initArgument(type: Deno.PointerValue) {
   const tag = g.type_info.get_tag(type);
-
+  
+  // TODO: handle other tags and change return type to bigint
   switch (tag) {
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);

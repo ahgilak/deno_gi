@@ -1,6 +1,6 @@
 import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
-import { handleCallable } from "./callable.js";
+import { handleCallable } from "./callable.ts";
 import { handleProp } from "./prop.js";
 import { handleSignal } from "./signal.js";
 

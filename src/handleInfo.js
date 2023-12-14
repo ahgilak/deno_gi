@@ -1,6 +1,6 @@
 import { GIInfoType } from "./bindings/enums.ts";
 import g from "./bindings/mod.ts";
-import { handleCallable } from "./types/callable.js";
+import { handleCallable } from "./types/callable.ts";
 import { createConstant } from "./types/constant.js";
 import { handleSignal } from "./types/signal.js";
 import { objectByGType } from "./utils/gobject.js";
