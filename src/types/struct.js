@@ -2,7 +2,7 @@ import g from "../bindings/mod.ts";
 import { cast_buf_ptr } from "../base_utils/convert.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
-import { handleField } from "./field.js";
+import { handleField } from "./field.ts";
 
 function defineMethods(target, info) {
   const nMethods = g.struct_info.get_n_methods(info);

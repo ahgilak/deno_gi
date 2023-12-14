@@ -4,8 +4,8 @@ import { getName } from "../utils/string.ts";
 import { boxArgument, unboxArgument } from "./argument.ts";
 
 export function handleField(
-  target,
-  fieldInfo,
+  target: any,
+  fieldInfo: Deno.PointerValue,
 ) {
   const name = getName(fieldInfo);
 
