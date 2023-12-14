@@ -4,12 +4,12 @@ import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
-export function createMethod(info) {
-  const returnType = g.callable_info.get_return_type(info);
+export function createMethod(info: Deno.PointerObject) {
+  const returnType = g.callable_info.get_return_type(info)!;
 
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
-  return (caller, ...args) => {
+  return (caller: Deno.PointerObject, ...args: unknown[]) => {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 
