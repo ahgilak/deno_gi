@@ -4,10 +4,10 @@ import { ExtendedDataView } from "../../utils/dataview.js";
 import { getName } from "../../utils/string.ts";
 import { parseCallableArgs } from "../callable.js";
 
-export function createConstructor(info, prototype) {
+export function createConstructor(info: Deno.PointerObject, prototype: object) {
   const [parseInArgs] = parseCallableArgs(info);
 
-  return (...args) => {
+  return (...args: unknown[]) => {
     const inArgs = parseInArgs(...args);
 
     const error = new ArrayBuffer(16);

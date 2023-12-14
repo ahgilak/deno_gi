@@ -12,7 +12,7 @@ export const $pointer = createType({
 export const $buffer = createType({
   symbol: "buffer",
   size: 8,
-  serilize: (value: TypedArray) => value,
+  serilize: (value: ArrayBuffer | ArrayBufferView) => value,
   deserilize: (value: Deno.PointerValue) => value,
 });
 

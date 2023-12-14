@@ -7,7 +7,7 @@ import g from "../bindings/mod.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
 import { boxArgument, initArgument, unboxArgument } from "./argument.js";
-import { createConstructor } from "./callable/constructor.js";
+import { createConstructor } from "./callable/constructor.ts";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
 import { createVFunc } from "./callable/vfunc.js";
