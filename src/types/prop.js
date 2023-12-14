@@ -3,7 +3,7 @@ import { GParamFlags } from "../bindings/enums.ts";
 import g from "../bindings/mod.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
-import { boxArgument, unboxArgument } from "./argument.js";
+import { boxArgument, unboxArgument } from "./argument.ts";
 import { boxValue, initValue, unboxValue } from "./value.js";
 
 export function handleProp(

@@ -5,7 +5,10 @@ import { ExtendedDataView } from "../../utils/dataview.js";
 import { objectByGType } from "../../utils/gobject.js";
 import { createCallback } from "../callback.js";
 
-export function boxInterface(info: Deno.PointerObject, value: object) {
+export function boxInterface(
+  info: Deno.PointerValue,
+  value: any,
+): bigint | number {
   const type = g.base_info.get_type(info);
 
   switch (type) {
@@ -15,7 +18,7 @@ export function boxInterface(info: Deno.PointerObject, value: object) {
       return cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", value));
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
-      return value;
+      return value as bigint | number;
     case GIInfoType.CALLBACK: {
       const cb = createCallback(info, value);
       const ptr = cast_ptr_u64(cb.pointer);
@@ -27,7 +30,7 @@ export function boxInterface(info: Deno.PointerObject, value: object) {
 }
 
 export function unboxInterface(
-  info: Deno.PointerObject,
+  info: Deno.PointerValue,
   buffer: ArrayBufferLike,
 ) {
   const dataView = new ExtendedDataView(buffer);

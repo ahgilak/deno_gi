@@ -1,7 +1,7 @@
 import { GITypeTag } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.ts";
 import { getName } from "../../utils/string.ts";
-import { unboxArgument } from "../argument.js";
+import { unboxArgument } from "../argument.ts";
 import { parseCallableArgs } from "../callable.js";
 
 export function createFunction(info: Deno.PointerObject) {

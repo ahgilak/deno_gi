@@ -1,7 +1,7 @@
 import g from "../../bindings/mod.ts";
 import { cast_ptr_u64 } from "../../base_utils/convert.ts";
 import { getName } from "../../utils/string.ts";
-import { unboxArgument } from "../argument.js";
+import { unboxArgument } from "../argument.ts";
 import { parseCallableArgs } from "../callable.js";
 
 export function createMethod(info: Deno.PointerObject) {

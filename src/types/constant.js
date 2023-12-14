@@ -1,5 +1,5 @@
 import g from "../bindings/mod.ts";
-import { unboxArgument } from "./argument.js";
+import { unboxArgument } from "./argument.ts";
 
 export function createConstant(info) {
   const giValue = new BigUint64Array(1);

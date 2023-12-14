@@ -1,8 +1,11 @@
 import { cast_u64_ptr, deref_buf } from "../../base_utils/convert.ts";
 import g from "../../bindings/girepository.ts";
-import { unboxArgument } from "../argument.js";
+import { unboxArgument } from "../argument.ts";
 
-export function unboxList(info: Deno.PointerValue, list: ArrayBufferLike) {
+export function unboxList(
+  info: Deno.PointerValue,
+  list: ArrayBufferLike,
+): unknown[] {
   const paramType = g.type_info.get_param_type(info, 0)!;
   const result = [];
 

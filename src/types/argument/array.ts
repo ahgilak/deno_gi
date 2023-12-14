@@ -2,7 +2,7 @@ import { cast_u64_ptr, deref_buf } from "../../base_utils/convert.ts";
 import { GITypeTag } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.ts";
 import { ExtendedDataView } from "../../utils/dataview.js";
-import { boxArgument, unboxArgument } from "../argument.js";
+import { boxArgument, unboxArgument } from "../argument.ts";
 
 function getTypeSize(typeTag: GITypeTag) {
   switch (typeTag) {
@@ -104,7 +104,7 @@ export function unboxArray(
   }
 }
 
-export function boxArray(typeInfo: Deno.PointerObject, values: unknown[]) {
+export function boxArray(typeInfo: Deno.PointerValue, values: unknown[]) {
   const isZeroTerminated = g.type_info.is_zero_terminated(typeInfo);
 
   const paramType = g.type_info.get_param_type(typeInfo, 0);

@@ -11,8 +11,9 @@ import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByGType } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.ts";
 import { boxInterface, unboxInterface } from "./argument/interface.ts";
+import { unboxList } from "./argument/list.ts";
 
-export function initArgument(type) {
+export function initArgument(type: Deno.PointerValue) {
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
@@ -28,12 +29,10 @@ export function initArgument(type) {
   }
 }
 
-/**
- * @param {Deno.PointerObject} type
- * @param {ArrayBufferLike} value
- * @returns
- */
-export function unboxArgument(type, value) {
+export function unboxArgument(
+  type: Deno.PointerObject,
+  value: ArrayBufferLike,
+) {
   const dataView = new ExtendedDataView(value);
   const tag = g.type_info.get_tag(type);
   const pointer = dataView.getBigUint64();
@@ -95,7 +94,7 @@ export function unboxArgument(type, value) {
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      return unboxList(type, value)
+      return unboxList(type, value);
     }
 
     case GITypeTag.INTERFACE: {
@@ -114,7 +113,7 @@ export function unboxArgument(type, value) {
   }
 }
 
-export function boxArgument(type, value) {
+export function boxArgument(type: Deno.PointerValue, value: any) {
   const buffer = new ArrayBuffer(8);
   if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer);
