@@ -10,7 +10,7 @@ import { boxArgument, initArgument, unboxArgument } from "./argument.js";
 import { createConstructor } from "./callable/constructor.ts";
 import { createFunction } from "./callable/function.ts";
 import { createMethod } from "./callable/method.ts";
-import { createVFunc } from "./callable/vfunc.js";
+import { createVFunc } from "./callable/vfunc.ts";
 
 export function createArg(info) {
   const type = g.arg_info.get_type(info);

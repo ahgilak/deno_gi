@@ -4,12 +4,16 @@ import { getName } from "../../utils/string.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
-export function createVFunc(info) {
-  const returnType = g.callable_info.get_return_type(info);
+export function createVFunc(info: Deno.PointerObject) {
+  const returnType = g.callable_info.get_return_type(info)!;
 
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
-  return (caller, implimentor, ...args) => {
+  return (
+    caller: Deno.PointerObject,
+    implimentor: bigint,
+    ...args: unknown[]
+  ) => {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 
