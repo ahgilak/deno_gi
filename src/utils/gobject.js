@@ -1,7 +1,7 @@
 import { GIInfoType } from "../bindings/enums.ts";
 import g from "../bindings/mod.ts";
 import { createEnum } from "../types/enum.ts";
-import { createInterface } from "../types/interface.js";
+import { createInterface } from "../types/interface.ts";
 import { createObject } from "../types/object.js";
 import { createStruct } from "../types/struct.js";
 
