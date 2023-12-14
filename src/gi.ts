@@ -1,12 +1,7 @@
 import g from "./bindings/mod.ts";
 import handleInfo from "./handleInfo.js";
 
-/**
- * @param {string} namespace
- * @param {string?} version
- * @returns
- */
-export function require(namespace, version) {
+export function require(namespace: string, version: string | null) {
   const repo = new Object();
 
   g.irepository.require(

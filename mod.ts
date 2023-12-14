@@ -1,1 +1,1 @@
-export * from "./src/gi.js";
+export * from "./src/gi.ts";
