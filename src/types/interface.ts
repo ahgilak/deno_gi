@@ -2,7 +2,7 @@ import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
 import { handleProp } from "./prop.ts";
-import { handleSignal } from "./signal.js";
+import { handleSignal } from "./signal.ts";
 
 function defineMethods(target: any, info: Deno.PointerValue) {
   const nMethods = g.interface_info.get_n_methods(info);

@@ -4,7 +4,7 @@ import { handleCallable } from "./callable.ts";
 import { objectByGType } from "../utils/gobject.js";
 import { GConnectFlags } from "../bindings/enums.ts";
 import { createCallback } from "./callback.ts";
-import { handleSignal } from "./signal.js";
+import { handleSignal } from "./signal.ts";
 import { handleProp } from "./prop.ts";
 
 function extendObject(target: any, info: Deno.PointerValue) {
