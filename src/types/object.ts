@@ -1,7 +1,7 @@
 import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
-import { objectByGType } from "../utils/gobject.js";
+import { objectByGType } from "../utils/gobject.ts";
 import { GConnectFlags } from "../bindings/enums.ts";
 import { createCallback } from "./callback.ts";
 import { handleSignal } from "./signal.ts";
@@ -88,7 +88,7 @@ function defineProps(target: any, info: Deno.PointerValue) {
 
 type Callback = (...args: unknown[]) => unknown;
 
-export function createObject(info: Deno.PointerValue, gType: bigint) {
+export function createObject(info: Deno.PointerValue, gType: number | bigint) {
   const ObjectClass = class {
     constructor(props = {}) {
       Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);

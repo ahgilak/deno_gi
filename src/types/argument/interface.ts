@@ -2,7 +2,7 @@ import { cast_ptr_u64, cast_u64_ptr } from "../../base_utils/convert.ts";
 import { GIInfoType } from "../../bindings/enums.ts";
 import g from "../../bindings/mod.ts";
 import { ExtendedDataView } from "../../utils/dataview.ts";
-import { objectByGType } from "../../utils/gobject.js";
+import { objectByGType } from "../../utils/gobject.ts";
 import { createCallback } from "../callback.ts";
 
 export function boxInterface(

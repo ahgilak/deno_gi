@@ -5,9 +5,9 @@ import { createInterface } from "../types/interface.ts";
 import { createObject } from "../types/object.ts";
 import { createStruct } from "../types/struct.ts";
 
-export const cache = new Map();
+export const cache = new Map<number | bigint, any>();
 
-export function objectByGType(gType) {
+export function objectByGType(gType: number | bigint) {
   if (cache.has(gType)) {
     return cache.get(gType);
   }
@@ -20,7 +20,7 @@ export function objectByGType(gType) {
   return result;
 }
 
-function createGObject(info, gType) {
+function createGObject(info: Deno.PointerValue, gType: number | bigint) {
   const type = g.base_info.get_type(info);
 
   switch (type) {

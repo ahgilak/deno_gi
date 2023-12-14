@@ -22,7 +22,7 @@ function defineFields(target: object, info: Deno.PointerValue) {
   }
 }
 
-export function createStruct(info: Deno.PointerValue, gType: bigint) {
+export function createStruct(info: Deno.PointerValue, gType: number | bigint) {
   const size = g.struct_info.get_size(info);
 
   const ObjectClass = class {

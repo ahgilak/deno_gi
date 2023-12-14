@@ -3,7 +3,7 @@ import g from "./bindings/mod.ts";
 import { handleCallable } from "./types/callable.ts";
 import { createConstant } from "./types/constant.ts";
 import { handleSignal } from "./types/signal.ts";
-import { objectByGType } from "./utils/gobject.js";
+import { objectByGType } from "./utils/gobject.ts";
 import { getName } from "./utils/string.ts";
 
 export function handleInfo(target, info) {

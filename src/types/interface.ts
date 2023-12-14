@@ -47,7 +47,7 @@ function defineProps(target: any, info: Deno.PointerValue) {
   }
 }
 
-export function createInterface(info: Deno.PointerValue, gType: bigint) {
+export function createInterface(info: Deno.PointerValue, gType: number | bigint) {
   const ObjectClass = class {};
 
   Object.defineProperty(ObjectClass, "name", {
