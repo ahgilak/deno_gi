@@ -4,7 +4,7 @@ import g from "../bindings/mod.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
 import { boxArgument, unboxArgument } from "./argument.ts";
-import { boxValue, initValue, unboxValue } from "./value.js";
+import { boxValue, initValue, unboxValue } from "./value.ts";
 
 export function handleProp(
   target: any,

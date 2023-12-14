@@ -1,17 +1,18 @@
 import g from "../bindings/mod.ts";
 import { G_TYPE_FUNDAMENTAL_MAX, GType } from "../bindings/enums.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
+import { TypedArray } from "../base_utils/ffipp.d.ts";
 
-export function initValue(type) {
+export function initValue(gType: bigint) {
   const value = new BigUint64Array(3);
-  g.value.init(value, type);
+  g.value.init(value, gType);
   return value;
 }
 
 export function boxValue(
-  boxedValue,
-  boxedType,
-  argValue,
+  boxedValue: Deno.PointerValue | TypedArray,
+  boxedType: number | bigint,
+  argValue: ArrayBuffer,
 ) {
   const dataView = new ExtendedDataView(argValue);
 
@@ -61,8 +62,8 @@ export function boxValue(
 }
 
 export function unboxValue(
-  boxedValue,
-  boxedType,
+  boxedValue: Deno.PointerValue | TypedArray,
+  boxedType: number | bigint,
 ) {
   switch (Number(boxedType)) {
     case GType.CHAR:
