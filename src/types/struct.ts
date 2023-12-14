@@ -4,7 +4,7 @@ import { getName } from "../utils/string.ts";
 import { handleCallable } from "./callable.ts";
 import { handleField } from "./field.ts";
 
-function defineMethods(target, info) {
+function defineMethods(target: object, info: Deno.PointerValue) {
   const nMethods = g.struct_info.get_n_methods(info);
 
   for (let i = 0; i < nMethods; i++) {
@@ -13,7 +13,7 @@ function defineMethods(target, info) {
   }
 }
 
-function defineFields(target, info) {
+function defineFields(target: object, info: Deno.PointerValue) {
   const nFields = g.struct_info.get_n_fields(info);
 
   for (let i = 0; i < nFields; i++) {
@@ -22,7 +22,7 @@ function defineFields(target, info) {
   }
 }
 
-export function createStruct(info, gType) {
+export function createStruct(info: Deno.PointerValue, gType: bigint) {
   const size = g.struct_info.get_size(info);
 
   const ObjectClass = class {

@@ -3,7 +3,7 @@ import g from "../bindings/mod.ts";
 import { createEnum } from "../types/enum.ts";
 import { createInterface } from "../types/interface.ts";
 import { createObject } from "../types/object.ts";
-import { createStruct } from "../types/struct.js";
+import { createStruct } from "../types/struct.ts";
 
 export const cache = new Map();
 

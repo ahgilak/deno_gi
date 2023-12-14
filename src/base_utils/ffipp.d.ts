@@ -5,18 +5,7 @@ type ReplaceNestedObjectType<T> = {
     : T[K];
 };
 
-export type TypedArray =
-  | BigInt64Array
-  | BigUint64Array
-  | Int32Array
-  | Uint32Array
-  | Int16Array
-  | Uint16Array
-  | Int8Array
-  | Uint8Array
-  | Uint8ClampedArray
-  | Float64Array
-  | Float32Array;
+export type TypedArray = ArrayBufferView | ArrayBuffer;
 
 type ArgType<T> = T extends FFIPPType<infer I, infer _O> ? I : never;
 
