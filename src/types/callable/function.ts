@@ -1,14 +1,14 @@
-import { GITypeTag } from "../../bindings/enums.js";
-import g from "../../bindings/mod.js";
+import { GITypeTag } from "../../bindings/enums.ts";
+import g from "../../bindings/mod.ts";
 import { getName } from "../../utils/string.ts";
-import { unboxArgument } from "../argument.js";
-import { parseCallableArgs } from "../callable.js";
+import { unboxArgument } from "../argument.ts";
+import { parseCallableArgs } from "../callable.ts";
 
-export function createFunction(info) {
-  const returnType = g.callable_info.get_return_type(info);
+export function createFunction(info: Deno.PointerValue) {
+  const returnType = g.callable_info.get_return_type(info)!;
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
-  return (...args) => {
+  return (...args: unknown[]) => {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 

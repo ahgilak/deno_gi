@@ -1,15 +1,15 @@
 import { deref_buf, ref_buf } from "../base_utils/convert.ts";
-import { GParamFlags } from "../bindings/enums.js";
-import g from "../bindings/mod.js";
-import { ExtendedDataView } from "../utils/dataview.js";
+import { GParamFlags } from "../bindings/enums.ts";
+import g from "../bindings/mod.ts";
+import { ExtendedDataView } from "../utils/dataview.ts";
 import { getName } from "../utils/string.ts";
-import { boxArgument, unboxArgument } from "./argument.js";
-import { boxValue, initValue, unboxValue } from "./value.js";
+import { boxArgument, unboxArgument } from "./argument.ts";
+import { boxValue, initValue, unboxValue } from "./value.ts";
 
 export function handleProp(
-  target,
-  propInfo,
-  paramSpecPointer
+  target: any,
+  propInfo: Deno.PointerValue,
+  paramSpecPointer: Deno.PointerObject,
 ) {
   const cName = g.base_info.get_name(propInfo);
   const name = getName(propInfo);
@@ -43,7 +43,7 @@ export function handleProp(
       const argValue = unboxValue(boxedValue, boxedType);
       const value = unboxArgument(
         argType,
-        ref_buf(argValue).buffer,
+        ref_buf(argValue as bigint).buffer,
       );
 
       return value;

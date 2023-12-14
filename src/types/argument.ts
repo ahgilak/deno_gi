@@ -1,5 +1,5 @@
-import g from "../bindings/mod.js";
-import { GITypeTag } from "../bindings/enums.js";
+import g from "../bindings/mod.ts";
+import { GITypeTag } from "../bindings/enums.ts";
 import {
   cast_buf_ptr,
   cast_ptr_u64,
@@ -7,14 +7,16 @@ import {
   cast_u64_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
-import { ExtendedDataView } from "../utils/dataview.js";
-import { objectByGType } from "../utils/gobject.js";
-import { boxArray, unboxArray } from "./argument/array.js";
-import { boxInterface, unboxInterface } from "./argument/interface.js";
+import { ExtendedDataView } from "../utils/dataview.ts";
+import { objectByGType } from "../utils/gobject.ts";
+import { boxArray, unboxArray } from "./argument/array.ts";
+import { boxInterface, unboxInterface } from "./argument/interface.ts";
+import { unboxList } from "./argument/list.ts";
 
-export function initArgument(type) {
+export function initArgument(type: Deno.PointerValue) {
   const tag = g.type_info.get_tag(type);
-
+  
+  // TODO: handle other tags and change return type to bigint
   switch (tag) {
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);
@@ -28,12 +30,10 @@ export function initArgument(type) {
   }
 }
 
-/**
- * @param {Deno.PointerObject} type
- * @param {ArrayBufferLike} value
- * @returns
- */
-export function unboxArgument(type, value) {
+export function unboxArgument(
+  type: Deno.PointerValue,
+  value: ArrayBufferLike,
+) {
   const dataView = new ExtendedDataView(value);
   const tag = g.type_info.get_tag(type);
   const pointer = dataView.getBigUint64();
@@ -95,7 +95,7 @@ export function unboxArgument(type, value) {
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      return unboxList(type, value)
+      return unboxList(type, value);
     }
 
     case GITypeTag.INTERFACE: {
@@ -114,7 +114,7 @@ export function unboxArgument(type, value) {
   }
 }
 
-export function boxArgument(type, value) {
+export function boxArgument(type: Deno.PointerValue, value: any) {
   const buffer = new ArrayBuffer(8);
   if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer);

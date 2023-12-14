@@ -1,11 +1,11 @@
-import { GFieldInfoFlags } from "../bindings/enums.js";
-import g from "../bindings/mod.js";
+import { GFieldInfoFlags } from "../bindings/enums.ts";
+import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
-import { boxArgument, unboxArgument } from "./argument.js";
+import { boxArgument, unboxArgument } from "./argument.ts";
 
 export function handleField(
-  target,
-  fieldInfo,
+  target: any,
+  fieldInfo: Deno.PointerValue,
 ) {
   const name = getName(fieldInfo);
 

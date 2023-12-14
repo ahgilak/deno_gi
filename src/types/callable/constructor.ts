@@ -1,13 +1,13 @@
-import g from "../../bindings/mod.js";
+import g from "../../bindings/mod.ts";
 import { cast_u64_ptr } from "../../base_utils/convert.ts";
-import { ExtendedDataView } from "../../utils/dataview.js";
+import { ExtendedDataView } from "../../utils/dataview.ts";
 import { getName } from "../../utils/string.ts";
-import { parseCallableArgs } from "../callable.js";
+import { parseCallableArgs } from "../callable.ts";
 
-export function createConstructor(info, prototype) {
+export function createConstructor(info: Deno.PointerValue, prototype: object) {
   const [parseInArgs] = parseCallableArgs(info);
 
-  return (...args) => {
+  return (...args: unknown[]) => {
     const inArgs = parseInArgs(...args);
 
     const error = new ArrayBuffer(16);

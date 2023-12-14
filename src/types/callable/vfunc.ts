@@ -1,15 +1,19 @@
-import g from "../../bindings/mod.js";
+import g from "../../bindings/mod.ts";
 import { cast_ptr_u64 } from "../../base_utils/convert.ts";
 import { getName } from "../../utils/string.ts";
-import { unboxArgument } from "../argument.js";
-import { parseCallableArgs } from "../callable.js";
+import { unboxArgument } from "../argument.ts";
+import { parseCallableArgs } from "../callable.ts";
 
-export function createVFunc(info) {
-  const returnType = g.callable_info.get_return_type(info);
+export function createVFunc(info: Deno.PointerValue) {
+  const returnType = g.callable_info.get_return_type(info)!;
 
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
-  return (caller, implimentor, ...args) => {
+  return (
+    caller: Deno.PointerObject,
+    implimentor: bigint,
+    ...args: unknown[]
+  ) => {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 

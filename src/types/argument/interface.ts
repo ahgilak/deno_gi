@@ -1,11 +1,14 @@
 import { cast_ptr_u64, cast_u64_ptr } from "../../base_utils/convert.ts";
-import { GIInfoType } from "../../bindings/enums.js";
-import g from "../../bindings/mod.js";
-import { ExtendedDataView } from "../../utils/dataview.js";
-import { objectByGType } from "../../utils/gobject.js";
-import { createCallback } from "../callback.js";
+import { GIInfoType } from "../../bindings/enums.ts";
+import g from "../../bindings/mod.ts";
+import { ExtendedDataView } from "../../utils/dataview.ts";
+import { objectByGType } from "../../utils/gobject.ts";
+import { createCallback } from "../callback.ts";
 
-export function boxInterface(info, value) {
+export function boxInterface(
+  info: Deno.PointerValue,
+  value: any,
+): bigint | number {
   const type = g.base_info.get_type(info);
 
   switch (type) {
@@ -15,7 +18,7 @@ export function boxInterface(info, value) {
       return cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", value));
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
-      return value;
+      return value as bigint | number;
     case GIInfoType.CALLBACK: {
       const cb = createCallback(info, value);
       const ptr = cast_ptr_u64(cb.pointer);
@@ -27,10 +30,10 @@ export function boxInterface(info, value) {
 }
 
 export function unboxInterface(
-  info,
-  argValue,
+  info: Deno.PointerValue,
+  buffer: ArrayBufferLike,
 ) {
-  const dataView = new ExtendedDataView(argValue);
+  const dataView = new ExtendedDataView(buffer);
   const type = g.base_info.get_type(info);
   const gType = g.registered_type_info.get_g_type(info);
   /*

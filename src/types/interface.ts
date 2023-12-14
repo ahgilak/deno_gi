@@ -1,10 +1,10 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
-import { handleCallable } from "./callable.js";
-import { handleProp } from "./prop.js";
-import { handleSignal } from "./signal.js";
+import { handleCallable } from "./callable.ts";
+import { handleProp } from "./prop.ts";
+import { handleSignal } from "./signal.ts";
 
-function defineMethods(target, info) {
+function defineMethods(target: any, info: Deno.PointerValue) {
   const nMethods = g.interface_info.get_n_methods(info);
 
   for (let i = 0; i < nMethods; i++) {
@@ -13,7 +13,7 @@ function defineMethods(target, info) {
   }
 }
 
-function defineVFuncs(target, info) {
+function defineVFuncs(target: any, info: Deno.PointerValue) {
   const nMethods = g.interface_info.get_n_vfuncs(info);
 
   for (let i = 0; i < nMethods; i++) {
@@ -22,7 +22,7 @@ function defineVFuncs(target, info) {
   }
 }
 
-function defineSignals(target, info) {
+function defineSignals(target: any, info: Deno.PointerValue) {
   const nSignals = g.interface_info.get_n_signals(info);
 
   for (let i = 0; i < nSignals; i++) {
@@ -31,8 +31,10 @@ function defineSignals(target, info) {
   }
 }
 
-function defineProps(target, info) {
-  const iface = g.type.default_interface_ref(Reflect.getOwnMetadata("gi:gtype", target));
+function defineProps(target: any, info: Deno.PointerValue) {
+  const iface = g.type.default_interface_ref(
+    Reflect.getOwnMetadata("gi:gtype", target),
+  );
 
   const nProps = g.interface_info.get_n_properties(info);
 
@@ -40,12 +42,12 @@ function defineProps(target, info) {
     const propInfo = g.interface_info.get_property(info, i);
     const cName = g.base_info.get_name(propInfo);
     const paramSpecPointer = g.object_interface.find_property(iface, cName);
-    handleProp(target, propInfo, paramSpecPointer);
+    handleProp(target, propInfo, paramSpecPointer!);
     g.base_info.unref(propInfo);
   }
 }
 
-export function createInterface(info, gType) {
+export function createInterface(info: Deno.PointerValue, gType: number | bigint) {
   const ObjectClass = class {};
 
   Object.defineProperty(ObjectClass, "name", {

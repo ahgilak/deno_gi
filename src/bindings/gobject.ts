@@ -24,7 +24,7 @@ const { g } = openLib(libName("gobject-2.0", 0), {
       set_property: $void($pointer, $string, $buffer),
     },
     signal: {
-      connect_data: $pointer(
+      connect_data: $u64(
         $pointer,
         $string,
         $pointer,
@@ -33,7 +33,7 @@ const { g } = openLib(libName("gobject-2.0", 0), {
         $i32,
       ),
       emit_by_name: $void($pointer, $string),
-      handler_disconnect: $void($pointer, $pointer),
+      handler_disconnect: $void($pointer, $u64),
     },
     type: {
       class_ref: $pointer($i64),

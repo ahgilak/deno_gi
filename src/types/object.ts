@@ -1,13 +1,13 @@
-import g from "../bindings/mod.js";
+import g from "../bindings/mod.ts";
 import { getName } from "../utils/string.ts";
-import { handleCallable } from "./callable.js";
-import { objectByGType } from "../utils/gobject.js";
-import { GConnectFlags } from "../bindings/enums.js";
-import { createCallback } from "./callback.js";
-import { handleSignal } from "./signal.js";
-import { handleProp } from "./prop.js";
+import { handleCallable } from "./callable.ts";
+import { objectByGType } from "../utils/gobject.ts";
+import { GConnectFlags } from "../bindings/enums.ts";
+import { createCallback } from "./callback.ts";
+import { handleSignal } from "./signal.ts";
+import { handleProp } from "./prop.ts";
 
-function extendObject(target, info) {
+function extendObject(target: any, info: Deno.PointerValue) {
   const parent = g.object_info.get_parent(info);
 
   if (parent) {
@@ -21,7 +21,7 @@ function extendObject(target, info) {
   }
 }
 
-function inheritInterfaces(target, info) {
+function inheritInterfaces(target: any, info: Deno.PointerValue) {
   const nInterfaces = g.object_info.get_n_interfaces(info);
   for (let i = 0; i < nInterfaces; i++) {
     const ifaceInfo = g.object_info.get_interface(info, i);
@@ -36,7 +36,7 @@ function inheritInterfaces(target, info) {
       Object.defineProperty(
         target.prototype,
         key,
-        Object.getOwnPropertyDescriptor(iface.prototype, key),
+        Object.getOwnPropertyDescriptor(iface.prototype, key)!,
       );
     }
 
@@ -45,7 +45,7 @@ function inheritInterfaces(target, info) {
   }
 }
 
-function defineMethods(target, info) {
+function defineMethods(target: any, info: Deno.PointerValue) {
   const nMethods = g.object_info.get_n_methods(info);
 
   for (let i = 0; i < nMethods; i++) {
@@ -54,7 +54,7 @@ function defineMethods(target, info) {
   }
 }
 
-function defineVFuncs(target, info) {
+function defineVFuncs(target: any, info: Deno.PointerValue) {
   const nMethods = g.object_info.get_n_vfuncs(info);
 
   for (let i = 0; i < nMethods; i++) {
@@ -63,7 +63,7 @@ function defineVFuncs(target, info) {
   }
 }
 
-function defineSignals(target, info) {
+function defineSignals(target: any, info: Deno.PointerValue) {
   const nSignals = g.object_info.get_n_signals(info);
 
   for (let i = 0; i < nSignals; i++) {
@@ -72,7 +72,7 @@ function defineSignals(target, info) {
   }
 }
 
-function defineProps(target, info) {
+function defineProps(target: any, info: Deno.PointerValue) {
   const klass = g.type.class_ref(Reflect.getOwnMetadata("gi:gtype", target));
 
   const nProps = g.object_info.get_n_properties(info);
@@ -81,21 +81,25 @@ function defineProps(target, info) {
     const propInfo = g.object_info.get_property(info, i);
     const cName = g.base_info.get_name(propInfo);
     const paramSpecPointer = g.object_class.find_property(klass, cName);
-    handleProp(target, propInfo, paramSpecPointer);
+    handleProp(target, propInfo, paramSpecPointer!);
     g.base_info.unref(propInfo);
   }
 }
 
-export function createObject(info, gType) {
+type Callback = (...args: unknown[]) => unknown;
+
+export function createObject(info: Deno.PointerValue, gType: number | bigint) {
   const ObjectClass = class {
     constructor(props = {}) {
       Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
       Object.entries(props).forEach(([key, value]) => {
+        // TODO: set the properties directly in the gobject_new function
+        /// @ts-expect-error we are setting all the properties at once
         this[key] = value;
       });
     }
 
-    connect(action, callback) {
+    connect(action: string, callback: Callback) {
       const signalInfo = Reflect.getMetadata(
         "gi:signals",
         ObjectClass,
@@ -115,11 +119,11 @@ export function createObject(info, gType) {
       return handler;
     }
 
-    on(action, callback) {
+    on(action: string, callback: Callback) {
       return this.connect(action, callback);
     }
 
-    once(action, callback) {
+    once(action: string, callback: Callback) {
       const handler = this.connect(action, (...args) => {
         callback(...args);
         this.off(handler);
@@ -128,14 +132,14 @@ export function createObject(info, gType) {
       return handler;
     }
 
-    off(handler) {
+    off(handler: bigint | number) {
       g.signal.handler_disconnect(
         Reflect.getOwnMetadata("gi:ref", this),
         handler,
       );
     }
 
-    emit(action) {
+    emit(action: string) {
       g.signal.emit_by_name(
         Reflect.getOwnMetadata("gi:ref", this),
         action,

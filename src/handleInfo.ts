@@ -1,12 +1,12 @@
-import { GIInfoType } from "./bindings/enums.js";
-import g from "./bindings/mod.js";
-import { handleCallable } from "./types/callable.js";
-import { createConstant } from "./types/constant.js";
-import { handleSignal } from "./types/signal.js";
-import { objectByGType } from "./utils/gobject.js";
+import { GIInfoType } from "./bindings/enums.ts";
+import g from "./bindings/mod.ts";
+import { handleCallable } from "./types/callable.ts";
+import { createConstant } from "./types/constant.ts";
+import { handleSignal } from "./types/signal.ts";
+import { objectByGType } from "./utils/gobject.ts";
 import { getName } from "./utils/string.ts";
 
-export function handleInfo(target, info) {
+export function handleInfo(target: object, info: Deno.PointerValue) {
   const type = g.base_info.get_type(info);
   const name = getName(info);
 
