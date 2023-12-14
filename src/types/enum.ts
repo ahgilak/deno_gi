@@ -1,7 +1,7 @@
 import g from "../bindings/mod.ts";
 import handleInfo from "../handleInfo.js";
 
-export function createEnum(info) {
+export function createEnum(info: Deno.PointerValue) {
   const result = new Object();
 
   const nValues = g.enum_info.get_n_values(info);
