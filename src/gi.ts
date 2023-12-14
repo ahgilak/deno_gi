@@ -1,5 +1,5 @@
 import g from "./bindings/mod.ts";
-import handleInfo from "./handleInfo.js";
+import handleInfo from "./handleInfo.ts";
 
 export function require(namespace: string, version: string | null) {
   const repo = new Object();

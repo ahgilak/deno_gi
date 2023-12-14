@@ -6,7 +6,7 @@ import { handleSignal } from "./types/signal.ts";
 import { objectByGType } from "./utils/gobject.ts";
 import { getName } from "./utils/string.ts";
 
-export function handleInfo(target, info) {
+export function handleInfo(target: object, info: Deno.PointerValue) {
   const type = g.base_info.get_type(info);
   const name = getName(info);
 

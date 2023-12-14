@@ -1,5 +1,5 @@
 import g from "../bindings/mod.ts";
-import handleInfo from "../handleInfo.js";
+import handleInfo from "../handleInfo.ts";
 
 export function createEnum(info: Deno.PointerValue) {
   const result = new Object();
