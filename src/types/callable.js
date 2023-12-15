@@ -6,7 +6,7 @@ import {
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
-import { boxArgument, initArgument, unboxArgument } from "./argument.js";
+import { boxArgument, unboxArgument } from "./argument.js";
 import { createConstructor } from "./callable/constructor.js";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
@@ -20,7 +20,15 @@ export function createArg(info) {
   const transfer = g.arg_info.get_ownership_transfer(info);
   const callerAllocates = g.arg_info.is_caller_allocates(info);
   const isReturn = g.arg_info.is_return_value(info);
-  return { type, arrLength, isSkip, direction, transfer, callerAllocates, isReturn };
+  return {
+    type,
+    arrLength,
+    isSkip,
+    direction,
+    transfer,
+    callerAllocates,
+    isReturn,
+  };
 }
 
 export function parseCallableArgs(info) {
@@ -38,7 +46,6 @@ export function parseCallableArgs(info) {
   const inArgsDetail = argDetails.filter(
     (arg) => !(arg.direction & GIDirection.OUT),
   );
-
 
   const outArgsDetail = argDetails.filter(
     (arg) => arg.direction & GIDirection.OUT,
@@ -62,14 +69,12 @@ export function parseCallableArgs(info) {
   };
 
   const initOutArgs = () => {
-    const outArgs = outArgsDetail.map((d) => initArgument(d.type));
-
-    return outArgs;
+    return new BigUint64Array(outArgsDetail.length);
   };
 
   const parseOutArgs = (outArgs) => {
     return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, new BigUint64Array([outArgs[i]]).buffer);
+      return unboxArgument(d.type, outArgs[i]);
     });
   };
 

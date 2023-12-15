@@ -32,8 +32,9 @@ export function boxInterface(info, value) {
 
 export function unboxInterface(
   info,
-  argValue,
+  pointer,
 ) {
+  const argValue = cast_u64_ptr(pointer);
   const dataView = new ExtendedDataView(argValue);
   const type = g.base_info.get_type(info);
   let gType = g.registered_type_info.get_g_type(info);

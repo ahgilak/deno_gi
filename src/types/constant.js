@@ -10,7 +10,7 @@ export function createConstant(info) {
     return null;
   }
 
-  const result = unboxArgument(giType, giValue.buffer);
+  const result = unboxArgument(giType, giValue[0]);
   g.base_info.unref(giType);
 
   return result;

@@ -9,7 +9,7 @@ import { boxValue, initValue, unboxValue } from "./value.js";
 export function handleProp(
   target,
   propInfo,
-  paramSpecPointer
+  paramSpecPointer,
 ) {
   const cName = g.base_info.get_name(propInfo);
   const name = getName(propInfo);
@@ -43,7 +43,7 @@ export function handleProp(
       const argValue = unboxValue(boxedValue, boxedType);
       const value = unboxArgument(
         argType,
-        ref_buf(argValue).buffer,
+        ref_buf(argValue)[0],
       );
 
       return value;

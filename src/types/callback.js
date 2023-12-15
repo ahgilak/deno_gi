@@ -1,7 +1,7 @@
 import g from "../bindings/mod.js";
 import { GITypeTag } from "../bindings/enums.js";
 import { boxArgument, unboxArgument } from "./argument.js";
-import { cast_ptr_u64, ref_buf } from "../base_utils/convert.ts";
+import { cast_ptr_u64 } from "../base_utils/convert.ts";
 import { createArg } from "./callable.js";
 
 const nativeTypes = {
@@ -34,7 +34,7 @@ function parseArgs(
 
     const result = nativeTypes[tag]
       ? value
-      : unboxArgument(argType, ref_buf(cast_ptr_u64(value)).buffer);
+      : unboxArgument(argType, cast_ptr_u64(value));
 
     g.base_info.unref(argInfo);
     g.base_info.unref(argType);
