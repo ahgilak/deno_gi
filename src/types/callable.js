@@ -78,7 +78,7 @@ export function parseCallableArgs(info) {
 
 export function handleMethod(target, info) {
   const name = getName(info);
-  
+
   const value = createFunction(info);
   Object.defineProperty(target, name, {
     value,
@@ -142,4 +142,37 @@ export function handleCallable(target, info) {
       return;
     }
   }
+}
+
+/**
+ * Handles a callable method for a class class
+ * e.g: GtkWidgetClass is the class struct for GtkWidget and contains static
+ * methods
+ */
+export function handleStructCallable(target, klass, info) {
+  const name = getName(info);
+
+  if (Object.hasOwn(target.prototype, name)) return;
+
+  const flags = g.function_info.get_flags(info);
+
+  const isMethod = !!(GIFunctionInfoFlags.IS_METHOD & flags);
+
+  if (isMethod) {
+    const value = createMethod(info);
+    Object.defineProperty(target, name, {
+      enumerable: true,
+      value(...args) {
+        return value(klass, ...args);
+      },
+    });
+    return;
+  }
+
+  const value = createFunction(info);
+  Object.defineProperty(target, name, {
+    value,
+  });
+
+  return;
 }
