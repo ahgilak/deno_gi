@@ -8,8 +8,26 @@ import {
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
+import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
+
+export function initArgument(type) {
+  const tag = g.type_info.get_tag(type);
+
+  switch (tag) {
+    case GITypeTag.INTERFACE: {
+      const info = g.type_info.get_interface(type);
+      const o = objectByInfo(info);
+      const v = new o();
+      const result = cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", v));
+      g.base_info.unref(info);
+      return result;
+    }
+    default:
+      return 0n;
+  }
+}
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type

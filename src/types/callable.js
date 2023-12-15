@@ -6,7 +6,7 @@ import {
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
-import { boxArgument, unboxArgument } from "./argument.js";
+import { boxArgument, initArgument, unboxArgument } from "./argument.js";
 import { createConstructor } from "./callable/constructor.js";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
@@ -69,7 +69,7 @@ export function parseCallableArgs(info) {
   };
 
   const initOutArgs = () => {
-    return new BigUint64Array(outArgsDetail.length);
+    return new BigUint64Array(outArgsDetail.map((d) => initArgument(d.type)));
   };
 
   const parseOutArgs = (outArgs) => {

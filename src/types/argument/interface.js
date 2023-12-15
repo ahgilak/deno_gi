@@ -34,7 +34,7 @@ export function unboxInterface(
   info,
   pointer,
 ) {
-  const argValue = cast_u64_ptr(pointer);
+  const argValue = deref_buf(cast_u64_ptr(pointer), 8);
   const dataView = new ExtendedDataView(argValue);
   const type = g.base_info.get_type(info);
   let gType = g.registered_type_info.get_g_type(info);
@@ -56,7 +56,7 @@ export function unboxInterface(
       const result = Object.create(objectByGType(gType).prototype);
       Reflect.defineMetadata(
         "gi:ref",
-        cast_u64_ptr(dataView.getBigUint64()),
+        cast_u64_ptr(pointer),
         result,
       );
       return result;
