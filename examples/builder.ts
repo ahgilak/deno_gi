@@ -12,10 +12,8 @@ function activate(app: Gtk.Application) {
   const root = builder.getObject("root") as Gtk.Widget;
 
   const actionButton = builder.getObject("actionButton") as Gtk.Button;
-  Object.setPrototypeOf(actionButton, Gtk.Button.prototype);
   actionButton.on("clicked", () => console.log("Action!"));
   const closeButton = builder.getObject("closeButton") as Gtk.Button;
-  Object.setPrototypeOf(closeButton, Gtk.Button.prototype);
   closeButton.on("clicked", () => win.close());
 
   const win = Gtk.ApplicationWindow.new(app);
