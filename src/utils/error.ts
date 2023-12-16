@@ -8,7 +8,8 @@ export function createGError(errorBuffer: ArrayBuffer) {
   const dataView = new ExtendedDataView(errorBuffer);
   const pointer = cast_u64_ptr(dataView.getBigUint64());
 
-  const error = new GError(pointer);
+  const error = Object.create(GError.prototype);
+  Reflect.defineMetadata("gi:ref", pointer, error);
 
   error.stack = new Error().stack;
 

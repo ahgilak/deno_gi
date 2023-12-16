@@ -26,10 +26,10 @@ export function createStruct(info, gType) {
   const size = g.struct_info.get_size(info);
 
   const ObjectClass = class {
-    constructor(pointer) {
+    constructor() {
       Reflect.defineMetadata(
         "gi:ref",
-        pointer ?? cast_buf_ptr(new ArrayBuffer(size)),
+        cast_buf_ptr(new ArrayBuffer(size)),
         this,
       );
     }
