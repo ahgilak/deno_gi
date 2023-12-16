@@ -18,13 +18,3 @@ export function createGError(errorBuffer: ArrayBuffer) {
 export function getGLibError() {
   return require("GLib", "2.0").Error;
 }
-
-// function createErrorStruct(pointer: Deno.PointerValue) {
-
-//   const ErrorStruct = createStruct(errorInfo, errorGtype);
-
-//   return new ErrorStruct(pointer);
-// }
-
-// // make sure GLib is loaded
-// g.irepository.require(null, "GLib", "2.0", 0, null);
