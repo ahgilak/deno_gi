@@ -149,7 +149,7 @@ export function handleCallable(target, info) {
  * e.g: GtkWidgetClass is the class struct for GtkWidget and contains static
  * methods
  */
-export function handleStructCallable(target, klass, info) {
+export function handleStructCallable(target, info) {
   const name = getName(info);
 
   if (Object.hasOwn(target.prototype, name)) return;
@@ -163,6 +163,10 @@ export function handleStructCallable(target, klass, info) {
     Object.defineProperty(target, name, {
       enumerable: true,
       value(...args) {
+        const klass = g.type_class.ref(
+          Reflect.getOwnMetadata("gi:gtype", this),
+        );
+
         return value(klass, ...args);
       },
     });

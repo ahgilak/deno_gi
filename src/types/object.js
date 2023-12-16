@@ -93,12 +93,11 @@ function defineClassStructMethods(target, info) {
     return;
   }
 
-  const klass = g.type_class.ref(Reflect.getOwnMetadata("gi:gtype", target));
   const nMethods = g.struct_info.get_n_methods(structInfo);
 
   for (let i = 0; i < nMethods; i++) {
     const methodInfo = g.struct_info.get_method(structInfo, i);
-    handleStructCallable(target, klass, methodInfo);
+    handleStructCallable(target, methodInfo);
   }
 }
 
