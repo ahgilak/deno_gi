@@ -1,5 +1,5 @@
 import { cast_ptr_u64, cast_u64_ptr } from "../../base_utils/convert.ts";
-import { GIInfoType } from "../../bindings/enums.js";
+import { GIInfoType, GType } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { objectByGType } from "../../utils/gobject.js";
@@ -51,7 +51,23 @@ export function unboxInterface(
     case GIInfoType.OBJECT:
     case GIInfoType.STRUCT:
     case GIInfoType.INTERFACE: {
-      const result = Object.create(objectByGType(gType).prototype);
+      // This is needed otherwise we assign to a read-only property
+      let leaf_gType = gType;
+
+      // get the descendant gType for GObject.Object
+      if (gType === BigInt(GType.OBJECT)) {
+        // TODO: find a way to get the gtype from the object
+        // TYPE_FROM_INSTANCE seems to be a macro, so we can't call it
+        const type_name = g.type.name_from_instance(cast_u64_ptr(pointer));
+        const descendant_gType = type_name ? g.type.from_name(type_name) : null;
+
+        if (descendant_gType) {
+          leaf_gType = descendant_gType;
+        }
+      }
+
+      const result = Object.create(objectByGType(leaf_gType).prototype);
+
       Reflect.defineMetadata(
         "gi:ref",
         cast_u64_ptr(dataView.getBigUint64()),
