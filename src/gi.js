@@ -33,8 +33,6 @@ export function require(namespace, version) {
     g.base_info.unref(info);
   }
 
-  loadOverride(namespace, repo);
-
   repos.set(key, repo);
 
   return repo;
