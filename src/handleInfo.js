@@ -3,7 +3,7 @@ import g from "./bindings/mod.js";
 import { handleCallable } from "./types/callable.js";
 import { createConstant } from "./types/constant.js";
 import { handleSignal } from "./types/signal.js";
-import { objectByGType } from "./utils/gobject.js";
+import { objectByInfo } from "./utils/gobject.js";
 import { getName } from "./utils/string.ts";
 
 export function handleInfo(target, info) {
@@ -16,10 +16,10 @@ export function handleInfo(target, info) {
     case GIInfoType.OBJECT:
     case GIInfoType.STRUCT:
     case GIInfoType.INTERFACE: {
-      const gType = g.registered_type_info.get_g_type(info);
+      g.base_info.ref(info);
       Object.defineProperty(target, name, {
         get() {
-          return objectByGType(gType);
+          return objectByInfo(info);
         },
       });
       break;
