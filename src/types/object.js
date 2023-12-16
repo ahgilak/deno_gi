@@ -115,6 +115,20 @@ export function createObject(info, gType) {
       return handler;
     }
 
+    disconnect(handler) {
+      g.signal.handler_disconnect(
+        Reflect.getOwnMetadata("gi:ref", this),
+        handler,
+      );
+    }
+
+    emit(action) {
+      g.signal.emit_by_name(
+        Reflect.getOwnMetadata("gi:ref", this),
+        action,
+      );
+    }
+
     on(action, callback) {
       return this.connect(action, callback);
     }
@@ -129,17 +143,7 @@ export function createObject(info, gType) {
     }
 
     off(handler) {
-      g.signal.handler_disconnect(
-        Reflect.getOwnMetadata("gi:ref", this),
-        handler,
-      );
-    }
-
-    emit(action) {
-      g.signal.emit_by_name(
-        Reflect.getOwnMetadata("gi:ref", this),
-        action,
-      );
+      return this.disconnect(handler);
     }
   };
 
