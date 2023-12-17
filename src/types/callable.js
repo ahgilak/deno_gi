@@ -76,15 +76,6 @@ export function parseCallableArgs(info) {
   return [parseInArgs, initOutArgs, parseOutArgs];
 }
 
-export function handleMethod(target, info) {
-  const name = getName(info);
-
-  const value = createFunction(info);
-  Object.defineProperty(target, name, {
-    value,
-  });
-}
-
 export function handleCallable(target, info) {
   const name = getName(info);
   const type = g.base_info.get_type(info);
