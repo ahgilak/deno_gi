@@ -134,3 +134,40 @@ export function handleCallable(target, info) {
     }
   }
 }
+
+/**
+ * Handles a callable method for a class class
+ * e.g: GtkWidgetClass is the class struct for GtkWidget and contains static
+ * methods
+ */
+export function handleStructCallable(target, info) {
+  const name = getName(info);
+
+  if (Object.hasOwn(target.prototype, name)) return;
+
+  const flags = g.function_info.get_flags(info);
+
+  const isMethod = !!(GIFunctionInfoFlags.IS_METHOD & flags);
+
+  if (isMethod) {
+    const value = createMethod(info);
+    Object.defineProperty(target, name, {
+      enumerable: true,
+      value(...args) {
+        const klass = g.type_class.ref(
+          Reflect.getOwnMetadata("gi:gtype", this),
+        );
+
+        return value(klass, ...args);
+      },
+    });
+    return;
+  }
+
+  const value = createFunction(info);
+  Object.defineProperty(target, name, {
+    value,
+  });
+
+  return;
+}

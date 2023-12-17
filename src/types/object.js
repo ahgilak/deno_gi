@@ -1,6 +1,6 @@
 import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
-import { handleCallable } from "./callable.js";
+import { handleCallable, handleStructCallable } from "./callable.js";
 import { objectByGType } from "../utils/gobject.js";
 import { GConnectFlags } from "../bindings/enums.js";
 import { createCallback } from "./callback.js";
@@ -73,7 +73,7 @@ function defineSignals(target, info) {
 }
 
 function defineProps(target, info) {
-  const klass = g.type.class_ref(Reflect.getOwnMetadata("gi:gtype", target));
+  const klass = g.type_class.ref(Reflect.getOwnMetadata("gi:gtype", target));
 
   const nProps = g.object_info.get_n_properties(info);
 
@@ -83,6 +83,21 @@ function defineProps(target, info) {
     const paramSpecPointer = g.object_class.find_property(klass, cName);
     handleProp(target, propInfo, paramSpecPointer);
     g.base_info.unref(propInfo);
+  }
+}
+
+function defineClassStructMethods(target, info) {
+  const structInfo = g.object_info.get_class_struct(info);
+
+  if (!structInfo) {
+    return;
+  }
+
+  const nMethods = g.struct_info.get_n_methods(structInfo);
+
+  for (let i = 0; i < nMethods; i++) {
+    const methodInfo = g.struct_info.get_method(structInfo, i);
+    handleStructCallable(target, methodInfo);
   }
 }
 
@@ -159,6 +174,7 @@ export function createObject(info, gType) {
   defineProps(ObjectClass, info);
   extendObject(ObjectClass, info);
   inheritInterfaces(ObjectClass, info);
+  defineClassStructMethods(ObjectClass, info);
 
   return ObjectClass;
 }
