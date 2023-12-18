@@ -2,7 +2,7 @@ import { cast_ptr_u64, cast_u64_ptr } from "../../base_utils/convert.ts";
 import { GIInfoType, GType } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
-import { objectByGType } from "../../utils/gobject.js";
+import { objectByGType, objectByInfo } from "../../utils/gobject.js";
 import { createCallback } from "../callback.js";
 
 export function boxInterface(info, value) {
@@ -66,7 +66,12 @@ export function unboxInterface(
         }
       }
 
-      const result = Object.create(objectByGType(leaf_gType).prototype);
+      // only use gType if the object is a descendant of GObject.Object
+      const object = (leaf_gType === gType || leaf_gType === GType.NONE)
+        ? objectByInfo(info)
+        : objectByGType(leaf_gType);
+
+      const result = Object.create(object.prototype);
 
       Reflect.defineMetadata(
         "gi:ref",
