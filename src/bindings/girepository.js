@@ -14,7 +14,7 @@ import {
 const { g } = openLib(libName("girepository-1.0", 1), {
   g: {
     irepository: {
-      require: $void($pointer, $string, $string, $i32, $pointer),
+      require: $pointer($pointer, $string, $string, $i32, $buffer),
       get_n_infos: $i32($pointer, $string),
       get_info: $pointer($pointer, $string, $i32),
       find_by_gtype: $pointer($pointer, $i64),

@@ -57,15 +57,34 @@ export function require(namespace, version) {
     return repos.get(key);
   }
 
-  const repo = new Object();
+  const error = new BigUint64Array(1);
 
-  g.irepository.require(
-    null,
-    namespace,
-    version,
-    0, // disable lazy load
-    null,
-  );
+  if (
+    !g.irepository.require(
+      null,
+      namespace,
+      version,
+      0, // disable lazy load
+      error,
+    )
+  ) {
+    let message = "Unknown error";
+
+    if (error) {
+      const dataView = new ExtendedDataView(
+        deref_buf(cast_u64_ptr(error[0]), 16),
+      );
+      message = deref_str(cast_u64_ptr(dataView.getBigUint64(8)));
+    }
+
+    const versionString = version ? ` version ${version}` : "";
+
+    throw new Error(
+      `Requiring ${namespace}${versionString} failed: ${message}`,
+    );
+  }
+
+  const repo = new Object();
 
   const nInfos = g.irepository.get_n_infos(null, namespace);
 
