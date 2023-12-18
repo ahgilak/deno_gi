@@ -125,7 +125,7 @@ export function handleCallable(target, info) {
       }
 
       const value = createVFunc(info);
-      Object.defineProperty(target.prototype, name, {
+      Object.defineProperty(target.prototype, `vfunc_` + name, {
         enumerable: true,
         value(...args) {
           return value(
