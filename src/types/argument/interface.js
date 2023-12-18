@@ -55,7 +55,7 @@ export function unboxInterface(
       let leaf_gType = gType;
 
       // get the descendant gType for GObject.Object
-      if (gType === BigInt(GType.OBJECT)) {
+      if (g.type.is_a(gType, GType.OBJECT)) {
         // TODO: find a way to get the gtype from the object
         // TYPE_FROM_INSTANCE seems to be a macro, so we can't call it
         const type_name = g.type.name_from_instance(cast_u64_ptr(pointer));
