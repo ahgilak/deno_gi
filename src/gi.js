@@ -9,10 +9,8 @@ const repos = new Map();
  * @returns
  */
 export function require(namespace, version) {
-  const key = `${namespace}-${version ?? ""}`;
-
-  if (repos.has(key)) {
-    return repos.get(key);
+  if (repos.has(namespace)) {
+    return repos.get(namespace);
   }
 
   const repo = new Object();
@@ -33,7 +31,7 @@ export function require(namespace, version) {
     g.base_info.unref(info);
   }
 
-  repos.set(key, repo);
+  repos.set(namespace, repo);
 
   return repo;
 }
