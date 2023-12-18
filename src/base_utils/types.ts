@@ -26,7 +26,11 @@ export const $void = createType({
 export const $string = createType({
   symbol: "buffer",
   size: 8,
-  serilize: (value: string) => encoder.encode(value + "\0"),
+  // empty string converts to a pointer to zero value, but null and undefined convert to null pointer.
+  serilize: (value?: string) =>
+    (value === null || value === undefined)
+      ? null
+      : encoder.encode(value + "\0"),
   deserilize: (value: Deno.PointerValue) =>
     value ? Deno.UnsafePointerView.getCString(value) : null,
 });
