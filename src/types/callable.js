@@ -1,3 +1,4 @@
+import { cast_ptr_u64, deref_buf } from "../base_utils/convert.ts";
 import {
   GIDirection,
   GIFunctionInfoFlags,
@@ -11,6 +12,7 @@ import { createConstructor } from "./callable/constructor.js";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
 import { createVFunc } from "./callable/vfunc.js";
+import { createCallback } from "./callback.js";
 
 export function createArg(info) {
   const type = g.arg_info.get_type(info);
@@ -120,19 +122,44 @@ export function handleCallable(target, info) {
     }
 
     case GIInfoType.VFUNC: {
-      if (Object.hasOwn(target.prototype, name)) {
-        return;
-      }
-
       const value = createVFunc(info);
       Object.defineProperty(target.prototype, `vfunc_` + name, {
         enumerable: true,
-        value(...args) {
-          return value(
-            Reflect.getOwnMetadata("gi:ref", this),
+        get() {
+          return (...args) => {
+            return value(
+              Reflect.getOwnMetadata("gi:ref", this),
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+              ...args,
+            );
+          };
+        },
+        set(value) {
+          const cName = g.base_info.get_name(info);
+
+          const objectInfo = g.base_info.get_container(info);
+          const classStruct = g.object_info.get_class_struct(objectInfo);
+          const fieldInfo = g.struct_info.find_field(classStruct, cName);
+
+          if (!fieldInfo) {
+            // This vfunc doesn't have a corresponding field in the class struct
+            return;
+          }
+
+          const klass = g.type_class.ref(
             Reflect.getOwnMetadata("gi:gtype", this.constructor),
-            ...args,
           );
+
+          const cb = createCallback(info, value);
+          const offset = g.field_info.get_offset(fieldInfo);
+          const dataView = new ExtendedDataView(
+            deref_buf(
+              klass,
+              offset + 8,
+              offset,
+            ),
+          );
+          dataView.setBigUint64(cast_ptr_u64(cb.pointer));
         },
       });
       return;

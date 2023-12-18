@@ -28,6 +28,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     },
     base_info: {
       get_name: $string($pointer),
+      get_container: $pointer($pointer),
       is_deprecated: $bool($pointer),
       get_type: $i32($pointer),
       ref: $void($pointer),
@@ -75,6 +76,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_n_fields: $i32($pointer),
       get_field: $pointer($pointer, $i32),
       get_size: $i32($pointer),
+      find_field: $pointer($pointer, $string),
     },
     object_info: {
       get_n_methods: $i32($pointer),
@@ -110,7 +112,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     field_info: {
       get_flags: $i32($pointer),
       get_type: $pointer($pointer),
-      get_field: $i32($pointer,$pointer, $buffer),
+      get_field: $bool($pointer,$pointer, $buffer),
       set_field: $i32($pointer,$pointer, $buffer),
       get_offset: $i32($pointer),
     },
