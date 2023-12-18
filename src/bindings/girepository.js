@@ -112,6 +112,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_type: $pointer($pointer),
       get_field: $i32($pointer,$pointer, $buffer),
       set_field: $i32($pointer,$pointer, $buffer),
+      get_offset: $i32($pointer),
     },
   },
 });
