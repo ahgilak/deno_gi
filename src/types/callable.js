@@ -1,4 +1,8 @@
-import { cast_ptr_u64, deref_buf } from "../base_utils/convert.ts";
+import {
+  cast_ptr_u64,
+  cast_u64_ptr,
+  deref_buf,
+} from "../base_utils/convert.ts";
 import {
   GIDirection,
   GIFunctionInfoFlags,
@@ -40,7 +44,7 @@ export function parseCallableArgs(info) {
   const argDetails = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = createArg(argInfo);
+    const arg = { ...createArg(argInfo), index: i };
     argDetails.push(arg);
     g.base_info.unref(argInfo);
   }
@@ -75,9 +79,35 @@ export function parseCallableArgs(info) {
   };
 
   const parseOutArgs = (outArgs) => {
-    return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, outArgs[i]);
-    });
+    return outArgsDetail
+      .map((arg, index) => {
+        // keep the index for the outArgs
+        return { arg, index };
+      })
+      .filter(({ arg }) => {
+        // lengthArgs are not returned
+        return !(outArgsDetail.some((d) => d.arrLength === arg.index));
+      })
+      .map(({ arg, index }) => {
+        let length = -1;
+
+        // get the value of the length argument
+        if (arg.arrLength !== -1) {
+          const lengthArg = outArgsDetail.findIndex(({ index }) =>
+            arg.arrLength === index
+          );
+          const lengthPointer = outArgs[lengthArg];
+          length = new ExtendedDataView(
+            deref_buf(cast_u64_ptr(lengthPointer), 8),
+          ).getBigUint64();
+        }
+
+        return unboxArgument(
+          arg.type,
+          new BigUint64Array([outArgs[index]]).buffer,
+          length,
+        );
+      });
   };
 
   return [parseInArgs, initOutArgs, parseOutArgs];

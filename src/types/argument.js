@@ -32,10 +32,12 @@ export function initArgument(type) {
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
- * @param {number | bigint} pointer
+ * @param {ArrayBufferLike} value
+ * @param {number?} length
  * @returns
  */
-export function unboxArgument(type, pointer) {
+export function unboxArgument(type, value, length) {
+  const dataView = new ExtendedDataView(value);
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
@@ -75,7 +77,7 @@ export function unboxArgument(type, pointer) {
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, pointer, -1);
+      return unboxArray(type, value, length);
     }
 
     case GITypeTag.GLIST:
