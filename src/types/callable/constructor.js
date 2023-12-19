@@ -24,6 +24,10 @@ export function createConstructor(info, prototype) {
     );
 
     if (!success) {
+      if (!error[0]) {
+        throw new Error(`Error invoking constructor ${getName(info)}`);
+      }
+
       throw createGError(error[0]);
     }
 

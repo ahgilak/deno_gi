@@ -29,6 +29,10 @@ export function createMethod(info) {
     );
 
     if (!success) {
+      if (!error[0]) {
+        throw new Error(`Error invoking method ${getName(info)}`);
+      }
+
       throw createGError(error[0]);
     }
 

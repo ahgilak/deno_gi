@@ -30,6 +30,10 @@ export function createVFunc(info) {
     );
 
     if (!success) {
+      if (!error[0]) {
+        throw new Error(`Error invoking vfunc ${getName(info)}`);
+      }
+
       throw createGError(error[0]);
     }
 
