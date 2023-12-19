@@ -15,7 +15,7 @@ export function createMethod(info) {
 
     inArgs.unshift(cast_ptr_u64(caller));
 
-    const error = new ArrayBuffer(8);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
@@ -29,7 +29,7 @@ export function createMethod(info) {
     );
 
     if (!success) {
-      throw createGError(error);
+      throw createGError(error[0]);
     }
 
     const retVal = unboxArgument(returnType, returnValue);

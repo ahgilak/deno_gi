@@ -10,7 +10,7 @@ export function createConstructor(info, prototype) {
   return (...args) => {
     const inArgs = parseInArgs(...args);
 
-    const error = new ArrayBuffer(8);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
@@ -24,7 +24,7 @@ export function createConstructor(info, prototype) {
     );
 
     if (!success) {
-      throw createGError(error);
+      throw createGError(error[0]);
     }
 
     const result = Object.create(prototype);

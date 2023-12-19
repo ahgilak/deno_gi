@@ -15,7 +15,7 @@ export function createVFunc(info) {
 
     inArgs.unshift(cast_ptr_u64(caller));
 
-    const error = new ArrayBuffer(8);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.vfunc_info.invoke(
@@ -30,7 +30,7 @@ export function createVFunc(info) {
     );
 
     if (!success) {
-      throw createGError(error);
+      throw createGError(error[0]);
     }
 
     const retVal = unboxArgument(returnType, returnValue);
