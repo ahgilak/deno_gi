@@ -24,6 +24,11 @@ export function initArgument(type) {
       g.base_info.unref(info);
       return result;
     }
+    case GITypeTag.ARRAY:
+    case GITypeTag.GLIST:
+    case GITypeTag.GSLIST: {
+      return cast_ptr_u64(cast_buf_ptr(new Uint8Array(1)));
+    }
     default:
       return 0n;
   }
