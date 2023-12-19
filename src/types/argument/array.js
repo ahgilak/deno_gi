@@ -36,37 +36,66 @@ function getTypeSize(typeTag) {
   }
 }
 
-function getPointerUint8(pointer, offset) {
-  return new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8, offset))
-    .getUint8();
+function getArrayElement(pointer, tag, i) {
+  const paramSize = getTypeSize(tag);
+  const dataView = new ExtendedDataView(
+    deref_buf(pointer, paramSize, i * paramSize),
+  );
+
+  switch (tag) {
+    case GITypeTag.UINT8:
+      return dataView.getUint8();
+    case GITypeTag.INT8:
+      return dataView.getInt8();
+    case GITypeTag.UINT16:
+      return dataView.getUint16();
+    case GITypeTag.INT16:
+      return dataView.getInt16();
+    case GITypeTag.UINT32:
+      return dataView.getUint32();
+    case GITypeTag.INT32:
+      return dataView.getInt32();
+    case GITypeTag.UINT64:
+      return dataView.getBigUint64();
+    case GITypeTag.INT64:
+      return dataView.getBigInt64();
+    case GITypeTag.FLOAT:
+      return dataView.getFloat32();
+    case GITypeTag.DOUBLE:
+      return dataView.getFloat64();
+  }
 }
 
-export function unboxArray(type, pointer, length) {
-  if (!pointer) {
-    return null;
-  }
+export function unboxArray(type, value, length) {
+  const pointer = cast_u64_ptr(new ExtendedDataView(value).getBigUint64());
+
+  if (!pointer) return null;
+
+  const array = cast_u64_ptr(
+    new ExtendedDataView(deref_buf(pointer, 8)).getBigUint64(),
+  );
 
   const paramType = g.type_info.get_param_type(type, 0);
-  const paramTypeTag = g.type_info.get_tag(paramType);
-  const paramSize = getTypeSize(paramTypeTag);
+  const paramTag = g.type_info.get_tag(paramType);
+  g.base_info.unref(paramType);
 
   let buffer;
 
-  if (length === -1) {
-    let i = 0;
-    while (getPointerUint8(pointer, i * paramSize) !== 0) {
-      i++;
+  if (!array) {
+    // empty array, just return an empty TypedArray instead of returning null
+    buffer = null;
+  } else {
+    if (length === -1) {
+      let i = 0;
+      while (getArrayElement(array, paramTag, i) !== 0) i++;
+
+      length = i * getTypeSize(paramTag);
     }
 
-    buffer = deref_buf(cast_u64_ptr(pointer), i * paramSize);
-  } else {
-    buffer = deref_buf(pointer, length);
+    buffer = deref_buf(array, length);
   }
 
-  const tag = g.type_info.get_tag(paramType);
-  g.base_info.unref(paramType);
-
-  switch (tag) {
+  switch (paramTag) {
     case GITypeTag.UINT8:
       return new Uint8Array(buffer);
     case GITypeTag.INT8:
