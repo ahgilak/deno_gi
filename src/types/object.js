@@ -96,6 +96,9 @@ function defineClassStructMethods(target, info) {
   }
 }
 
+/** @type number | null */
+export let _HydratingObject = null;
+
 export function createObject(info, gType) {
   const ParentClass = getParentClass(info) ?? Object;
 
@@ -104,16 +107,22 @@ export function createObject(info, gType) {
       super(props);
 
       if (gType == GType.OBJECT) {
-        const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
+        if (_HydratingObject === null) {
+          const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
 
-        if (!gType) {
-          throw new Error("Tried to construct an object without a GType");
+          if (!gType) {
+            throw new Error("Tried to construct an object without a GType");
+          }
+
+          Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
+          Object.entries(props).forEach(([key, value]) => {
+            this[key] = value;
+          });
+        } else {
+          Reflect.defineMetadata("gi:ref", _HydratingObject, this);
+
+          _HydratingObject = null;
         }
-
-        Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
-        Object.entries(props).forEach(([key, value]) => {
-          this[key] = value;
-        });
       }
     }
   };
