@@ -4,6 +4,7 @@ import { handleCallable, handleStructCallable } from "./callable.js";
 import { objectByGType } from "../utils/gobject.js";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";
+import { GType } from "../bindings/enums.js";
 
 function getParentClass(info) {
   const parent = g.object_info.get_parent(info);
@@ -101,10 +102,16 @@ export function createObject(info, gType) {
   const ParentClass = getParentClass(info) ?? Object;
 
   const ObjectClass = class extends ParentClass {
-    constructor(props = {}, init = true) {
-      super(props, false);
+    constructor(props = {}) {
+      super(props);
 
-      if (init) {
+      if (gType == GType.OBJECT) {
+        const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
+
+        if (!gType) {
+          throw new Error("Tried to construct an object without a GType");
+        }
+
         Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
         Object.entries(props).forEach(([key, value]) => {
           this[key] = value;
