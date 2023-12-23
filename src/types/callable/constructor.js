@@ -1,7 +1,7 @@
 import g from "../../bindings/mod.js";
 import { cast_u64_ptr } from "../../base_utils/convert.ts";
+import { createGError } from "../../utils/error.ts";
 import { ExtendedDataView } from "../../utils/dataview.js";
-import { getName } from "../../utils/string.ts";
 import { parseCallableArgs } from "../callable.js";
 
 export function createConstructor(info, prototype) {
@@ -10,7 +10,7 @@ export function createConstructor(info, prototype) {
   return (...args) => {
     const inArgs = parseInArgs(...args);
 
-    const error = new ArrayBuffer(16);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
@@ -24,7 +24,11 @@ export function createConstructor(info, prototype) {
     );
 
     if (!success) {
-      console.error(`Error invoking function ${getName(info)}`);
+      if (!error[0]) {
+        throw new Error(`Error invoking constructor ${getName(info)}`);
+      }
+
+      throw createGError(error[0]);
     }
 
     const result = Object.create(prototype);

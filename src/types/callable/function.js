@@ -1,6 +1,6 @@
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
-import { getName } from "../../utils/string.ts";
+import { createGError } from "../../utils/error.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
@@ -12,7 +12,7 @@ export function createFunction(info) {
     const inArgs = parseInArgs(...args);
     const outArgs = initOutArgs();
 
-    const error = new ArrayBuffer(16);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
@@ -26,8 +26,11 @@ export function createFunction(info) {
     );
 
     if (!success) {
-      console.error(`Error invoking function ${getName(info)}`);
-      return;
+      if (!error[0]) {
+        throw new Error(`Error invoking function ${getName(info)}`);
+      }
+
+      throw createGError(error[0]);
     }
 
     const retVal = unboxArgument(returnType, returnValue);

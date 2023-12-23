@@ -14,10 +14,13 @@ import {
 const { g } = openLib(libName("girepository-1.0", 1), {
   g: {
     irepository: {
-      require: $void($pointer, $string, $string, $i32, $pointer),
+      require: $pointer($pointer, $string, $string, $i32, $buffer),
       get_n_infos: $i32($pointer, $string),
       get_info: $pointer($pointer, $string, $i32),
       find_by_gtype: $pointer($pointer, $i64),
+      enumerate_versions: $pointer($pointer, $string),
+      get_version: $string($pointer, $string),
+      is_registered: $bool($pointer, $string, $string),
     },
     registered_type_info: {
       get_g_type: $i64($pointer),
@@ -43,6 +46,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     enum_info: {
       get_n_values: $i32($pointer),
       get_value: $pointer($pointer, $i32),
+      get_error_domain: $string($pointer),
     },
     value_info: {
       get_value: $i32($pointer),

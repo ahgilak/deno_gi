@@ -1,6 +1,6 @@
 import g from "../../bindings/mod.js";
 import { cast_ptr_u64 } from "../../base_utils/convert.ts";
-import { getName } from "../../utils/string.ts";
+import { createGError } from "../../utils/error.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
@@ -15,7 +15,7 @@ export function createVFunc(info) {
 
     inArgs.unshift(cast_ptr_u64(caller));
 
-    const error = new ArrayBuffer(16);
+    const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.vfunc_info.invoke(
@@ -30,8 +30,11 @@ export function createVFunc(info) {
     );
 
     if (!success) {
-      console.error(`Error invoking vfunc ${getName(info)}`);
-      return;
+      if (!error[0]) {
+        throw new Error(`Error invoking vfunc ${getName(info)}`);
+      }
+
+      throw createGError(error[0]);
     }
 
     const retVal = unboxArgument(returnType, returnValue);
