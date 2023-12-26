@@ -53,7 +53,6 @@ export function unboxInterface(
     case GIInfoType.STRUCT:
     case GIInfoType.INTERFACE: {
       const result = Object.create(objectByGType(gType).prototype);
-
       Reflect.defineMetadata(
         "gi:ref",
         cast_u64_ptr(dataView.getBigUint64()),
