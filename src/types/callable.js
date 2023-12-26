@@ -137,24 +137,43 @@ export function handleCallable(target, info) {
         set(value) {
           const cName = g.base_info.get_name(info);
 
-          const objectInfo = g.base_info.get_container(info);
-          const classStruct = g.object_info.get_class_struct(objectInfo);
-          const fieldInfo = g.struct_info.find_field(classStruct, cName);
+          const containerInfo = g.base_info.get_container(info);
+          const containerType = g.base_info.get_type(containerInfo);
+
+          let containerStruct, pointer;
+
+          if (containerType === GIInfoType.INTERFACE) {
+            // we are setting a vfunc provided by an interface
+            containerStruct = g.interface_info.get_iface_struct(containerInfo);
+            const klass = g.type_class.ref(
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+            );
+            // get the pointer to the interface struct of this class
+            pointer = g.type_interface.peek(
+              klass,
+              g.registered_type_info.get_g_type(containerInfo),
+            );
+          } else {
+            // we are directly setting a vfunc provided by a class
+            containerStruct = g.object_info.get_class_struct(containerInfo);
+            pointer = g.type_class.ref(
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+            );
+          }
+
+          const fieldInfo = g.struct_info.find_field(containerStruct, cName);
 
           if (!fieldInfo) {
-            // This vfunc doesn't have a corresponding field in the class struct
+            // This vfunc doesn't have a corresponding field in the class or
+            // interface struct
             return;
           }
 
-          const klass = g.type_class.ref(
-            Reflect.getOwnMetadata("gi:gtype", this.constructor),
-          );
-
-          const cb = createCallback(info, value);
+          const cb = createCallback(info, value, this);
           const offset = g.field_info.get_offset(fieldInfo);
           const dataView = new ExtendedDataView(
             deref_buf(
-              klass,
+              pointer,
               offset + 8,
               offset,
             ),
