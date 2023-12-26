@@ -64,7 +64,7 @@ export function createCallback(
   }
 
   return new Deno.UnsafeCallback(
-    { parameters, result: "buffer" },
+    { parameters, result: ffiType(g.type_info.get_tag(returnType)) },
     caller
       ? (_, ...args) =>
         boxArgument(returnType, callback(caller, ...parseArgs(info, args)))
