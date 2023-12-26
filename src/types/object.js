@@ -96,8 +96,22 @@ function defineClassStructMethods(target, info) {
   }
 }
 
-/** @type number | null */
-export let _HydratingObject = null;
+/** @type bigint | null */
+let HydratingObject = null;
+
+/**
+ * @param {bigint | null} object
+ */
+export function _setHydratingObject(object) {
+  HydratingObject = object;
+}
+
+/**
+ * An array of GTypes being currently constructed. This is to catch JS objects
+ * whose instance_init is called.
+ * @type bigint[]
+ */
+export const ConstructContext = [];
 
 export function createObject(info, gType) {
   const ParentClass = getParentClass(info) ?? Object;
@@ -107,22 +121,31 @@ export function createObject(info, gType) {
       super(props);
 
       if (gType == GType.OBJECT) {
-        if (_HydratingObject === null) {
-          const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
+        const klass = this.constructor;
+
+        if (HydratingObject === null) {
+          const gType = Reflect.getOwnMetadata("gi:gtype", klass);
 
           if (!gType) {
             throw new Error("Tried to construct an object without a GType");
           }
 
+          ConstructContext.push(gType);
+
           Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
           Object.entries(props).forEach(([key, value]) => {
             this[key] = value;
           });
-        } else {
-          Reflect.defineMetadata("gi:ref", _HydratingObject, this);
 
-          _HydratingObject = null;
+          ConstructContext.pop();
+        } else {
+          Reflect.defineMetadata("gi:ref", HydratingObject, this);
+
+          HydratingObject = null;
         }
+
+        const init_fn = Reflect.getMetadata("gi:instance_init", klass);
+        if (init_fn) init_fn.call(this);
       }
     }
   };
