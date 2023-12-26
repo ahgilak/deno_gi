@@ -16,7 +16,9 @@ export function boxInterface(info, value) {
     case GIInfoType.OBJECT:
     case GIInfoType.INTERFACE:
     case GIInfoType.STRUCT:
-      return cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", value));
+      return value
+        ? cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", value))
+        : null;
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
       return value;
