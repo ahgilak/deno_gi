@@ -1,5 +1,4 @@
-import { require } from "../mod.ts";
-const Gtk = require("Gtk", "4.0");
+import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const app = Gtk.Application.new("com.deno_gi.builder", 0);
 
