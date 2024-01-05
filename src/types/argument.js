@@ -54,19 +54,14 @@ export function unboxArgument(type, pointer) {
     case GITypeTag.INT16:
     case GITypeTag.UINT32:
     case GITypeTag.INT32:
+    case GITypeTag.FLOAT:
+      return Number(pointer);
+    
     case GITypeTag.UINT64:
     case GITypeTag.INT64:
-    case GITypeTag.FLOAT:
-    case GITypeTag.DOUBLE: {
-      if (
-        pointer > Number.MAX_SAFE_INTEGER || pointer < Number.MIN_SAFE_INTEGER
-      ) {
-        return BigInt(pointer);
-      } else {
-        return Number(pointer);
-      }
-    }
-
+    case GITypeTag.DOUBLE:
+      return BigInt(pointer);
+    
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
       if (!pointer) {
