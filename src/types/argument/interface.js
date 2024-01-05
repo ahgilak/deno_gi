@@ -1,5 +1,9 @@
-import { cast_ptr_u64, cast_u64_ptr } from "../../base_utils/convert.ts";
-import { GIInfoType } from "../../bindings/enums.js";
+import {
+  cast_ptr_u64,
+  cast_u64_ptr,
+  deref_buf,
+} from "../../base_utils/convert.ts";
+import { GIInfoType, GType } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { objectByGType } from "../../utils/gobject.js";
@@ -32,20 +36,17 @@ export function unboxInterface(
 ) {
   const dataView = new ExtendedDataView(argValue);
   const type = g.base_info.get_type(info);
-  const gType = g.registered_type_info.get_g_type(info);
-  /*
-  let value = dataView.getBigUint64();
+  let gType = g.registered_type_info.get_g_type(info);
 
-  if (gType == GObject.g_value_get_type()) {
-    const buffer = new BigUint64Array(
-      Deno.UnsafePointerView.getArrayBuffer(value, 24)
-    );
-
-    gType = buffer.at(0);
-    value = BigInt(unboxGValue(buffer, gType));
-    dataView.buffer = new BigUint64Array([value]).buffer;
+  if (g.type.is_a(gType, GType.OBJECT)) {
+    const pointer = dataView.getBigUint64();
+    const typeInstance = new ExtendedDataView(
+      deref_buf(cast_u64_ptr(pointer), 8),
+    )
+      .getBigUint64();
+    gType = new ExtendedDataView(deref_buf(cast_u64_ptr(typeInstance), 8))
+      .getBigUint64();
   }
-  */
 
   switch (type) {
     case GIInfoType.OBJECT:
