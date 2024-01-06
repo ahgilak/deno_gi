@@ -1,4 +1,4 @@
-import { GIInfoType } from "../bindings/enums.js";
+import { GIInfoType, GType } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { createEnum } from "../types/enum.js";
 import { createInterface } from "../types/interface.js";
@@ -7,7 +7,24 @@ import { createStruct } from "../types/struct.js";
 
 export const cache = new Map();
 
-export function objectByGType(gType) {
+// find the closest registed parent type. sometimes gTypes may not be visible
+// in gobject-introspection for one of two reasons: 1. they were registered
+// as by the user as a static type or 2. the namespace they are in is not
+// loaded.
+function getBaseGType(gType) {
+  if (!g.type.is_a(gType, GType.OBJECT)) return null;
+
+  let baseGType = gType;
+  while (!g.irepository.find_by_gtype(null, baseGType)) {
+    baseGType = g.type.parent(baseGType);
+  }
+
+  return baseGType;
+}
+
+export function objectByGType(_gType) {
+  const gType = getBaseGType(_gType);
+
   if (cache.has(gType)) {
     return cache.get(gType);
   }
