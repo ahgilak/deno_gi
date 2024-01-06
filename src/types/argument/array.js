@@ -2,7 +2,7 @@ import { cast_u64_ptr, deref_buf } from "../../base_utils/convert.ts";
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
-import { boxArgument, unboxArgument } from "../argument.js";
+import { boxArgument } from "../argument.js";
 
 function getTypeSize(typeTag) {
   switch (typeTag) {
@@ -36,10 +36,12 @@ function getTypeSize(typeTag) {
   }
 }
 
-export function unboxArray(type, value, length) {
-  const isZeroTerminated = length === -1;
-  const pointer = cast_u64_ptr(new ExtendedDataView(value).getBigUint64());
+function getPointerUint8(pointer, offset) {
+  return new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8, offset))
+    .getUint8();
+}
 
+export function unboxArray(type, pointer, length) {
   if (!pointer) {
     return null;
   }
@@ -48,30 +50,20 @@ export function unboxArray(type, value, length) {
   const paramTypeTag = g.type_info.get_tag(paramType);
   const paramSize = getTypeSize(paramTypeTag);
 
-  if (isZeroTerminated) {
-    const result = [];
-    for (
-      let i = 0;
-      new ExtendedDataView(deref_buf(pointer, 1, i * paramSize))
-        .getUint8() !== 0;
-      i++
-    ) {
-      result.push(
-        unboxArgument(
-          paramType,
-          deref_buf(pointer, paramSize, i * paramSize),
-        ),
-      );
+  let buffer;
+
+  if (length === -1) {
+    let i = 0;
+    while (getPointerUint8(pointer, i * paramSize) !== 0) {
+      i++;
     }
 
-    g.base_info.unref(paramType);
-
-    return result;
+    buffer = deref_buf(cast_u64_ptr(pointer), i * paramSize);
+  } else {
+    buffer = deref_buf(pointer, length);
   }
 
-  const buffer = deref_buf(pointer, length);
   const tag = g.type_info.get_tag(paramType);
-
   g.base_info.unref(paramType);
 
   switch (tag) {

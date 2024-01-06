@@ -24,59 +24,44 @@ export function initArgument(type) {
       g.base_info.unref(info);
       return result;
     }
+    default:
+      return 0n;
   }
 }
 
-/**
+/** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
- * @param {ArrayBufferLike} value
+ * @param {number | bigint} pointer
  * @returns
  */
-export function unboxArgument(type, value) {
-  const dataView = new ExtendedDataView(value);
+export function unboxArgument(type, pointer) {
   const tag = g.type_info.get_tag(type);
-  const pointer = dataView.getBigUint64();
 
   switch (tag) {
     case GITypeTag.VOID:
       return;
 
     case GITypeTag.UNICHAR:
-      return String.fromCharCode(dataView.getUint8());
+      // TODO: this code is very verbose, and might be uneeded
+      return String.fromCharCode(Number(BigInt.asIntN(8, BigInt(pointer))));
 
     case GITypeTag.BOOLEAN:
-      return Boolean(dataView.getInt32());
+      return Boolean(pointer);
 
     case GITypeTag.UINT8:
-      return dataView.getUint8();
-
     case GITypeTag.INT8:
-      return dataView.getInt8();
-
     case GITypeTag.UINT16:
-      return dataView.getUint16();
-
     case GITypeTag.INT16:
-      return dataView.getInt16();
-
     case GITypeTag.UINT32:
-      return dataView.getUint32();
-
     case GITypeTag.INT32:
-      return dataView.getInt32();
-
-    case GITypeTag.UINT64:
-      return dataView.getBigUint64();
-
-    case GITypeTag.INT64:
-      return dataView.getBigInt64();
-
     case GITypeTag.FLOAT:
-      return dataView.getFloat32();
-
+      return Number(pointer);
+    
+    case GITypeTag.UINT64:
+    case GITypeTag.INT64:
     case GITypeTag.DOUBLE:
-      return dataView.getFloat64();
-
+      return BigInt(pointer);
+    
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
       if (!pointer) {
@@ -89,12 +74,12 @@ export function unboxArgument(type, value) {
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, value, -1);
+      return unboxArray(type, pointer, -1);
     }
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      return unboxList(type, value)
+      return unboxList(type, pointer);
     }
 
     case GITypeTag.INTERFACE: {
@@ -103,7 +88,7 @@ export function unboxArgument(type, value) {
       }
 
       const info = g.type_info.get_interface(type);
-      const result = unboxInterface(info, value);
+      const result = unboxInterface(info, pointer);
       g.base_info.unref(info);
       return result;
     }

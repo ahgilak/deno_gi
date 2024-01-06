@@ -23,7 +23,7 @@ export function handleField(
         throw new Error(`Field ${name} is not readable`);
       }
 
-      const argument = new ArrayBuffer(8);
+      const argument = new BigUint64Array(1);
 
       g.field_info.get_field(
         fieldInfo,
@@ -33,7 +33,7 @@ export function handleField(
 
       const value = unboxArgument(
         type,
-        argument,
+        argument[0],
       );
 
       return value;
