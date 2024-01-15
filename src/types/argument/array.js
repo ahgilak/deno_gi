@@ -78,7 +78,8 @@ export function unboxArray(type, array, length = -1) {
   let buffer;
 
   // manually get the length of the array
-  if (length === -1) {
+  // TODO: investigate why some methods don't set the size data (it's kept to 0)
+  if (length === -1 || length === 0n) {
     let i = 0;
     while (getArrayElement(pointer, paramTag, i) !== 0) i++;
 
