@@ -44,7 +44,7 @@ export function parseCallableArgs(info) {
   const argDetails = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = { ...createArg(argInfo), index: i };
+    const arg = createArg(argInfo);
     argDetails.push(arg);
     g.base_info.unref(argInfo);
   }
@@ -79,35 +79,28 @@ export function parseCallableArgs(info) {
   };
 
   const parseOutArgs = (outArgs) => {
-    return outArgsDetail
-      .map((arg, index) => {
-        // keep the index for the outArgs
-        return { arg, index };
-      })
-      .filter(({ arg }) => {
-        // lengthArgs are not returned
-        return !(outArgsDetail.some((d) => d.arrLength === arg.index));
-      })
-      .map(({ arg, index }) => {
-        let length = -1;
+    const values = [];
 
-        // get the value of the length argument
-        if (arg.arrLength !== -1) {
-          const lengthArg = outArgsDetail.findIndex(({ index }) =>
-            arg.arrLength === index
-          );
-          const lengthPointer = outArgs[lengthArg];
-          length = new ExtendedDataView(
-            deref_buf(cast_u64_ptr(lengthPointer), 8),
-          ).getBigUint64();
-        }
+    for (const [index, arg] of outArgsDetail.entries()) {
+      if (outArgsDetail.some((d) => d.arrLength === index)) continue;
 
-        return unboxArgument(
-          arg.type,
-          new BigUint64Array([outArgs[index]]).buffer,
-          length,
-        );
-      });
+      // extract the length of this argument (if it's an array)
+      const lengthArg = outArgsDetail.findIndex(({ index }) =>
+        arg.arrLength === index
+      );
+
+      let length = -1;
+
+      if (lengthArg !== -1) {
+        const lengthPointer = cast_u64_ptr(outArgs[lengthArg]);
+        length = new ExtendedDataView(deref_buf(lengthPointer, 8))
+          .getBigUint64();
+      }
+
+      values.push(unboxArgument(arg.type, outArgs[index], length));
+    }
+
+    return values;
   };
 
   return [parseInArgs, initOutArgs, parseOutArgs];

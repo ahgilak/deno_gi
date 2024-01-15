@@ -66,14 +66,10 @@ function getArrayElement(pointer, tag, i) {
   }
 }
 
-export function unboxArray(type, value, length) {
-  const pointer = cast_u64_ptr(new ExtendedDataView(value).getBigUint64());
+export function unboxArray(type, array, length = -1) {
+  if (!array) return null;
 
-  if (!pointer) return null;
-
-  const array = cast_u64_ptr(
-    new ExtendedDataView(deref_buf(pointer, 8)).getBigUint64(),
-  );
+  const pointer = cast_u64_ptr(array);
 
   const paramType = g.type_info.get_param_type(type, 0);
   const paramTag = g.type_info.get_tag(paramType);
@@ -81,18 +77,19 @@ export function unboxArray(type, value, length) {
 
   let buffer;
 
-  if (!array) {
+  // manually get the length of the array
+  if (length === -1) {
+    let i = 0;
+    while (getArrayElement(pointer, paramTag, i) !== 0) i++;
+
+    length = i * getTypeSize(paramTag);
+  }
+
+  if (length <= 0) {
     // empty array, just return an empty TypedArray instead of returning null
     buffer = null;
   } else {
-    if (length === -1) {
-      let i = 0;
-      while (getArrayElement(array, paramTag, i) !== 0) i++;
-
-      length = i * getTypeSize(paramTag);
-    }
-
-    buffer = deref_buf(array, length);
+    buffer = deref_buf(pointer, length);
   }
 
   switch (paramTag) {
