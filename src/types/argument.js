@@ -24,6 +24,17 @@ export function initArgument(type) {
       g.base_info.unref(info);
       return result;
     }
+    case GITypeTag.UINT8:
+    case GITypeTag.INT8:
+    case GITypeTag.UINT16:
+    case GITypeTag.INT16:
+    case GITypeTag.UINT32:
+    case GITypeTag.INT32:
+    case GITypeTag.FLOAT:
+    case GITypeTag.UINT64:
+    case GITypeTag.INT64:
+    case GITypeTag.DOUBLE:
+      return 0n;
     default: {
       return cast_ptr_u64(cast_buf_ptr(new Uint8Array(1)));
     }
@@ -36,8 +47,7 @@ export function initArgument(type) {
  * @param {number?} length
  * @returns
  */
-export function unboxArgument(type, value, length) {
-  const dataView = new ExtendedDataView(value);
+export function unboxArgument(type, pointer, length) {
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
@@ -59,12 +69,12 @@ export function unboxArgument(type, value, length) {
     case GITypeTag.INT32:
     case GITypeTag.FLOAT:
       return Number(pointer);
-    
+
     case GITypeTag.UINT64:
     case GITypeTag.INT64:
     case GITypeTag.DOUBLE:
       return BigInt(pointer);
-    
+
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
       if (!pointer) {
@@ -77,7 +87,7 @@ export function unboxArgument(type, value, length) {
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, value, length);
+      return unboxArray(type, pointer, length);
     }
 
     case GITypeTag.GLIST:
