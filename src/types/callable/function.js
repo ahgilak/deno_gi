@@ -1,11 +1,8 @@
-import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { createGError } from "../../utils/error.ts";
-import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
 
 export function createFunction(info) {
-  const returnType = g.callable_info.get_return_type(info);
   const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
 
   return (...args) => {
@@ -33,21 +30,6 @@ export function createFunction(info) {
       throw createGError(error[0]);
     }
 
-    const retVal = unboxArgument(returnType, returnValue[0]);
-
-    if (outArgs.length > 0) {
-      const parsedOutArgs = parseOutArgs(outArgs);
-
-      // don't include a return value if it's void
-      if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
-        return [retVal, ...parsedOutArgs];
-      } else if (parsedOutArgs.length === 1) {
-        return parsedOutArgs[0];
-      } else {
-        return parsedOutArgs;
-      }
-    }
-
-    return retVal;
+    return parseOutArgs(returnValue[0], outArgs);
   };
 }

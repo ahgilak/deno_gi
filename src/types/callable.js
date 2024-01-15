@@ -1,12 +1,9 @@
-import {
-  cast_ptr_u64,
-  cast_u64_ptr,
-  deref_buf,
-} from "../base_utils/convert.ts";
+import { cast_ptr_u64, deref_buf } from "../base_utils/convert.ts";
 import {
   GIDirection,
   GIFunctionInfoFlags,
   GIInfoType,
+  GITypeTag,
 } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -39,12 +36,12 @@ export function createArg(info) {
 
 export function parseCallableArgs(info) {
   const nArgs = g.callable_info.get_n_args(info);
-  //const returnType = g.callable_info.get_return_type(info);
+  const returnType = g.callable_info.get_return_type(info);
 
   const argDetails = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = createArg(argInfo);
+    const arg = { ...createArg(argInfo), index: i };
     argDetails.push(arg);
     g.base_info.unref(argInfo);
   }
@@ -78,29 +75,47 @@ export function parseCallableArgs(info) {
     return new BigUint64Array(outArgsDetail.map((d) => initArgument(d.type)));
   };
 
-  const parseOutArgs = (outArgs) => {
+  const parseOutArgs = (returnArg, outArgs) => {
     const values = [];
 
-    for (const [index, arg] of outArgsDetail.entries()) {
-      if (outArgsDetail.some((d) => d.arrLength === index)) continue;
+    const args = Array.from(outArgsDetail.entries());
 
-      // extract the length of this argument (if it's an array)
-      const lengthArg = outArgsDetail.findIndex(({ index }) =>
-        arg.arrLength === index
-      );
+    const lengthArgs = outArgsDetail.map((arg) => arg.arrLength);
 
-      let length = -1;
+    // don't include VOID return types
+    if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
+      args.unshift([-1, {
+        type: returnType,
+        arrLength: g.type_info.get_array_length(returnType),
+      }]);
 
-      if (lengthArg !== -1) {
-        const lengthPointer = cast_u64_ptr(outArgs[lengthArg]);
-        length = new ExtendedDataView(deref_buf(lengthPointer, 8))
-          .getBigUint64();
-      }
-
-      values.push(unboxArgument(arg.type, outArgs[index], length));
+      lengthArgs.push(g.type_info.get_array_length(returnType));
     }
 
-    return values;
+    // parsing outArgs
+    for (const [index, arg] of args) {
+      // skip length parameters
+      if (index !== -1 && args.some(([_, arg]) => arg.arrLength === index)) {
+        continue;
+      }
+
+      // extract the length of this argument (if it's an array)
+      const lengthArg = outArgsDetail.findIndex((outArg) =>
+        outArg.index === arg.arrLength
+      );
+      const length = lengthArg !== -1 ? outArgs[lengthArg] : -1;
+
+      const value = index === -1 ? returnArg : outArgs[index];
+      values.push(unboxArgument(arg.type, value, length));
+    }
+
+    if (values.length === 1) {
+      return values[0];
+    } else if (values.length === 0) {
+      return;
+    } else {
+      return values;
+    }
   };
 
   return [parseInArgs, initOutArgs, parseOutArgs];
