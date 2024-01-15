@@ -30,6 +30,13 @@ export function objectByGType(_gType) {
   }
 
   const info = g.irepository.find_by_gtype(null, gType);
+
+  if (!info) {
+    throw new Error(
+      `Could not find GObjectInfo for ${_gType}. Is it a valid registered type?`,
+    );
+  }
+
   const result = createGObject(info, gType);
   Object.freeze(result);
   cache.set(gType, result);
