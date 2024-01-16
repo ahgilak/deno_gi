@@ -45,10 +45,9 @@ export function unboxInterface(
     const pointer = dataView.getBigUint64();
     const typeInstance = new ExtendedDataView(
       deref_buf(cast_u64_ptr(pointer), 8),
-    )
-      .getBigUint64();
-    gType = new ExtendedDataView(deref_buf(cast_u64_ptr(typeInstance), 8))
-      .getBigUint64();
+    );
+
+    gType = typeInstance.getBigUint64();
   }
 
   switch (type) {
