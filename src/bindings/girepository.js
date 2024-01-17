@@ -21,6 +21,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       enumerate_versions: $pointer($pointer, $string),
       get_version: $string($pointer, $string),
       is_registered: $bool($pointer, $string, $string),
+      get_dependencies: $pointer($pointer, $string),
     },
     registered_type_info: {
       get_g_type: $i64($pointer),
