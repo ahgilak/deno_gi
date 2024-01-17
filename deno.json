@@ -1,5 +1,5 @@
 {
   "tasks": {
-    "test": "deno test --unstable --allow-ffi test/unit/base_utils/convert.ts"
+    "test": "deno test --unstable --allow-ffi --allow-read test/unit/base_utils/*"
   }
 }
