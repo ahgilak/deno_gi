@@ -2,6 +2,8 @@ import { cast_u64_ptr, deref_buf, deref_str } from "./base_utils/convert.ts";
 import g from "./bindings/mod.js";
 import handleInfo from "./handleInfo.js";
 import { ExtendedDataView } from "./utils/dataview.js";
+import { hasOverride, loadOverride } from "./overrides/mod.ts";
+import { peek_ptr } from "./base_utils/convert.ts";
 
 const repos = new Map();
 
@@ -46,11 +48,19 @@ function getLatestVersion(namespace) {
  * @returns
  */
 export function require(namespace, version) {
+  // if no version is specified, the latest
   if (!version) {
     version = getLatestVersion(namespace);
   }
 
-  // if no version is specified, the latest
+  const repo = load(namespace, version);
+
+  loadDependencies(namespace, version);
+
+  return repo;
+}
+
+function load(namespace, version) {
   const key = `${namespace}-${version}`;
 
   if (repos.has(key)) {
@@ -94,7 +104,37 @@ export function require(namespace, version) {
     g.base_info.unref(info);
   }
 
+  loadOverride(namespace, repo);
+
   repos.set(key, repo);
 
   return repo;
+}
+
+function loadDependencies(namespace) {
+  const dependencies = get_cstr_array(
+    g.irepository.get_dependencies(null, namespace),
+  );
+
+  for (const dependency of dependencies) {
+    const [namespace, version] = dependency.split("-");
+
+    // only load dependencies that have overrides, as it saves time
+    // otherwise they will be loaded when required
+    if (hasOverride(namespace, version)) {
+      load(namespace, version);
+    }
+  }
+}
+
+function get_cstr_array(pointer) {
+  const strings = [];
+
+  for (let i = 0; true; i++) {
+    const str = deref_str(peek_ptr(pointer, i * 8));
+    if (!str) break;
+    strings.push(str);
+  }
+
+  return strings;
 }

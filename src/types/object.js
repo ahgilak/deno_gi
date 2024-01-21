@@ -2,22 +2,20 @@ import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
 import { handleCallable, handleStructCallable } from "./callable.js";
 import { objectByGType } from "../utils/gobject.js";
-import { GConnectFlags } from "../bindings/enums.js";
-import { createCallback } from "./callback.js";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";
+import { GType } from "../bindings/enums.js";
 
-function extendObject(target, info) {
+function getParentClass(info) {
   const parent = g.object_info.get_parent(info);
 
   if (parent) {
     const gType = g.registered_type_info.get_g_type(parent);
+    g.base_info.unref(parent);
 
     const ParentClass = objectByGType(gType);
-    Object.setPrototypeOf(target.prototype, ParentClass.prototype);
-    //Object.assign(target.__signals__, ParentClass.__signals__);
 
-    g.base_info.unref(parent);
+    return ParentClass;
   }
 }
 
@@ -102,63 +100,24 @@ function defineClassStructMethods(target, info) {
 }
 
 export function createObject(info, gType) {
-  const ObjectClass = class {
+  const ParentClass = getParentClass(info) ?? Object;
+
+  const ObjectClass = class extends ParentClass {
     constructor(props = {}) {
-      Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
-      Object.entries(props).forEach(([key, value]) => {
-        this[key] = value;
-      });
-    }
+      super(props);
 
-    connect(action, callback) {
-      const signalInfo = Reflect.getMetadata(
-        "gi:signals",
-        ObjectClass,
-        action.split("::")[0],
-      );
+      if (gType == GType.OBJECT) {
+        const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
 
-      const cb = createCallback(signalInfo, callback, this);
-      const handler = g.signal.connect_data(
-        Reflect.getOwnMetadata("gi:ref", this),
-        action,
-        cb.pointer,
-        null,
-        null,
-        GConnectFlags.SWAPPED,
-      );
+        if (!gType) {
+          throw new Error("Tried to construct an object without a GType");
+        }
 
-      return handler;
-    }
-
-    disconnect(handler) {
-      g.signal.handler_disconnect(
-        Reflect.getOwnMetadata("gi:ref", this),
-        handler,
-      );
-    }
-
-    emit(action) {
-      g.signal.emit_by_name(
-        Reflect.getOwnMetadata("gi:ref", this),
-        action,
-      );
-    }
-
-    on(action, callback) {
-      return this.connect(action, callback);
-    }
-
-    once(action, callback) {
-      const handler = this.connect(action, (...args) => {
-        callback(...args);
-        this.off(handler);
-      });
-
-      return handler;
-    }
-
-    off(handler) {
-      return this.disconnect(handler);
+        Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
+        Object.entries(props).forEach(([key, value]) => {
+          this[key] = value;
+        });
+      }
     }
   };
 
@@ -172,7 +131,6 @@ export function createObject(info, gType) {
   defineVFuncs(ObjectClass, info);
   defineSignals(ObjectClass, info);
   defineProps(ObjectClass, info);
-  extendObject(ObjectClass, info);
   inheritInterfaces(ObjectClass, info);
   defineClassStructMethods(ObjectClass, info);
 
