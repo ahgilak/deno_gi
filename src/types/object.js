@@ -11,6 +11,7 @@ function getParentClass(info) {
 
   if (parent) {
     const gType = g.registered_type_info.get_g_type(parent);
+    g.base_info.unref(parent);
 
     const ParentClass = objectByGType(gType);
 
