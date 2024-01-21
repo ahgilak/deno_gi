@@ -1,7 +1,7 @@
 import g from "../bindings/mod.js";
 import { getName } from "../utils/string.ts";
 import { handleCallable, handleStructCallable } from "./callable.js";
-import { objectByGType } from "../utils/gobject.js";
+import { objectByInfo } from "../utils/gobject.js";
 import { handleSignal } from "./signal.js";
 import { handleProp } from "./prop.js";
 import { GType } from "../bindings/enums.js";
@@ -10,10 +10,8 @@ function getParentClass(info) {
   const parent = g.object_info.get_parent(info);
 
   if (parent) {
-    const gType = g.registered_type_info.get_g_type(parent);
+    const ParentClass = objectByInfo(parent);
     g.base_info.unref(parent);
-
-    const ParentClass = objectByGType(gType);
 
     return ParentClass;
   }
@@ -23,8 +21,7 @@ function inheritInterfaces(target, info) {
   const nInterfaces = g.object_info.get_n_interfaces(info);
   for (let i = 0; i < nInterfaces; i++) {
     const ifaceInfo = g.object_info.get_interface(info, i);
-    const ifaceGType = g.registered_type_info.get_g_type(ifaceInfo);
-    const iface = objectByGType(ifaceGType);
+    const iface = objectByInfo(ifaceInfo);
 
     for (const key of Object.keys(iface.prototype)) {
       if (Object.hasOwn(target.prototype, key)) {
