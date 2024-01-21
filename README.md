@@ -6,10 +6,10 @@ Deno port of Gnome libraries (such as Gtk).
 
 ## Usage
 
-You must specify `--allow-ffi` and `--unstable` flags to run your program.
+You must specify `--allow-ffi` and `--unstable-ffi` flags to run your program.
 
 ```sh
-deno run --unstable --allow-ffi <file>
+deno run --allow-ffi --unstable-ffi <file>
 ```
 
 ### Loading a library
