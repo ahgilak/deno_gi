@@ -21,8 +21,7 @@ function getLatestVersion(namespace) {
 
   for (let i = 0; i < g.slist.length(versions); i++) {
     const version = g.slist.nth(versions, i);
-    const dataView = new ExtendedDataView(deref_buf(version, 8));
-    const pointer = cast_u64_ptr(dataView.getBigUint64());
+    const pointer = peek_ptr(version);
 
     array.push(deref_str(pointer));
   }
