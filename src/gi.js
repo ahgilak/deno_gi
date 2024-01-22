@@ -1,7 +1,6 @@
-import { cast_u64_ptr, deref_buf, deref_str } from "./base_utils/convert.ts";
+import { cast_u64_ptr, deref_str } from "./base_utils/convert.ts";
 import g from "./bindings/mod.js";
 import handleInfo from "./handleInfo.js";
-import { ExtendedDataView } from "./utils/dataview.js";
 import { hasOverride, loadOverride } from "./overrides/mod.ts";
 import { peek_ptr } from "./base_utils/convert.ts";
 
@@ -80,10 +79,7 @@ function load(namespace, version) {
     let message = "Unknown error";
 
     if (error) {
-      const dataView = new ExtendedDataView(
-        deref_buf(cast_u64_ptr(error[0]), 16),
-      );
-      message = deref_str(cast_u64_ptr(dataView.getBigUint64(8)));
+      message = deref_str(peek_ptr(cast_u64_ptr(error[0]), 8));
     }
 
     const versionString = version ? ` version ${version}` : "";
