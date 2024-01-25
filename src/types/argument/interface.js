@@ -1,3 +1,4 @@
+import { peek_ptr } from "../../base_utils/convert.ts";
 import {
   cast_ptr_u64,
   cast_u64_ptr,
@@ -42,12 +43,9 @@ export function unboxInterface(
   let gType = g.registered_type_info.get_g_type(info);
 
   if (g.type.is_a(gType, GType.OBJECT)) {
-    const pointer = dataView.getBigUint64();
-    const typeInstance = new ExtendedDataView(
-      deref_buf(cast_u64_ptr(pointer), 8),
-    );
+    const typeInstance = peek_ptr(cast_u64_ptr(dataView.getBigUint64()));
 
-    gType = typeInstance.getBigUint64();
+    gType = cast_ptr_u64(typeInstance);
   }
 
   switch (type) {
