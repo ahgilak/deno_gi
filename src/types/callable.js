@@ -1,3 +1,4 @@
+import { cast_ptr_u64, deref_buf } from "../base_utils/convert.ts";
 import {
   GIDirection,
   GIFunctionInfoFlags,
@@ -11,6 +12,7 @@ import { createConstructor } from "./callable/constructor.js";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
 import { createVFunc } from "./callable/vfunc.js";
+import { createCallback } from "./callback.js";
 
 export function createArg(info) {
   const type = g.arg_info.get_type(info);
@@ -120,19 +122,63 @@ export function handleCallable(target, info) {
     }
 
     case GIInfoType.VFUNC: {
-      if (Object.hasOwn(target.prototype, name)) {
-        return;
-      }
-
       const value = createVFunc(info);
-      Object.defineProperty(target.prototype, name, {
+      Object.defineProperty(target.prototype, `vfunc_` + name, {
         enumerable: true,
-        value(...args) {
-          return value(
-            Reflect.getOwnMetadata("gi:ref", this),
-            Reflect.getOwnMetadata("gi:gtype", this.constructor),
-            ...args,
+        get() {
+          return (...args) => {
+            return value(
+              Reflect.getOwnMetadata("gi:ref", this),
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+              ...args,
+            );
+          };
+        },
+        set(value) {
+          const cName = g.base_info.get_name(info);
+
+          const containerInfo = g.base_info.get_container(info);
+          const containerType = g.base_info.get_type(containerInfo);
+
+          let containerStruct, pointer;
+
+          if (containerType === GIInfoType.INTERFACE) {
+            // we are setting a vfunc provided by an interface
+            containerStruct = g.interface_info.get_iface_struct(containerInfo);
+            const klass = g.type_class.ref(
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+            );
+            // get the pointer to the interface struct of this class
+            pointer = g.type_interface.peek(
+              klass,
+              g.registered_type_info.get_g_type(containerInfo),
+            );
+          } else {
+            // we are directly setting a vfunc provided by a class
+            containerStruct = g.object_info.get_class_struct(containerInfo);
+            pointer = g.type_class.ref(
+              Reflect.getOwnMetadata("gi:gtype", this.constructor),
+            );
+          }
+
+          const fieldInfo = g.struct_info.find_field(containerStruct, cName);
+
+          if (!fieldInfo) {
+            // This vfunc doesn't have a corresponding field in the class or
+            // interface struct
+            return;
+          }
+
+          const cb = createCallback(info, value, this);
+          const offset = g.field_info.get_offset(fieldInfo);
+          const dataView = new ExtendedDataView(
+            deref_buf(
+              pointer,
+              offset + 8,
+              offset,
+            ),
           );
+          dataView.setBigUint64(cast_ptr_u64(cb.pointer));
         },
       });
       return;
