@@ -1,4 +1,5 @@
 import * as GObject from "./GObject.ts";
+import * as Gtk from "./Gtk.ts";
 
 export interface GIOverride {
   name: string;
@@ -9,6 +10,7 @@ export interface GIOverride {
 
 export const overrides: GIOverride[] = [
   { name: "GObject", version: "2.0", module: GObject },
+  { name: "Gtk", version: "4.0", module: Gtk },
 ];
 
 export function hasOverride(namespace: string, version: string) {
