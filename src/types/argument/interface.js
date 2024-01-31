@@ -42,7 +42,9 @@ export function unboxInterface(
   const type = g.base_info.get_type(info);
   let gType = g.registered_type_info.get_g_type(info);
 
-  if (g.type.is_a(gType, GType.OBJECT)) {
+  if (
+    g.type.is_a(gType, GType.OBJECT) && !g.type.is_a(gType, GType.INTERFACE)
+  ) {
     const typeInstance = peek_ptr(cast_u64_ptr(dataView.getBigUint64()));
 
     gType = cast_ptr_u64(typeInstance);
