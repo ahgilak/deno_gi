@@ -96,6 +96,23 @@ function defineClassStructMethods(target, info) {
   }
 }
 
+function setVFuncs(target) {
+  const klass = Object.getPrototypeOf(target.constructor);
+  const funcs = Object.getOwnPropertyNames(Object.getPrototypeOf(target))
+    .filter((name) => name.startsWith("vfunc_"));
+
+  for (const vfunc of funcs) {
+    const name = vfunc.slice(6);
+    const value = target[vfunc].bind(target);
+
+    if (!Reflect.has(klass.prototype, vfunc)) {
+      throw new Error(`Could not find definition of virtual function ${name}`);
+    }
+
+    Reflect.set(klass.prototype, vfunc, value, target);
+  }
+}
+
 /** @type bigint | null */
 let HydratingObject = null;
 
@@ -146,6 +163,8 @@ export function createObject(info, gType) {
 
         const init_fn = Reflect.getMetadata("gi:instance_init", klass);
         if (init_fn) init_fn.call(this);
+
+        setVFuncs(this);
       }
     }
   };
