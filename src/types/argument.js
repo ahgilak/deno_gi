@@ -11,6 +11,7 @@ import { ExtendedDataView } from "../utils/dataview.js";
 import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
+import { unboxList } from "./argument/list.js";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
