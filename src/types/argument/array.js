@@ -1,8 +1,10 @@
-import { cast_u64_ptr, deref_buf } from "../../base_utils/convert.ts";
+import {
+  cast_ptr_u64,
+  peek_ptr,
+} from "../../base_utils/convert.ts";
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
-import { ExtendedDataView } from "../../utils/dataview.js";
-import { boxArgument } from "../argument.js";
+import { boxArgument, unboxArgument } from "../argument.js";
 
 function getTypeSize(typeTag) {
   switch (typeTag) {
@@ -36,11 +38,6 @@ function getTypeSize(typeTag) {
   }
 }
 
-function getPointerUint8(pointer, offset) {
-  return new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8, offset))
-    .getUint8();
-}
-
 export function unboxArray(type, pointer, length) {
   if (!pointer) {
     return null;
@@ -50,44 +47,24 @@ export function unboxArray(type, pointer, length) {
   const paramTypeTag = g.type_info.get_tag(paramType);
   const paramSize = getTypeSize(paramTypeTag);
 
-  let buffer;
+  const result = [];
 
-  if (length === -1) {
-    let i = 0;
-    while (getPointerUint8(pointer, i * paramSize) !== 0) {
-      i++;
+  for (let i = 0; i < length || length === -1; i++) {
+    const value = cast_ptr_u64(
+      peek_ptr(pointer, i * paramSize),
+    );
+    if (!value) {
+      break;
     }
-
-    buffer = deref_buf(cast_u64_ptr(pointer), i * paramSize);
-  } else {
-    buffer = deref_buf(pointer, length);
+    result.push(
+      unboxArgument(
+        paramType,
+        value,
+      ),
+    );
   }
 
-  const tag = g.type_info.get_tag(paramType);
-  g.base_info.unref(paramType);
-
-  switch (tag) {
-    case GITypeTag.UINT8:
-      return new Uint8Array(buffer);
-    case GITypeTag.INT8:
-      return new Int8Array(buffer);
-    case GITypeTag.UINT16:
-      return new Uint16Array(buffer);
-    case GITypeTag.INT16:
-      return new Int16Array(buffer);
-    case GITypeTag.UINT32:
-      return new Uint32Array(buffer);
-    case GITypeTag.INT32:
-      return new Int32Array(buffer);
-    case GITypeTag.UINT64:
-      return new BigUint64Array(buffer);
-    case GITypeTag.INT64:
-      return new BigInt64Array(buffer);
-    case GITypeTag.FLOAT:
-      return new Float32Array(buffer);
-    case GITypeTag.DOUBLE:
-      return new Float64Array(buffer);
-  }
+  return result;
 }
 
 export function boxArray(typeInfo, values) {

@@ -4,7 +4,6 @@ import {
   cast_buf_ptr,
   cast_ptr_u64,
   cast_str_buf,
-  cast_u64_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -32,11 +31,12 @@ export function initArgument(type) {
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
- * @param {number | bigint} pointer
+ * @param {number | bigint} value
  * @returns
  */
-export function unboxArgument(type, pointer) {
+export function unboxArgument(type, value) {
   const tag = g.type_info.get_tag(type);
+  const pointer = Deno.UnsafePointer.create(value);
 
   switch (tag) {
     case GITypeTag.VOID:
@@ -44,10 +44,10 @@ export function unboxArgument(type, pointer) {
 
     case GITypeTag.UNICHAR:
       // TODO: this code is very verbose, and might be uneeded
-      return String.fromCharCode(Number(BigInt.asIntN(8, BigInt(pointer))));
+      return String.fromCharCode(Number(BigInt.asIntN(8, BigInt(value))));
 
     case GITypeTag.BOOLEAN:
-      return Boolean(pointer);
+      return Boolean(value);
 
     case GITypeTag.UINT8:
     case GITypeTag.INT8:
@@ -56,20 +56,20 @@ export function unboxArgument(type, pointer) {
     case GITypeTag.UINT32:
     case GITypeTag.INT32:
     case GITypeTag.FLOAT:
-      return Number(pointer);
-    
+      return Number(value);
+
     case GITypeTag.UINT64:
     case GITypeTag.INT64:
     case GITypeTag.DOUBLE:
-      return BigInt(pointer);
-    
+      return BigInt(value);
+
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
-      if (!pointer) {
+      if (!value) {
         return null;
       }
 
-      return deref_str(cast_u64_ptr(pointer));
+      return deref_str(pointer);
     }
 
     /* non-basic types */
@@ -84,7 +84,7 @@ export function unboxArgument(type, pointer) {
     }
 
     case GITypeTag.INTERFACE: {
-      if (!pointer) {
+      if (!value) {
         return null;
       }
 
@@ -95,7 +95,7 @@ export function unboxArgument(type, pointer) {
     }
 
     default:
-      return pointer;
+      return value;
   }
 }
 

@@ -32,7 +32,9 @@ function defineSignals(target, info) {
 }
 
 function defineProps(target, info) {
-  const iface = g.type.default_interface_ref(Reflect.getOwnMetadata("gi:gtype", target));
+  const iface = g.type.default_interface_ref(
+    Reflect.getOwnMetadata("gi:gtype", target),
+  );
 
   const nProps = g.interface_info.get_n_properties(info);
 
