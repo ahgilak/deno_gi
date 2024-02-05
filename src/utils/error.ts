@@ -1,11 +1,11 @@
 import { cast_u64_ptr } from "../base_utils/convert.ts";
 import { require } from "../gi.js";
 
-export function createGError(pointer: bigint) {
+export function createGError(value: bigint) {
   const GError = getGLibError();
 
   const error = Object.create(GError.prototype);
-  Reflect.defineMetadata("gi:ref", cast_u64_ptr(pointer), error);
+  Reflect.defineMetadata("gi:ref", cast_u64_ptr(value), error);
 
   error.stack = new Error().stack;
 
