@@ -3,6 +3,7 @@ import {
   GIDirection,
   GIFunctionInfoFlags,
   GIInfoType,
+  GITypeTag,
 } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -35,12 +36,12 @@ export function createArg(info) {
 
 export function parseCallableArgs(info) {
   const nArgs = g.callable_info.get_n_args(info);
-  //const returnType = g.callable_info.get_return_type(info);
+  const returnType = g.callable_info.get_return_type(info);
 
   const argDetails = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = createArg(argInfo);
+    const arg = { ...createArg(argInfo), index: i };
     argDetails.push(arg);
     g.base_info.unref(argInfo);
   }
@@ -74,10 +75,47 @@ export function parseCallableArgs(info) {
     return new BigUint64Array(outArgsDetail.map((d) => initArgument(d.type)));
   };
 
-  const parseOutArgs = (outArgs) => {
-    return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, outArgs[i]);
-    });
+  const parseOutArgs = (returnArg, outArgs) => {
+    const values = [];
+
+    const args = Array.from(outArgsDetail.entries());
+
+    const lengthArgs = outArgsDetail.map((arg) => arg.arrLength);
+
+    // don't include VOID return types
+    if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
+      args.unshift([-1, {
+        type: returnType,
+        arrLength: g.type_info.get_array_length(returnType),
+      }]);
+
+      lengthArgs.push(g.type_info.get_array_length(returnType));
+    }
+
+    // parsing outArgs
+    for (const [index, arg] of args) {
+      // skip length parameters
+      if (index !== -1 && args.some(([_, arg]) => arg.arrLength === index)) {
+        continue;
+      }
+
+      // extract the length of this argument (if it's an array)
+      const lengthArg = outArgsDetail.findIndex((outArg) =>
+        outArg.index === arg.arrLength
+      );
+      const length = lengthArg !== -1 ? outArgs[lengthArg] : -1;
+
+      const value = index === -1 ? returnArg : outArgs[index];
+      values.push(unboxArgument(arg.type, value, length));
+    }
+
+    if (values.length === 1) {
+      return values[0];
+    } else if (values.length === 0) {
+      return;
+    } else {
+      return values;
+    }
   };
 
   return [parseInArgs, initOutArgs, parseOutArgs];
