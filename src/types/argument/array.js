@@ -1,7 +1,4 @@
-import {
-  cast_ptr_u64,
-  peek_ptr,
-} from "../../base_utils/convert.ts";
+import { cast_ptr_u64, peek_ptr } from "../../base_utils/convert.ts";
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { boxArgument, unboxArgument } from "../argument.js";
