@@ -123,7 +123,7 @@ export function handleCallable(target, info) {
 
     case GIInfoType.VFUNC: {
       const value = createVFunc(info);
-      Object.defineProperty(target.prototype, `vfunc_` + name, {
+      Object.defineProperty(target.prototype, name, {
         enumerable: true,
         get() {
           return (...args) => {
