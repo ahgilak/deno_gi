@@ -15,17 +15,18 @@ function defineValues(target, info) {
 
 export function createError(info, error_domain) {
   const GError = getGLibError();
+  const quark = g.quark_from_string(error_domain);
 
   const ObjectClass = class extends GError {
     constructor(props) {
       super({
         ...props,
-        domain: g.quark_from_string(error_domain),
+        domain: quark,
       });
     }
 
-    [Symbol.hasInstance](instance) {
-      return (instance instanceof GError) && (instance.domain === this.domain);
+    static [Symbol.hasInstance](instance) {
+      return (instance instanceof GError) && (instance.domain === quark);
     }
   };
 

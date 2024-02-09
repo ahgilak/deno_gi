@@ -39,6 +39,7 @@ const { g } = openLib(libName("gobject-2.0", 0), {
       default_interface_ref: $pointer($i64),
       parent: $i64($i64),
       is_a: $bool($i64, $i64),
+      add_interface_static: $void($i64, $i64, $pointer),
     },
     type_class: {
       ref: $pointer($i64),

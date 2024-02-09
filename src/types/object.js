@@ -96,6 +96,40 @@ function defineClassStructMethods(target, info) {
   }
 }
 
+function setVFuncs(target) {
+  const klass = Object.getPrototypeOf(target.constructor);
+  const funcs = Object.getOwnPropertyNames(Object.getPrototypeOf(target))
+    .filter((name) => name.startsWith("vfunc_"));
+
+  for (const vfunc of funcs) {
+    const name = vfunc.slice(6);
+    const value = target[vfunc].bind(target);
+
+    if (!Reflect.has(klass.prototype, vfunc)) {
+      throw new Error(`Could not find definition of virtual function ${name}`);
+    }
+
+    Reflect.set(klass.prototype, vfunc, value, target);
+  }
+}
+
+/** @type bigint | null */
+let HydratingObject = null;
+
+/**
+ * @param {bigint | null} object
+ */
+export function _setHydratingObject(object) {
+  HydratingObject = object;
+}
+
+/**
+ * An array of GTypes being currently constructed. This is to catch JS objects
+ * whose instance_init is called.
+ * @type bigint[]
+ */
+export const ConstructContext = [];
+
 export function createObject(info, gType) {
   const ParentClass = getParentClass(info) ?? Object;
 
@@ -104,16 +138,33 @@ export function createObject(info, gType) {
       super(props);
 
       if (gType == GType.OBJECT) {
-        const gType = Reflect.getOwnMetadata("gi:gtype", this.constructor);
+        const klass = this.constructor;
 
-        if (!gType) {
-          throw new Error("Tried to construct an object without a GType");
+        if (HydratingObject === null) {
+          const gType = Reflect.getOwnMetadata("gi:gtype", klass);
+
+          if (!gType) {
+            throw new Error("Tried to construct an object without a GType");
+          }
+
+          ConstructContext.push(gType);
+
+          Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
+          Object.entries(props).forEach(([key, value]) => {
+            this[key] = value;
+          });
+
+          ConstructContext.pop();
+        } else {
+          Reflect.defineMetadata("gi:ref", HydratingObject, this);
+
+          HydratingObject = null;
         }
 
-        Reflect.defineMetadata("gi:ref", g.object.new(gType, null), this);
-        Object.entries(props).forEach(([key, value]) => {
-          this[key] = value;
-        });
+        const init_fn = Reflect.getMetadata("gi:instance_init", klass);
+        if (init_fn) init_fn.call(this);
+
+        setVFuncs(this);
       }
     }
   };
