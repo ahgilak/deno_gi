@@ -1,0 +1,5 @@
+{
+  "tasks": {
+    "test": "deno test --unstable --allow-ffi --allow-read test/unit/base_utils/*"
+  }
+}
