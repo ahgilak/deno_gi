@@ -4,7 +4,11 @@ import g from "../../bindings/mod.js";
 import { ExtendedDataView } from "../../utils/dataview.js";
 import { boxArgument } from "../argument.js";
 
-function getTypeSize(typeTag) {
+/**
+ * @param {number} typeTag 
+ * @returns {number}
+ */
+export function getTypeSize(typeTag) {
   switch (typeTag) {
     case GITypeTag.BOOLEAN:
       return 1 << 2;
