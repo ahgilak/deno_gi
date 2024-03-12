@@ -25,6 +25,9 @@ type FFIPPType<I, O> = {
     ...args: { [a in keyof A]: FFIPPType<A[a], A[a]> }
   ): FFIFunc<O, typeof args>;
   symbol: string;
+  size: number;
+  serilize: (arg_0: I) => any;
+  deserilize: (arg_0: any) => O;
 };
 
 type FFIFunc<R, A extends FFIPPType<any, any>[]> = {
