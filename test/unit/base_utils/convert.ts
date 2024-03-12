@@ -1,7 +1,4 @@
-import {
-  assert,
-  assertEquals,
-} from "https://deno.land/std@0.212.0/assert/mod.ts";
+import { assert, assertEquals } from "../../test_deps.ts";
 import * as mod from "../../../src/base_utils/convert.ts";
 
 const typedArray = new TextEncoder().encode("test\0");
