@@ -40,7 +40,12 @@ export function getTypeSize(typeTag) {
   }
 }
 
-function getPointerUint8(pointer, offset) {
+/**
+ * @param {number|bigint} pointer 
+ * @param {number} offset 
+ * @returns {number}
+ */
+export function getPointerUint8(pointer, offset) {
   return new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8, offset))
     .getUint8();
 }

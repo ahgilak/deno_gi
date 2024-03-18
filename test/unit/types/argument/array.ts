@@ -1,6 +1,11 @@
-import { getTypeSize } from "../../../../src/types/argument/array.js";
+import {
+  getPointerUint8,
+  getTypeSize,
+} from "../../../../src/types/argument/array.js";
 import { GITypeTag } from "../../../../src/bindings/enums.js";
 import { assertEquals } from "../../../test_deps.ts";
+import { cast_buf_ptr } from "../../../../src/base_utils/convert.ts";
+import { cast_ptr_u64 } from "../../../../src/base_utils/convert.ts";
 
 Deno.test("getTypeSize", () => {
   for (const [tag, value] of Object.entries(GITypeTag)) {
@@ -40,5 +45,21 @@ Deno.test("getTypeSize", () => {
     }
 
     assertEquals(result, expected, `unexpected type size for ${tag}`);
+  }
+});
+
+Deno.test("getPointerUint8", () => {
+  const elements = [12, 123, 38, 251, 255, 321];
+  const buffer = new Uint8Array(elements);
+  const pointer = cast_ptr_u64(cast_buf_ptr(buffer));
+
+  for (const [key, element] of elements.entries()) {
+    const message = `pointer at index ${key} has unexpected value`;
+
+    if (element > 255) {
+      assertEquals(getPointerUint8(pointer, key), (element % 255) - 1, message);
+    } else {
+      assertEquals(getPointerUint8(pointer, key), element, message);
+    }
   }
 });
