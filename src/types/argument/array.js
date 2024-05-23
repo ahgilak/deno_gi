@@ -39,6 +39,12 @@ export function getTypeSize(typeTag) {
   }
 }
 
+/**
+ * @param {Deno.PointerValue} type 
+ * @param {number | bigint} pointer 
+ * @param {number} length 
+ * @returns {import("../../base_utils/ffipp.d.ts").TypedArray}
+ */
 export function unboxArray(type, pointer, length) {
   if (!pointer) {
     return null;
@@ -68,6 +74,12 @@ export function unboxArray(type, pointer, length) {
   return result;
 }
 
+/**
+ * 
+ * @param {Deno.PointerValue} typeInfo 
+ * @param {any[]} values 
+ * @returns {Uint8Array}
+ */
 export function boxArray(typeInfo, values) {
   const isZeroTerminated = g.type_info.is_zero_terminated(typeInfo);
 

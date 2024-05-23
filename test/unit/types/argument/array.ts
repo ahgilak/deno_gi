@@ -42,3 +42,11 @@ Deno.test("getTypeSize", () => {
     assertEquals(result, expected, `unexpected type size for ${tag}`);
   }
 });
+
+Deno.test("unboxArray", () => {
+  // TODO: requires getting a paramType for an array
+});
+
+Deno.test("boxArray", () => {
+  // TODO: requires getting a typeInfo for an array
+})
