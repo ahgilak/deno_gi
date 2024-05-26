@@ -17,6 +17,7 @@ export function initArgument(type) {
 
   switch (tag) {
     case GITypeTag.INTERFACE: {
+      // TODO: just generate a space large enough to hold the type
       const info = g.type_info.get_interface(type);
       const o = objectByInfo(info);
       const v = new o();
@@ -25,7 +26,8 @@ export function initArgument(type) {
       return result;
     }
     default:
-      return 0n;
+      // generate a new pointer
+      return cast_ptr_u64(cast_buf_ptr(new ArrayBuffer(8)));
   }
 }
 
