@@ -5,11 +5,15 @@
 gi_dep = subproject('gobject-introspection')
 
 everything_lib = gi_dep.get_variable('everything_lib')
+everything_files = gi_dep.get_variable('test_everything_files')
+test_regress_incdirs = gi_dep.get_variable('test_regress_incdirs')
 
 everything_targets = gnome.generate_gir(
   everything_lib,
   namespace: 'Everything',
-  nsversion: '2.0'
+  nsversion: '1.0',
+  sources: everything_files,
+  include_directories: test_regress_incdirs
 )
 
 everything_typelib = everything_targets[0]
@@ -24,6 +28,7 @@ run_everything = custom_target(
   output: ['everything.ts'],
   command: [deno, 'run', '-A', '--unstable-ffi', '@INPUT@'],
   env: everything_env,
+  depends: everything_targets,
 )
 
 test(
@@ -36,4 +41,5 @@ test(
     files('everything.ts')
   ],
   env: everything_env,
+  depends: everything_targets,
 )
