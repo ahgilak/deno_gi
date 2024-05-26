@@ -35,8 +35,8 @@ test(
   'everything',
   deno,
   args: [
-    'run',
-    '-A',
+    'test',
+    '--allow-ffi',
     '--unstable-ffi',
     files('everything.ts')
   ],
