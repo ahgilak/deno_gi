@@ -1,5 +1,8 @@
 {
   "tasks": {
     "test": "deno test --unstable-ffi --allow-ffi --allow-read test/unit/**/*"
+  },
+  "imports": {
+    "https://github.com/ahgilak/deno_gi/raw/main/mod.ts": "./mod.ts"
   }
 }
