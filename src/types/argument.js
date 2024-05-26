@@ -145,11 +145,11 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.FLOAT:
-      dataView.setFloat32(0, value);
+      dataView.setFloat32(value);
       break;
 
     case GITypeTag.DOUBLE:
-      dataView.setFloat64(0, value);
+      dataView.setFloat64(value);
       break;
 
     case GITypeTag.UTF8:
