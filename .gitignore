@@ -2,3 +2,4 @@
 
 deno.jsonc
 deno.lock
+/subprojects
