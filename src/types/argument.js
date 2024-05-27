@@ -59,7 +59,7 @@ export function unboxArgument(type, buffer, offset) {
       return null;
 
     case GITypeTag.UNICHAR:
-      return String.fromCharCode(dataView.getUint8());
+      return String.fromCharCode(dataView.getUint32());
 
     case GITypeTag.BOOLEAN:
       return Boolean(dataView.getUint8());
@@ -92,8 +92,10 @@ export function unboxArgument(type, buffer, offset) {
       return dataView.getBigInt64();
 
     case GITypeTag.DOUBLE:
-    case GITypeTag.GTYPE:
       return dataView.getFloat64();
+
+    case GITypeTag.GTYPE:
+      return dataView.getBigUint64();
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
@@ -136,6 +138,10 @@ export function boxArgument(type, value) {
 
     case GITypeTag.UINT8:
       dataView.setUint8(value);
+      break;
+
+    case GITypeTag.UNICHAR:
+      dataView.setUint32(String(value).codePointAt(0));
       break;
 
     case GITypeTag.INT8:
