@@ -4,6 +4,7 @@ import {
   cast_buf_ptr,
   cast_ptr_u64,
   cast_str_buf,
+  deref_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -25,6 +26,18 @@ export function initArgument(type) {
       g.base_info.unref(info);
       return result;
     }
+    // case GITypeTag.BOOLEAN:
+    // case GITypeTag.UINT8:
+    // case GITypeTag.INT8:
+    // case GITypeTag.UINT16:
+    // case GITypeTag.INT16:
+    // case GITypeTag.UINT32:
+    // case GITypeTag.INT32:
+    // case GITypeTag.FLOAT:
+    // case GITypeTag.UINT64:
+    // case GITypeTag.INT64:
+    // case GITypeTag.DOUBLE:
+    //   return 0n;
     default:
       // generate a new pointer
       return cast_ptr_u64(cast_buf_ptr(new ArrayBuffer(8)));
@@ -33,71 +46,80 @@ export function initArgument(type) {
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
- * @param {number | bigint} value
+ * @param {ArrayBuffer} buffer
+ * @param {number} [offset]
  * @returns
  */
-export function unboxArgument(type, value) {
+export function unboxArgument(type, buffer, offset) {
   const tag = g.type_info.get_tag(type);
-  const pointer = Deno.UnsafePointer.create(value);
+  const dataView = new ExtendedDataView(buffer, offset);
 
   switch (tag) {
     case GITypeTag.VOID:
-      return;
+      return null;
 
     case GITypeTag.UNICHAR:
-      // TODO: this code is very verbose, and might be uneeded
-      return String.fromCharCode(Number(BigInt.asIntN(8, BigInt(value))));
+      return String.fromCharCode(dataView.getUint8());
 
     case GITypeTag.BOOLEAN:
-      return Boolean(value);
+      return Boolean(dataView.getUint8());
 
     case GITypeTag.UINT8:
+      return dataView.getUint8();
+
     case GITypeTag.INT8:
+      return dataView.getInt8();
+
     case GITypeTag.UINT16:
+      return dataView.getUint16();
+
     case GITypeTag.INT16:
+      return dataView.getInt16();
+
     case GITypeTag.UINT32:
+      return dataView.getUint32();
+
     case GITypeTag.INT32:
+      return dataView.getInt32();
+
     case GITypeTag.FLOAT:
-      return Number(value);
+      return dataView.getFloat32();
 
     case GITypeTag.UINT64:
+      return dataView.getBigUint64();
+
     case GITypeTag.INT64:
+      return dataView.getBigInt64();
+
     case GITypeTag.DOUBLE:
-      return BigInt(value);
+    case GITypeTag.GTYPE:
+      return dataView.getFloat64();
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
-      if (!value) {
-        return null;
-      }
-
-      return deref_str(pointer);
+      return deref_str(deref_ptr(buffer));
     }
 
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, pointer, -1);
+      return unboxArray(type, deref_ptr(buffer), -1);
     }
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      return unboxList(type, pointer);
+      return unboxList(type, buffer);
     }
 
     case GITypeTag.INTERFACE: {
-      if (!value) {
-        return null;
-      }
-
       const info = g.type_info.get_interface(type);
-      const result = unboxInterface(info, pointer);
+      const result = unboxInterface(info, buffer);
       g.base_info.unref(info);
       return result;
     }
 
     default:
-      return value;
+      return null;
   }
 }
 

@@ -16,14 +16,14 @@ export function createMethod(info) {
     inArgs.unshift(cast_ptr_u64(caller));
 
     const error = new BigUint64Array(1);
-    const returnValue = new BigUint64Array(1);
+    const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
       info,
       new BigUint64Array(inArgs),
       inArgs.length,
       outArgs,
-      outArgs.length,
+      outArgs.byteLength / 8,
       returnValue,
       error,
     );
@@ -36,9 +36,9 @@ export function createMethod(info) {
       throw createGError(error[0]);
     }
 
-    const retVal = unboxArgument(returnType, returnValue[0]);
+    const retVal = unboxArgument(returnType, returnValue);
 
-    if (outArgs.length > 0) {
+    if (outArgs.byteLength > 0) {
       return [retVal, ...parseOutArgs(outArgs)];
     }
 

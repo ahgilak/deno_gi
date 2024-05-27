@@ -3,6 +3,7 @@ import {
   cast_ptr_u64,
   cast_u64_ptr,
   deref_buf,
+  deref_ptr,
 } from "../../base_utils/convert.ts";
 import { GIInfoType, GType } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
@@ -33,10 +34,9 @@ export function boxInterface(info, value) {
   }
 }
 
-export function unboxInterface(
-  info,
-  pointer,
-) {
+export function unboxInterface(info, buffer) {
+  const pointer = deref_ptr(buffer);
+
   const argValue = deref_buf(pointer, 8);
   const dataView = new ExtendedDataView(argValue);
   const type = g.base_info.get_type(info);

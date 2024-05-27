@@ -52,3 +52,7 @@ export function peek_ptr(pointer: Deno.PointerObject, offset = 0) {
   return cast_u64_ptr(new ExtendedDataView(deref_buf(pointer, 8, offset))
     .getBigUint64());
 }
+
+export function deref_ptr(value: ArrayBufferLike) {
+  return cast_u64_ptr(new ExtendedDataView(value).getBigUint64());
+}

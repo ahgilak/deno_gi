@@ -13,14 +13,14 @@ export function createFunction(info) {
     const outArgs = initOutArgs();
 
     const error = new BigUint64Array(1);
-    const returnValue = new BigUint64Array(1);
+    const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
       info,
       new BigUint64Array(inArgs),
       inArgs.length,
       outArgs,
-      outArgs.length,
+      outArgs.byteLength / 8,
       returnValue,
       error,
     );
@@ -33,11 +33,10 @@ export function createFunction(info) {
       throw createGError(error[0]);
     }
 
-    const retVal = unboxArgument(returnType, returnValue[0]);
+    const retVal = unboxArgument(returnType, returnValue);
 
-    if (outArgs.length > 0) {
+    if (outArgs.byteLength > 0) {
       const parsedOutArgs = parseOutArgs(outArgs);
-
       // don't include a return value if it's void
       if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
         return [retVal, ...parsedOutArgs];

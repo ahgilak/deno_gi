@@ -1,8 +1,8 @@
 import g from "../bindings/mod.js";
 import { GITypeTag } from "../bindings/enums.js";
 import { boxArgument, unboxArgument } from "./argument.js";
-import { cast_ptr_u64 } from "../base_utils/convert.ts";
 import { createArg } from "./callable.js";
+import { deref_buf } from "../base_utils/convert.ts";
 
 const nativeTypes = {
   [GITypeTag.BOOLEAN]: "i32",
@@ -34,7 +34,7 @@ function parseArgs(
 
     const result = nativeTypes[tag]
       ? value
-      : unboxArgument(argType, cast_ptr_u64(value));
+      : unboxArgument(argType, deref_buf(value, 8));
 
     g.base_info.unref(argInfo);
     g.base_info.unref(argType);
