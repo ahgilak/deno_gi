@@ -26,18 +26,6 @@ export function initArgument(type) {
       g.base_info.unref(info);
       return result;
     }
-    // case GITypeTag.BOOLEAN:
-    // case GITypeTag.UINT8:
-    // case GITypeTag.INT8:
-    // case GITypeTag.UINT16:
-    // case GITypeTag.INT16:
-    // case GITypeTag.UINT32:
-    // case GITypeTag.INT32:
-    // case GITypeTag.FLOAT:
-    // case GITypeTag.UINT64:
-    // case GITypeTag.INT64:
-    // case GITypeTag.DOUBLE:
-    //   return 0n;
     default:
       // generate a new pointer
       return cast_ptr_u64(cast_buf_ptr(new ArrayBuffer(8)));
