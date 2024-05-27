@@ -73,8 +73,8 @@ export function parseCallableArgs(info) {
   const initOutArgs = () => {
     const buffer = new ArrayBuffer(8 * outArgsDetail.length);
     const dataView = new ExtendedDataView(buffer);
-    outArgsDetail.forEach((detail) => {
-      dataView.setBigUint64(initArgument(detail.type));
+    outArgsDetail.forEach((detail, index) => {
+      dataView.setBigUint64(initArgument(detail.type), index * 8);
     });
 
     return buffer;
