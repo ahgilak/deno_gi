@@ -27,5 +27,5 @@ test(
     files('everything.ts')
   ],
   env: everything_env,
-  depends: everything_targets,
+  depends: everything_typelib,
 )
