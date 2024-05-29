@@ -15,7 +15,7 @@ import {
 } from "../../../src/base_utils/types.ts";
 import { assert, assertEquals } from "../../test_deps.ts";
 
-import type {} from "../../../src/base_utils/ffipp.d.ts";
+import type {} from "../../../src/base_utils/ffipp.js";
 
 Deno.test("$pointer", () => {
   const typedArray = new TextEncoder().encode("test\0");

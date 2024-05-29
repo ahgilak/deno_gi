@@ -9,4 +9,4 @@ fs = import('fs')
 
 deno = find_program('deno', required: true)
 
-subdir('test')
+subdir('tests')
