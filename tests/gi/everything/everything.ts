@@ -1,5 +1,5 @@
-import { require } from "../../mod.ts";
-import { assert, assertEquals, assertStrictEquals } from "../test_deps.ts";
+import { require } from "../../../mod.ts";
+import { assert, assertEquals, assertStrictEquals } from "../../test_deps.ts";
 
 const Everything = require("Everything", "1.0");
 
