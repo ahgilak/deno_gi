@@ -153,11 +153,15 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.UINT64:
-      dataView.setBigUint64(value);
+      dataView.setBigUint64(
+        typeof value === "bigint" ? value : Math.trunc(value),
+      );
       break;
 
     case GITypeTag.INT64:
-      dataView.setBigInt64(value);
+      dataView.setBigInt64(
+        typeof value === "bigint" ? value : Math.trunc(value),
+      );
       break;
 
     case GITypeTag.FLOAT:
