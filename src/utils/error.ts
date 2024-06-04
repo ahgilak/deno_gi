@@ -1,5 +1,7 @@
 import { cast_u64_ptr } from "../base_utils/convert.ts";
-import { require } from "../gi.js";
+import g from "../bindings/mod.js";
+import { errorEnumCache } from "../types/enum.js";
+import { objectByInfo } from "./gobject.js";
 
 export function createGError(value: bigint) {
   const GError = getGLibError();
@@ -7,11 +9,16 @@ export function createGError(value: bigint) {
   const error = Object.create(GError.prototype);
   Reflect.defineMetadata("gi:ref", cast_u64_ptr(value), error);
 
-  error.stack = new Error().stack;
+  const ErrorClass = errorEnumCache.get(error.domain);
+  if (ErrorClass) Object.setPrototypeOf(error, ErrorClass.prototype);
 
   return error;
 }
 
-export function getGLibError() {
-  return require("GLib", "2.0").Error;
+// deno-lint-ignore no-explicit-any
+export function getGLibError(): any {
+  // TODO: error handling
+  g.irepository.require(null, "GLib", "2.0", 0, null);
+
+  return objectByInfo(g.irepository.find_by_name(null, "GLib", "Error"));
 }
