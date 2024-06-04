@@ -1,5 +1,5 @@
 import g from "../bindings/mod.js";
-import { getName } from "../utils/string.ts";
+import { getDisplayName } from "../utils/string.ts";
 import { handleCallable } from "./callable.js";
 import { handleProp } from "./prop.js";
 import { handleSignal } from "./signal.js";
@@ -48,10 +48,11 @@ function defineProps(target, info) {
 }
 
 export function createInterface(info, gType) {
-  const ObjectClass = class {};
+  const ObjectClass = class {
+  };
 
   Object.defineProperty(ObjectClass, "name", {
-    value: getName(info),
+    value: getDisplayName(gType),
   });
 
   Reflect.defineMetadata("gi:gtype", gType, ObjectClass);

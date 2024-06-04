@@ -1,5 +1,5 @@
 import g from "../bindings/mod.js";
-import { getName } from "../utils/string.ts";
+import { getDisplayName } from "../utils/string.ts";
 import { handleCallable, handleStructCallable } from "./callable.js";
 import { objectByInfo } from "../utils/gobject.js";
 import { handleSignal } from "./signal.js";
@@ -121,7 +121,7 @@ export function createObject(info, gType) {
   Reflect.defineMetadata("gi:gtype", gType, ObjectClass);
 
   Object.defineProperty(ObjectClass, "name", {
-    value: getName(info),
+    value: getDisplayName(info),
   });
 
   defineMethods(ObjectClass, info);
