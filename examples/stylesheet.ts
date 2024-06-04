@@ -10,7 +10,7 @@ const provider = Gtk.CssProvider.new();
 // @ts-expect-error - mismatch type defenition
 provider.load_from_string(style);
 
-app.on("activate", () => {
+app.connect("activate", () => {
   Gtk.StyleContext.add_provider_for_display(
     Gdk.Display.get_default()!,
     provider,

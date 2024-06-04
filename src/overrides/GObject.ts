@@ -42,7 +42,7 @@ function addObjectMethods(object: any) {
   ) {
     const handler = this.connect(action, (...args: unknown[]) => {
       callback(...args);
-      this.off(handler);
+      this.disconnect(handler);
     });
 
     return handler;

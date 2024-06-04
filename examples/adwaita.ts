@@ -3,11 +3,11 @@ import Adw from "https://gir.deno.dev/Adw-1";
 
 const app = Adw.Application.new("com.deno_gi.adwaita", 0);
 
-app.on("activate", activate);
+app.connect("activate", activate);
 
 function activate() {
   const theme_button = Gtk.Button.new_from_icon_name("night-light-symbolic");
-  theme_button.on("clicked", toggleTheme);
+  theme_button.connect("clicked", toggleTheme);
 
   const title = Adw.WindowTitle.new("Deno GI", "Adwaita Example");
 
