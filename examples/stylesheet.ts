@@ -8,11 +8,11 @@ const app = Gtk.Application.new("com.deno_gi.stylesheet", 0);
 const provider = Gtk.CssProvider.new();
 
 // @ts-expect-error - mismatch type defenition
-provider.loadFromString(style);
+provider.load_from_string(style);
 
-app.on("activate", () => {
-  Gtk.StyleContext.addProviderForDisplay(
-    Gdk.Display.getDefault()!,
+app.connect("activate", () => {
+  Gtk.StyleContext.add_provider_for_display(
+    Gdk.Display.get_default()!,
     provider,
     Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION,
   );
@@ -23,7 +23,7 @@ app.on("activate", () => {
 
   box.append(label);
 
-  win.setChild(box);
+  win.set_child(box);
   win.show();
 });
 

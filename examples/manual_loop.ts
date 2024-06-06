@@ -8,7 +8,7 @@ let isRunning = true;
 
 const win = Gtk.Window.new();
 win.setDefaultSize(400, 200);
-win.on("destroy", () => isRunning = false);
+win.connect("destroy", () => isRunning = false);
 win.present();
 
 setTimeout(() => console.log("Hello World"), 2000);

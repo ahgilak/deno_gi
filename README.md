@@ -45,7 +45,7 @@ Signals are connected using `on` method.
 Connecting `clicked` signal to a button:
 
 ```ts
-button.on("clicked", () => {
+button.connect("clicked", () => {
   console.log("Clicked");
 });
 ```
@@ -57,7 +57,7 @@ import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const app = new Gtk.Application();
 
-app.on("activate", () => {
+app.connect("activate", () => {
   const win = new Gtk.ApplicationWindow({ application: app });
   const contentArea = new Gtk.Box();
   const label = new Gtk.Label({ label: "Hello World!" });

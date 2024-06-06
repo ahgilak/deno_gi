@@ -10,12 +10,12 @@
             </object>
         </child>
         <child>
-            <object class="GtkButton" id="actionButton">
+            <object class="GtkButton" id="action_button">
                 <property name="label" translatable="yes">Action</property>
             </object>
         </child>
         <child>
-            <object class="GtkButton" id="closeButton">
+            <object class="GtkButton" id="close_button">
                 <property name="label">Close</property>
             </object>
         </child>

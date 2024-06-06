@@ -3,44 +3,44 @@ import Adw from "https://gir.deno.dev/Adw-1";
 
 const app = Adw.Application.new("com.deno_gi.adwaita", 0);
 
-app.on("activate", activate);
+app.connect("activate", activate);
 
 function activate() {
-  const themeButton = Gtk.Button.newFromIconName("night-light-symbolic");
-  themeButton.on("clicked", toggleTheme);
+  const theme_button = Gtk.Button.new_from_icon_name("night-light-symbolic");
+  theme_button.connect("clicked", toggleTheme);
 
   const title = Adw.WindowTitle.new("Deno GI", "Adwaita Example");
 
-  const headerBar = Adw.HeaderBar.new();
-  headerBar.setTitleWidget(title);
-  headerBar.packStart(themeButton);
+  const header_bar = Adw.HeaderBar.new();
+  header_bar.set_title_widget(title);
+  header_bar.pack_start(theme_button);
 
-  const styleContext = headerBar.getStyleContext();
-  styleContext.addClass("flat");
+  const style_context = header_bar.get_style_context();
+  style_context.add_class("flat");
 
   const page = Adw.StatusPage.new();
-  page.setTitle("Deno GI Adwaita Example");
-  page.setIconName("start-here-symbolic");
+  page.set_title("Deno GI Adwaita Example");
+  page.set_icon_name("start-here-symbolic");
 
   const handle = Gtk.WindowHandle.new();
-  handle.setChild(page);
+  handle.set_child(page);
 
   const content = Gtk.Box.new(Gtk.Orientation.VERTICAL, 0);
-  content.append(headerBar);
+  content.append(header_bar);
   content.append(handle);
 
   const win = Adw.ApplicationWindow.new(app);
-  win.setContent(content);
-  win.setDefaultSize(400, 400);
+  win.set_content(content);
+  win.set_default_size(400, 400);
   win.present();
 }
 
 function toggleTheme() {
-  const styleManager = Adw.StyleManager.getDefault();
-  const isDark = styleManager.getDark();
+  const style_manager = Adw.StyleManager.get_default();
+  const is_dark = style_manager.get_dark();
 
-  styleManager.setColorScheme(
-    isDark ? Adw.ColorScheme.FORCE_LIGHT : Adw.ColorScheme.FORCE_DARK,
+  style_manager.set_color_scheme(
+    is_dark ? Adw.ColorScheme.FORCE_LIGHT : Adw.ColorScheme.FORCE_DARK,
   );
 }
 

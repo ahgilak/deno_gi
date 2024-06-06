@@ -2,17 +2,17 @@ import Gtk from "https://gir.deno.dev/Gtk-4.0";
 
 const app = new Gtk.Application();
 
-app.on("activate", () => {
+app.connect("activate", () => {
   const win = new Gtk.ApplicationWindow({ application: app });
-  const contentArea = new Gtk.Box({
-    marginTop: 50,
-    marginBottom: 50,
-    marginStart: 100,
-    marginEnd: 100,
+  const content_area = new Gtk.Box({
+    margin_top: 50,
+    margin_bottom: 50,
+    margin_start: 100,
+    margin_end: 100,
   });
   const label = Gtk.Label.new("Hello World!");
-  contentArea.append(label);
-  win.setChild(contentArea);
+  content_area.append(label);
+  win.set_child(content_area);
   win.present();
 });
 
