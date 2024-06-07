@@ -63,7 +63,7 @@ app.connect("activate", () => {
   const label = new Gtk.Label({ label: "Hello World!" });
 
   contentArea.append(label);
-  win.setChild(contentArea);
+  win.set_child(contentArea);
   win.present();
 });
 
