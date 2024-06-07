@@ -71,12 +71,18 @@ export function parseCallableArgs(info) {
   };
 
   const initOutArgs = () => {
-    return new BigUint64Array(outArgsDetail.map((d) => initArgument(d.type)));
+    const buffer = new ArrayBuffer(8 * outArgsDetail.length);
+    const dataView = new ExtendedDataView(buffer);
+    outArgsDetail.forEach((detail, index) => {
+      dataView.setBigUint64(initArgument(detail.type), index * 8);
+    });
+
+    return buffer;
   };
 
   const parseOutArgs = (outArgs) => {
     return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, outArgs[i]);
+      return unboxArgument(d.type, outArgs, i * 8);
     });
   };
 

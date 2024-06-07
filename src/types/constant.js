@@ -2,7 +2,7 @@ import g from "../bindings/mod.js";
 import { unboxArgument } from "./argument.js";
 
 export function createConstant(info) {
-  const giValue = new BigUint64Array(1);
+  const giValue = new ArrayBuffer(8);
   const giType = g.constant_info.get_type(info);
   const size = g.constant_info.get_value(info, giValue);
 
@@ -10,7 +10,7 @@ export function createConstant(info) {
     return null;
   }
 
-  const result = unboxArgument(giType, giValue[0]);
+  const result = unboxArgument(giType, giValue);
   g.base_info.unref(giType);
 
   return result;

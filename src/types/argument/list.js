@@ -1,20 +1,22 @@
-import { deref_buf } from "../../base_utils/convert.ts";
 import g from "../../bindings/girepository.js";
 import { unboxArgument } from "../argument.js";
+import { ExtendedDataView } from "../../utils/dataview.js";
 
 /**
  * @param {Deno.PointerValue} info
- * @param {BigInt} pointer
+ * @param {ArrayBuffer} buffer
  * @returns
  */
-export function unboxList(info, pointer) {
+export function unboxList(info, buffer) {
   const paramType = g.type_info.get_param_type(info, 0);
   const result = [];
 
-  while (pointer) {
-    const [value, next] = new BigUint64Array(deref_buf(pointer, 16));
-    result.push(unboxArgument(paramType, value));
-    pointer = Deno.UnsafePointer.create(next);
+  const dataView = new ExtendedDataView(buffer);
+  let i = 0;
+
+  while (dataView.getUint8()) {
+    result.push(unboxArgument(paramType, buffer, i * 8));
+    i++;
   }
 
   g.base_info.unref(paramType);

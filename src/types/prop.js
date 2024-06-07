@@ -1,4 +1,4 @@
-import { deref_buf, ref_buf } from "../base_utils/convert.ts";
+import { deref_buf } from "../base_utils/convert.ts";
 import { GParamFlags } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -41,10 +41,7 @@ export function handleProp(
       );
 
       const argValue = unboxValue(boxedValue, boxedType);
-      const value = unboxArgument(
-        argType,
-        ref_buf(argValue)[0],
-      );
+      const value = unboxArgument(argType, deref_buf(argValue, 8));
 
       return value;
     },

@@ -51,11 +51,11 @@ export class ExtendedDataView {
   }
 
   setUint8(value, offset = 0) {
-    return this.#dataView.setUint8(value, offset);
+    return this.#dataView.setUint8(offset, value);
   }
 
   setInt8(value, offset = 0) {
-    return this.#dataView.setInt8(value, offset);
+    return this.#dataView.setInt8(offset, value);
   }
 
   setUint16(value, offset = 0) {

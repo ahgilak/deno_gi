@@ -4,6 +4,7 @@ import {
   cast_buf_ptr,
   cast_ptr_u64,
   cast_str_buf,
+  deref_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -17,6 +18,7 @@ export function initArgument(type) {
 
   switch (tag) {
     case GITypeTag.INTERFACE: {
+      // TODO: just generate a space large enough to hold the type
       const info = g.type_info.get_interface(type);
       const o = objectByInfo(info);
       const v = new o();
@@ -25,77 +27,89 @@ export function initArgument(type) {
       return result;
     }
     default:
-      return 0n;
+      // generate a new pointer
+      return cast_ptr_u64(cast_buf_ptr(new ArrayBuffer(8)));
   }
 }
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
- * @param {number | bigint} value
+ * @param {ArrayBuffer} buffer
+ * @param {number} [offset]
  * @returns
  */
-export function unboxArgument(type, value) {
+export function unboxArgument(type, buffer, offset) {
   const tag = g.type_info.get_tag(type);
-  const pointer = Deno.UnsafePointer.create(value);
+  const dataView = new ExtendedDataView(buffer, offset);
 
   switch (tag) {
     case GITypeTag.VOID:
-      return;
+      return null;
 
     case GITypeTag.UNICHAR:
-      // TODO: this code is very verbose, and might be uneeded
-      return String.fromCharCode(Number(BigInt.asIntN(8, BigInt(value))));
+      return String.fromCharCode(dataView.getUint32());
 
     case GITypeTag.BOOLEAN:
-      return Boolean(value);
+      return Boolean(dataView.getUint8());
 
     case GITypeTag.UINT8:
+      return dataView.getUint8();
+
     case GITypeTag.INT8:
+      return dataView.getInt8();
+
     case GITypeTag.UINT16:
+      return dataView.getUint16();
+
     case GITypeTag.INT16:
+      return dataView.getInt16();
+
     case GITypeTag.UINT32:
+      return dataView.getUint32();
+
     case GITypeTag.INT32:
+      return dataView.getInt32();
+
     case GITypeTag.FLOAT:
-      return Number(value);
+      return dataView.getFloat32();
 
     case GITypeTag.UINT64:
+      return dataView.getBigUint64();
+
     case GITypeTag.INT64:
+      return dataView.getBigInt64();
+
     case GITypeTag.DOUBLE:
-      return BigInt(value);
+      return dataView.getFloat64();
+
+    case GITypeTag.GTYPE:
+      return dataView.getBigUint64();
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME: {
-      if (!value) {
-        return null;
-      }
-
-      return deref_str(pointer);
+      return deref_str(deref_ptr(buffer));
     }
 
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, pointer, -1);
+      return unboxArray(type, deref_ptr(buffer), -1);
     }
 
     case GITypeTag.GLIST:
     case GITypeTag.GSLIST: {
-      return unboxList(type, pointer);
+      return unboxList(type, buffer);
     }
 
     case GITypeTag.INTERFACE: {
-      if (!value) {
-        return null;
-      }
-
       const info = g.type_info.get_interface(type);
-      const result = unboxInterface(info, pointer);
+      const result = unboxInterface(info, buffer);
       g.base_info.unref(info);
       return result;
     }
 
     default:
-      return value;
+      return null;
   }
 }
 
@@ -112,6 +126,10 @@ export function boxArgument(type, value) {
 
     case GITypeTag.UINT8:
       dataView.setUint8(value);
+      break;
+
+    case GITypeTag.UNICHAR:
+      dataView.setUint32(String(value).codePointAt(0));
       break;
 
     case GITypeTag.INT8:
@@ -135,19 +153,23 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.UINT64:
-      dataView.setBigUint64(value);
+      dataView.setBigUint64(
+        typeof value === "bigint" ? value : Math.trunc(value),
+      );
       break;
 
     case GITypeTag.INT64:
-      dataView.setBigInt64(value);
+      dataView.setBigInt64(
+        typeof value === "bigint" ? value : Math.trunc(value),
+      );
       break;
 
     case GITypeTag.FLOAT:
-      dataView.setFloat32(0, value);
+      dataView.setFloat32(value);
       break;
 
     case GITypeTag.DOUBLE:
-      dataView.setFloat64(0, value);
+      dataView.setFloat64(value);
       break;
 
     case GITypeTag.UTF8:
