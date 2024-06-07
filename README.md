@@ -29,7 +29,7 @@ Objects are initialized using creation functions or javascript constructors.
 Creating a GtkButton:
 
 ```ts
-const button = Gtk.Button.newWithLabel("Click Me!");
+const button = Gtk.Button.new_with_label("Click Me!");
 ```
 
 or
