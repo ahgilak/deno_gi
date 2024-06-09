@@ -299,13 +299,13 @@ const types: GIType[] = [
 ];
 
 for (const { name, type, param_type, values } of types) {
-  Deno.test(toCamelCase(`const_return_${name}`), ({ name: fname }) => {
+  Deno.test(`const_return_${name}`, ({ name: fname }) => {
     const value = Everything[fname]();
 
     assertEquals(typeof value, type, `has incorrect return type`);
   });
 
-  Deno.test(toCamelCase(`one_outparam_${name}`), ({ name: fname }) => {
+  Deno.test(`one_outparam_${name}`, ({ name: fname }) => {
     const value = Everything[fname]();
 
     assertEquals(
@@ -316,14 +316,14 @@ for (const { name, type, param_type, values } of types) {
   });
 
   for (const value of values) {
-    const fname = toCamelCase(`oneparam_${name}`);
+    const fname = `oneparam_${name}`;
     Deno.test(`${fname} (passing ${value})`, () => {
       const ret = Everything[fname](value);
 
       assert(!ret, "must return null");
     });
 
-    const pname = toCamelCase(`passthrough_one_${name}`);
+    const pname = `passthrough_one_${name}`;
     Deno.test(`${pname} (passing ${value})`, () => {
       const ret = Everything[pname](value);
 
@@ -341,7 +341,3 @@ Deno.test("nullfunc", () => {
 
   assertEquals(value, null);
 });
-
-function toCamelCase(text: string) {
-  return text.replaceAll(/[_-][a-z]/g, (s) => s.substring(1).toUpperCase());
-}
