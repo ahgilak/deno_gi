@@ -7,25 +7,24 @@ import {
   assertThrows,
 } from "../../test_deps.ts";
 import { assertEqualNumbers, isBit64Type } from "../../utils/asserts.ts";
-import { capitalize } from "../../utils/string.ts";
 
 const Regress = require("Regress", "1.0");
 
 Deno.test("includes null return value", () => {
-  assertEquals(Regress.testReturnAllowNone(), null);
-  assertEquals(Regress.testReturnNullable(), null);
+  assertEquals(Regress.test_return_allow_none(), null);
+  assertEquals(Regress.test_return_nullable(), null);
 });
 
 Deno.test("includes booleans", () => {
-  assertEquals(Regress.testBoolean(false), false);
-  assertEquals(Regress.testBoolean(true), true);
-  assertEquals(Regress.testBooleanTrue(true), true);
-  assertEquals(Regress.testBooleanFalse(false), false);
+  assertEquals(Regress.test_boolean(false), false);
+  assertEquals(Regress.test_boolean(true), true);
+  assertEquals(Regress.test_boolean_true(true), true);
+  assertEquals(Regress.test_boolean_false(false), false);
 });
 
 [8, 16, 32, 64].forEach((bits) => {
   Deno.test(`includes ${bits}-bit integers`, () => {
-    const method = Regress[`testInt${bits}`];
+    const method = Regress[`test_int${bits}`];
 
     assertEqualNumbers(bits, method(42), 42);
     assertEqualNumbers(bits, method(-42), -42);
@@ -44,7 +43,7 @@ Deno.test("includes booleans", () => {
   });
 
   Deno.test(`includes unsigned ${bits}-bit integers`, () => {
-    const method = Regress[`testUint${bits}`];
+    const method = Regress[`test_uint${bits}`];
 
     assertEqualNumbers(bits, method(42), 42);
     assertEqualNumbers(bits, method(undefined), 0);
@@ -60,7 +59,7 @@ Deno.test("includes booleans", () => {
 
 ["short", "int", "long", "ssize", "float", "double"].forEach((type) => {
   Deno.test(`includes ${type}s`, () => {
-    const method = Regress[`test${capitalize(type)}`];
+    const method = Regress[`test_${type}`];
 
     assertEqualNumbers(type, method(42), 42);
     assertEqualNumbers(type, method(-42), -42);
@@ -88,7 +87,7 @@ Deno.test("includes booleans", () => {
 
 ["ushort", "uint", "ulong", "size"].forEach((type) => {
   Deno.test(`includes ${type}s`, () => {
-    const method = Regress[`test${capitalize(type)}`];
+    const method = Regress[`test_${type}`];
 
     assertEqualNumbers(type, method(42), 42);
     assertEqualNumbers(type, method(42.42), 42);
