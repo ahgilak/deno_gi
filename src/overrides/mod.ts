@@ -1,4 +1,5 @@
 import * as GObject from "./GObject.ts";
+import * as GLib from "./GLib.ts";
 
 export interface GIOverride {
   name: string;
@@ -9,6 +10,7 @@ export interface GIOverride {
 
 export const overrides: GIOverride[] = [
   { name: "GObject", version: "2.0", module: GObject },
+  { name: "GLib", version: "2.0", module: GLib },
 ];
 
 export function hasOverride(namespace: string, version: string) {

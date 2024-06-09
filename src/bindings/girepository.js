@@ -18,6 +18,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_n_infos: $i32($pointer, $string),
       get_info: $pointer($pointer, $string, $i32),
       find_by_gtype: $pointer($pointer, $i64),
+      find_by_name: $pointer($pointer, $string, $string),
       enumerate_versions: $pointer($pointer, $string),
       get_version: $string($pointer, $string),
       is_registered: $bool($pointer, $string, $string),
@@ -28,6 +29,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
     },
     base_info: {
       get_name: $string($pointer),
+      get_namespace: $string($pointer),
       get_container: $pointer($pointer),
       is_deprecated: $bool($pointer),
       get_type: $i32($pointer),

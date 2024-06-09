@@ -1,7 +1,7 @@
 import g from "../bindings/mod.js";
 import handleInfo from "../handleInfo.js";
 import { getGLibError } from "../utils/error.ts";
-import { getName } from "../utils/string.ts";
+import { getDisplayName } from "../utils/string.ts";
 
 function defineValues(target, info) {
   const nValues = g.enum_info.get_n_values(info);
@@ -13,14 +13,20 @@ function defineValues(target, info) {
   }
 }
 
+export const errorEnumCache = new Map();
+
 export function createError(info, error_domain) {
+  const domain = g.quark_from_string(error_domain);
+
+  if (errorEnumCache.has(domain)) return errorEnumCache.get(domain);
+
   const GError = getGLibError();
 
   const ObjectClass = class extends GError {
     constructor(props) {
       super({
         ...props,
-        domain: g.quark_from_string(error_domain),
+        domain,
       });
     }
 
@@ -30,10 +36,12 @@ export function createError(info, error_domain) {
   };
 
   Object.defineProperty(ObjectClass, "name", {
-    value: getName(info),
+    value: getDisplayName(info),
   });
 
   defineValues(ObjectClass, info);
+
+  errorEnumCache.set(domain, ObjectClass);
 
   return ObjectClass;
 }

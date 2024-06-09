@@ -1,6 +1,6 @@
 import g from "../bindings/mod.js";
 import { cast_buf_ptr } from "../base_utils/convert.ts";
-import { getName } from "../utils/string.ts";
+import { getDisplayName } from "../utils/string.ts";
 import { handleCallable } from "./callable.js";
 import { handleField } from "./field.js";
 
@@ -36,7 +36,7 @@ export function createStruct(info, gType) {
   };
 
   Object.defineProperty(ObjectClass, "name", {
-    value: getName(info),
+    value: getDisplayName(info),
   });
 
   Reflect.defineMetadata("gi:gtype", gType, ObjectClass);

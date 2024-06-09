@@ -2,6 +2,7 @@ import { GIInfoType } from "./bindings/enums.js";
 import g from "./bindings/mod.js";
 import { handleCallable } from "./types/callable.js";
 import { createConstant } from "./types/constant.js";
+import { createEnum } from "./types/enum.js";
 import { handleSignal } from "./types/signal.js";
 import { objectByInfo } from "./utils/gobject.js";
 import { getName } from "./utils/string.ts";
@@ -12,6 +13,12 @@ export function handleInfo(target, info) {
 
   switch (type) {
     case GIInfoType.ENUM:
+      // create enums directly so that we can lookup GLib.Errors later
+      g.base_info.ref(info);
+      Object.defineProperty(target, name, {
+        value: createEnum(info),
+      });
+      break;
     case GIInfoType.FLAGS:
     case GIInfoType.OBJECT:
     case GIInfoType.STRUCT:
