@@ -217,15 +217,15 @@ export function boxArgument(type, value) {
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      if (Array.isArray(value)) {
-        value = boxArray(type, value);
+      if (!value) break;
+
+      if (Array.isArray(value)) value = boxArray(type, value);
+
+      if (!isTypedArray(value)) {
+        throw new TypeError("Expected an Array or TypedArray");
       }
 
-      if (value) {
-        dataView.setBigUint64(
-          cast_ptr_u64(cast_buf_ptr(value)),
-        );
-      }
+      dataView.setBigUint64(cast_ptr_u64(cast_buf_ptr(value)));
 
       break;
     }
@@ -247,4 +247,26 @@ function normalizeNumber(value, allowNaN = false) {
   if (value === undefined) return 0;
   if (allowNaN && isNaN(value)) return NaN;
   return value || 0;
+}
+
+const typedArrays = [
+  Int8Array,
+  Uint8Array,
+  Uint8ClampedArray,
+  Int16Array,
+  Uint16Array,
+  Int32Array,
+  Uint32Array,
+  Float32Array,
+  Float64Array,
+  BigInt64Array,
+  BigUint64Array,
+];
+
+/**
+ * @param {*} value
+ * @returns {value is import("../base_utils/ffipp").TypedArray}
+ */
+function isTypedArray(value) {
+  return typedArrays.some((typedArray) => value instanceof typedArray);
 }
