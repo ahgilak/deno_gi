@@ -23,8 +23,19 @@ export function ensure_number_range(
   const range = NumberRanges[type];
   if (!range) return;
 
+  // check if the number is in the given range
   const [min, max] = range;
   if (value >= min && value <= max) return;
+
+  // doubles & floats accept Infinity and NaN
+  if (type === GITypeTag.DOUBLE || type === GITypeTag.FLOAT) {
+    if ([Infinity, -Infinity, NaN].includes(value as number)) return;
+  }
+
+  // check if the type supports BigInts
+  if (typeof value === "bigint" && !(typeof max === "bigint")) {
+    throw new TypeError("can't convert BigInt to number");
+  }
 
   const tag = Object.entries(GITypeTag)
     .find(([_, name]) => name === type)?.[0]?.toLowerCase() ?? "type";

@@ -32,7 +32,7 @@ Deno.test("includes booleans", () => {
     assertEqualNumbers(bits, method(42.42), 42);
     assertEqualNumbers(bits, method(-42.42), -42);
 
-    if (bits >= 64) {
+    if (isBit64Type(bits)) {
       assertEquals(method(42n), 42n);
       assertEquals(method(-42n), -42n);
     } else {
@@ -49,7 +49,7 @@ Deno.test("includes booleans", () => {
     assertEqualNumbers(bits, method(undefined), 0);
     assertEqualNumbers(bits, method(42.42), 42);
 
-    if (bits >= 64) {
+    if (isBit64Type(bits)) {
       assertEquals(method(42n), 42n);
     } else {
       assertThrows(() => method(42n), TypeError);
@@ -112,5 +112,42 @@ Deno.test("includes booleans", () => {
     } else {
       assertThrows(() => method(-42n), "out of range");
     }
+  });
+});
+
+// Infinity and NaN
+
+// TODO: Not yet implemented
+// ["int8", "int16", "int32", "int64", "short", "int", "long", "ssize"].forEach(
+//   (type) => {
+//     Deno.test(`converts to 0 for ${type}`, () => {
+//       const method = Regress[`test_${type}`];
+
+//       assertEquals(method(Infinity), 0);
+//       assertEquals(method(-Infinity), 0);
+//       assertEquals(method(NaN), 0);
+//     });
+//   },
+// );
+
+// ["uint8", "uint16", "uint32", "uint64", "ushort", "uint", "ulong", "size"]
+//   .forEach(
+//     (type) => {
+//       Deno.test(`converts to 0 for ${type}`, () => {
+//         const method = Regress[`test_${type}`];
+
+//         assertEquals(method(Infinity), 0);
+//         assertEquals(method(NaN), 0);
+//       });
+//     },
+//   );
+
+["float", "double"].forEach((type) => {
+  Deno.test(`not for ${type}`, () => {
+    const method = Regress[`test_${type}`];
+
+    assertEquals(method(NaN), NaN);
+    assertEquals(method(Infinity), Infinity);
+    assertEquals(method(-Infinity), -Infinity);
   });
 });

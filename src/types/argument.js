@@ -116,7 +116,6 @@ export function unboxArgument(type, buffer, offset) {
 
 export function boxArgument(type, value) {
   const buffer = new ArrayBuffer(8);
-  if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer);
   const tag = g.type_info.get_tag(type);
 
@@ -125,63 +124,83 @@ export function boxArgument(type, value) {
       dataView.setInt32(value);
       break;
 
-    case GITypeTag.UINT8:
-      ensure_number_range(GITypeTag.UINT8, value);
-      dataView.setUint8(value);
+    case GITypeTag.UINT8: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT8, normalized);
+      dataView.setUint8(normalized);
       break;
+    }
 
     case GITypeTag.UNICHAR:
       dataView.setUint32(String(value).codePointAt(0));
       break;
 
-    case GITypeTag.INT8:
-      ensure_number_range(GITypeTag.INT8, value);
-      dataView.setInt8(value);
+    case GITypeTag.INT8: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT8, normalized);
+      dataView.setInt8(normalized);
       break;
+    }
 
-    case GITypeTag.UINT16:
-      ensure_number_range(GITypeTag.UINT16, value);
-      dataView.setUint16(value);
+    case GITypeTag.UINT16: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT16, normalized);
+      dataView.setUint16(normalized);
       break;
+    }
 
-    case GITypeTag.INT16:
-      ensure_number_range(GITypeTag.INT16, value);
-      dataView.setInt16(value);
+    case GITypeTag.INT16: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT16, normalized);
+      dataView.setInt16(normalized);
       break;
+    }
 
-    case GITypeTag.UINT32:
-      ensure_number_range(GITypeTag.UINT32, value);
-      dataView.setUint32(value);
+    case GITypeTag.UINT32: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT32, normalized);
+      dataView.setUint32(normalized);
       break;
+    }
 
-    case GITypeTag.INT32:
-      ensure_number_range(GITypeTag.INT32, value);
-      dataView.setInt32(value);
+    case GITypeTag.INT32: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT32, normalized);
+      dataView.setInt32(normalized);
       break;
+    }
 
-    case GITypeTag.UINT64:
-      ensure_number_range(GITypeTag.UINT64, value);
+    case GITypeTag.UINT64: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT64, normalized);
       dataView.setBigUint64(
-        typeof value === "bigint" ? value : Math.trunc(value),
+        typeof normalized === "bigint" ? normalized : Math.trunc(normalized),
       );
       break;
+    }
 
-    case GITypeTag.INT64:
-      ensure_number_range(GITypeTag.INT64, value);
+    case GITypeTag.INT64: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT64, normalized);
       dataView.setBigInt64(
-        typeof value === "bigint" ? value : Math.trunc(value),
+        typeof normalized === "bigint" ? normalized : Math.trunc(normalized),
       );
       break;
+    }
 
-    case GITypeTag.FLOAT:
-      ensure_number_range(GITypeTag.FLOAT, value);
-      dataView.setFloat32(value);
+    case GITypeTag.FLOAT: {
+      const normalized = normalizeNumber(value, true);
+      ensure_number_range(GITypeTag.FLOAT, normalized);
+      dataView.setFloat32(normalized);
       break;
+    }
 
-    case GITypeTag.DOUBLE:
-      ensure_number_range(GITypeTag.DOUBLE, value);
-      dataView.setFloat64(value);
+    case GITypeTag.DOUBLE: {
+      const normalized = normalizeNumber(value, true);
+      ensure_number_range(GITypeTag.DOUBLE, normalized);
+      dataView.setFloat64(normalized);
       break;
+    }
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME:
@@ -219,4 +238,10 @@ export function boxArgument(type, value) {
   }
 
   return buffer;
+}
+
+function normalizeNumber(value, allowNaN = false) {
+  if (value === undefined) return 0;
+  if (allowNaN && isNaN(value)) return NaN;
+  return value || 0;
 }
