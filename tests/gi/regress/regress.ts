@@ -101,17 +101,16 @@ Deno.test("includes booleans", () => {
   });
 });
 
-// TODO: implement
-// ["uint8", "uint16", "uint32", "uint64", "uint", "size"].forEach((type) => {
-//   Deno.test(`no implicit conversion to unsigned for ${type}`, () => {
-//     const method = Regress[`test${capitalize(type)}`];
+["uint8", "uint16", "uint32", "uint64", "uint", "size"].forEach((type) => {
+  Deno.test(`no implicit conversion to unsigned for ${type}`, () => {
+    const method = Regress[`test_${type}`];
 
-//     assertThrows(() => method(-42), TypeError);
+    assertThrows(() => method(-42), "out of range");
 
-//     if (isBit64Type(type)) {
-//       assertThrows(method(-42n), TypeError);
-//     } else {
-//       assertThrows(method(-42n), TypeError);
-//     }
-//   });
-// });
+    if (isBit64Type(type)) {
+      assertThrows(() => method(-42n), "out of range");
+    } else {
+      assertThrows(() => method(-42n), "out of range");
+    }
+  });
+});
