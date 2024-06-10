@@ -4,5 +4,6 @@
   },
   "imports": {
     "https://github.com/ahgilak/deno_gi/raw/main/mod.ts": "./mod.ts"
-  }
+  },
+  "exclude": ["subprojects", "build"]
 }
