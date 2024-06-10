@@ -12,6 +12,7 @@ import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
 import { unboxList } from "./argument/list.js";
+import { ensure_number_range } from "../bindings/ranges.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
@@ -125,6 +126,7 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.UINT8:
+      ensure_number_range(GITypeTag.UINT8, value);
       dataView.setUint8(value);
       break;
 
@@ -133,42 +135,51 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.INT8:
+      ensure_number_range(GITypeTag.INT8, value);
       dataView.setInt8(value);
       break;
 
     case GITypeTag.UINT16:
+      ensure_number_range(GITypeTag.UINT16, value);
       dataView.setUint16(value);
       break;
 
     case GITypeTag.INT16:
+      ensure_number_range(GITypeTag.INT16, value);
       dataView.setInt16(value);
       break;
 
     case GITypeTag.UINT32:
+      ensure_number_range(GITypeTag.UINT32, value);
       dataView.setUint32(value);
       break;
 
     case GITypeTag.INT32:
+      ensure_number_range(GITypeTag.INT32, value);
       dataView.setInt32(value);
       break;
 
     case GITypeTag.UINT64:
+      ensure_number_range(GITypeTag.UINT64, value);
       dataView.setBigUint64(
         typeof value === "bigint" ? value : Math.trunc(value),
       );
       break;
 
     case GITypeTag.INT64:
+      ensure_number_range(GITypeTag.INT64, value);
       dataView.setBigInt64(
         typeof value === "bigint" ? value : Math.trunc(value),
       );
       break;
 
     case GITypeTag.FLOAT:
+      ensure_number_range(GITypeTag.FLOAT, value);
       dataView.setFloat32(value);
       break;
 
     case GITypeTag.DOUBLE:
+      ensure_number_range(GITypeTag.DOUBLE, value);
       dataView.setFloat64(value);
       break;
 
@@ -180,6 +191,7 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.GTYPE:
+      ensure_number_range(GITypeTag.GTYPE, value);
       dataView.setBigUint64(value);
       break;
 
