@@ -49,4 +49,4 @@ Deno.test("unboxArray", () => {
 
 Deno.test("boxArray", () => {
   // TODO: requires getting a typeInfo for an array
-})
+});

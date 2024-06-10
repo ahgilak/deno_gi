@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 type ReplaceNestedObjectType<T> = {
   [K in keyof T]: T[K] extends FFIFunc<infer R, infer A>
     ? (...args: { [a in keyof A]: ArgType<A[a]> }) => R

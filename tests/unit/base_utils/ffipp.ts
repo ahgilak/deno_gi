@@ -21,6 +21,7 @@ Deno.test("createType", () => {
     "result is not a function",
   );
 
+  // deno-lint-ignore no-explicit-any
   const parameters = [1, 2, 3] as any;
   const instance = result(parameters);
 

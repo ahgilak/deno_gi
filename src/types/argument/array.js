@@ -4,7 +4,7 @@ import g from "../../bindings/mod.js";
 import { boxArgument, unboxArgument } from "../argument.js";
 
 /**
- * @param {number} typeTag 
+ * @param {number} typeTag
  * @returns {number}
  */
 export function getTypeSize(typeTag) {
@@ -40,9 +40,9 @@ export function getTypeSize(typeTag) {
 }
 
 /**
- * @param {Deno.PointerValue} type 
- * @param {number | bigint} pointer 
- * @param {number} length 
+ * @param {Deno.PointerValue} type
+ * @param {number | bigint} pointer
+ * @param {number} length
  * @returns {import("../../base_utils/ffipp.d.ts").TypedArray}
  */
 export function unboxArray(type, pointer, length) {
@@ -75,9 +75,8 @@ export function unboxArray(type, pointer, length) {
 }
 
 /**
- * 
- * @param {Deno.PointerValue} typeInfo 
- * @param {any[]} values 
+ * @param {Deno.PointerValue} typeInfo
+ * @param {any[]} values
  * @returns {Uint8Array}
  */
 export function boxArray(typeInfo, values) {
