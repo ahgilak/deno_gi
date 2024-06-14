@@ -7,7 +7,12 @@ import {
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
-import { boxArgument, initArgument, unboxArgument } from "./argument.js";
+import {
+  boxArgument,
+  initArguments,
+  isTypedArray,
+  unboxArgument,
+} from "./argument.js";
 import { createConstructor } from "./callable/constructor.js";
 import { createFunction } from "./callable/function.js";
 import { createMethod } from "./callable/method.js";
@@ -15,6 +20,7 @@ import { createVFunc } from "./callable/vfunc.js";
 import { createCallback } from "./callback.js";
 
 export function createArg(info) {
+  let nPointers = 0;
   const type = g.arg_info.get_type(info);
   const name = g.base_info.get_name(info);
   const arrLength = g.type_info.get_array_length(type);
@@ -23,6 +29,10 @@ export function createArg(info) {
   const transfer = g.arg_info.get_ownership_transfer(info);
   const callerAllocates = g.arg_info.is_caller_allocates(info);
   const isReturn = g.arg_info.is_return_value(info);
+
+  if (direction === GIDirection.OUT) nPointers++;
+  if (g.type_info.is_pointer(type)) nPointers++;
+
   return {
     type,
     name,
@@ -32,10 +42,11 @@ export function createArg(info) {
     transfer,
     callerAllocates,
     isReturn,
+    nPointers,
   };
 }
 
-export function parseCallableArgs(info) {
+export function parseCallableArgs(info, has_caller = false) {
   const nArgs = g.callable_info.get_n_args(info);
   //const returnType = g.callable_info.get_return_type(info);
 
@@ -48,26 +59,53 @@ export function parseCallableArgs(info) {
   }
 
   const inArgsDetail = argDetails.filter(
-    (arg) => !(arg.direction & GIDirection.OUT),
+    (arg) => !(arg.direction == GIDirection.OUT),
   );
 
   const outArgsDetail = argDetails.filter(
-    (arg) => arg.direction & GIDirection.OUT,
+    (arg) => !(arg.direction == GIDirection.IN),
   );
 
   const parseInArgs = (...args) => {
-    const inArgs = new Array(inArgsDetail.length);
+    const caller_offset = has_caller ? 1 : 0;
+    const buffer = new ArrayBuffer((caller_offset + inArgsDetail.length) * 8);
+    const argValues = new Map();
+
+    if (has_caller) {
+      const view = new ExtendedDataView(buffer);
+      const caller = cast_ptr_u64(args.shift());
+      view.setBigUint64(caller);
+    }
 
     for (let i = 0; i < inArgsDetail.length; i++) {
-      const detail = inArgsDetail[i];
-
       try {
-        const value = args.shift();
-        const pointer = new ExtendedDataView(boxArgument(detail.type, value))
-          .getBigUint64();
-        inArgs[i] = pointer;
-        if (detail.lengthArg >= 0) {
-          inArgs[detail.lengthArg] = value.length || value.byteLength || 0;
+        const offset = (caller_offset + i) * 8;
+        const detail = inArgsDetail[i];
+
+        // check if this argument contains the length of an arrya
+        const array = inArgsDetail.find((detail) => detail.arrLength === i);
+
+        if (array) {
+          // set this value to the length of the array
+          const value = argValues.get(array.type);
+          let length;
+
+          // get the length of the array
+          if (isTypedArray(value)) {
+            length = value.byteLength / value.BYTES_PER_ELEMENT;
+          } else if (Array.isArray(value)) {
+            length = value.length;
+          } else {
+            // undefined behavior
+            // TODO: what if the length parameter is defined before the array?
+            length = 0;
+          }
+
+          boxArgument(detail.type, length, buffer, offset);
+        } else {
+          const value = args.shift();
+          argValues.set(detail.type, value);
+          boxArgument(detail.type, value, buffer, offset);
         }
       } catch (error) {
         if (error instanceof RangeError) {
@@ -78,22 +116,18 @@ export function parseCallableArgs(info) {
       }
     }
 
-    return inArgs;
-  };
-
-  const initOutArgs = () => {
-    const buffer = new ArrayBuffer(8 * outArgsDetail.length);
-    const dataView = new ExtendedDataView(buffer);
-    outArgsDetail.forEach((detail, index) => {
-      dataView.setBigUint64(initArgument(detail.type), index * 8);
-    });
+    argValues.clear();
 
     return buffer;
   };
 
+  const initOutArgs = () => {
+    return initArguments(...outArgsDetail.map((d) => [d.type, d.nPointers]));
+  };
+
   const parseOutArgs = (outArgs) => {
     return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, outArgs, i * 8);
+      return unboxArgument(d.type, outArgs, i * 8, d.nPointers);
     });
   };
 

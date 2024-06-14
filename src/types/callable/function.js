@@ -17,8 +17,8 @@ export function createFunction(info) {
 
     const success = g.function_info.invoke(
       info,
-      new BigUint64Array(inArgs),
-      inArgs.length,
+      inArgs,
+      inArgs.byteLength / 8,
       outArgs,
       outArgs.byteLength / 8,
       returnValue,

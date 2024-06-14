@@ -1,47 +1,120 @@
 import g from "../bindings/mod.js";
-import { GITypeTag } from "../bindings/enums.js";
+import { GIInfoType, GITypeTag } from "../bindings/enums.js";
 import {
   cast_buf_ptr,
   cast_ptr_u64,
   cast_str_buf,
+  cast_u64_ptr,
+  deref_buf,
   deref_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
-import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
-import { boxInterface, unboxInterface } from "./argument/interface.js";
+import {
+  boxInterface,
+  getInterfaceSize,
+  unboxInterface,
+} from "./argument/interface.js";
 import { unboxList } from "./argument/list.js";
 import { ensure_number_range } from "../bindings/ranges.ts";
 
-export function initArgument(type) {
+/**
+ * @param {Deno.PointerObject} info
+ * @returns {number | null}
+ */
+function getArgumentSize(type) {
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
     case GITypeTag.INTERFACE: {
-      // TODO: just generate a space large enough to hold the type
       const info = g.type_info.get_interface(type);
-      const o = objectByInfo(info);
-      const v = new o();
-      const result = cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", v));
-      g.base_info.unref(info);
-      return result;
+      return getInterfaceSize(info);
     }
     default:
-      // generate a new pointer
-      return cast_ptr_u64(cast_buf_ptr(new ArrayBuffer(8)));
+      return 8;
   }
+}
+
+function initPointer(size) {
+  const pointer = cast_buf_ptr(new ArrayBuffer(size));
+  return pointer;
+}
+
+/**
+ * @param {ExtendedDataView} view the view to use for initializing an argument
+ * @param {number} offset
+ * @param {Deno.PointerObject} type
+ * @param {number} n_pointers the number of deep pointers to create
+ */
+function initArgument(view, offset, type, n_pointers) {
+  // get the size of the argument and create various pointers
+  const pointer_size = getArgumentSize(type);
+  let pointer;
+
+  if (pointer_size) pointer = initPointer(pointer_size);
+
+  // initialize deep pointers
+  for (let i = 0; i < n_pointers; i++) {
+    // create a new pointer that points to the initialized value
+    const new_pointer = initPointer(8);
+    const view = new ExtendedDataView(deref_buf(new_pointer, 8));
+    if (pointer) view.setBigUint64(cast_ptr_u64(pointer));
+    pointer = new_pointer;
+  }
+
+  if (pointer) {
+    view.setBigUint64(cast_ptr_u64(pointer), offset);
+  }
+}
+
+/** Create a new buffer for a list of items
+ * @param  {...([type: Deno.PointerObject, n_pointers: number] | Deno.PointerObject)} types a list of types or a tuple with a type and number of pointers
+ * @returns
+ */
+export function initArguments(...types) {
+  const buffer = new ArrayBuffer(types.length * 8);
+  const view = new ExtendedDataView(buffer);
+
+  for (let i = 0; i < types.length; i++) {
+    const element = types[i];
+    let type, n_pointers = 0;
+
+    if (Array.isArray(element)) {
+      type = element[0];
+      n_pointers = element[1];
+    } else {
+      type = element;
+    }
+
+    initArgument(view, i * 8, type, n_pointers);
+  }
+
+  return buffer;
+}
+
+function getDeepView(buffer, offset, n_pointers) {
+  let view = new ExtendedDataView(buffer, offset);
+
+  for (let i = 0; i < n_pointers; i++) {
+    view = new ExtendedDataView(
+      deref_buf(cast_u64_ptr(view.getBigUint64()), 8),
+    );
+  }
+
+  return view;
 }
 
 /** This function is given a pointer OR a value, and must hence extract it
  * @param {Deno.PointerObject} type
  * @param {ArrayBuffer} buffer
  * @param {number} [offset]
+ * @param {number} [n_pointers] how many times the argument is wrapped in pointers
  * @returns
  */
-export function unboxArgument(type, buffer, offset) {
+export function unboxArgument(type, buffer, offset, n_pointers = 0) {
   const tag = g.type_info.get_tag(type);
-  const dataView = new ExtendedDataView(buffer, offset);
+  const dataView = getDeepView(buffer, offset, n_pointers);
 
   switch (tag) {
     case GITypeTag.VOID:
@@ -104,7 +177,25 @@ export function unboxArgument(type, buffer, offset) {
 
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);
-      const result = unboxInterface(info, buffer);
+      const info_type = g.base_info.get_type(info);
+      let result;
+
+      switch (info_type) {
+        case GIInfoType.OBJECT:
+        case GIInfoType.STRUCT:
+        case GIInfoType.INTERFACE: {
+          result = unboxInterface(info, buffer);
+          break;
+        }
+        case GIInfoType.ENUM:
+        case GIInfoType.FLAGS: {
+          result = dataView.getInt32();
+          break;
+        }
+        default:
+          result = null;
+      }
+
       g.base_info.unref(info);
       return result;
     }
@@ -114,9 +205,14 @@ export function unboxArgument(type, buffer, offset) {
   }
 }
 
-export function boxArgument(type, value) {
-  const buffer = new ArrayBuffer(8);
-  const dataView = new ExtendedDataView(buffer);
+export function boxArgument(
+  type,
+  value,
+  buffer = new ArrayBuffer(8),
+  offset = 0,
+) {
+  if (!value) return buffer;
+  const dataView = new ExtendedDataView(buffer, offset);
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
@@ -232,9 +328,7 @@ export function boxArgument(type, value) {
 
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);
-      dataView.setBigUint64(
-        BigInt(boxInterface(info, value)),
-      );
+      dataView.setBigUint64(boxInterface(info, value));
       g.base_info.unref(info);
       break;
     }
@@ -265,8 +359,8 @@ const typedArrays = [
 
 /**
  * @param {*} value
- * @returns {value is import("../base_utils/ffipp").TypedArray}
+ * @returns {value is import("../base_utils/ffipp.js").TypedArray}
  */
-function isTypedArray(value) {
+export function isTypedArray(value) {
   return typedArrays.some((typedArray) => value instanceof typedArray);
 }

@@ -1,5 +1,4 @@
 import g from "../../bindings/mod.js";
-import { cast_ptr_u64 } from "../../base_utils/convert.ts";
 import { createGError } from "../../utils/error.ts";
 import { unboxArgument } from "../argument.js";
 import { parseCallableArgs } from "../callable.js";
@@ -7,21 +6,22 @@ import { parseCallableArgs } from "../callable.js";
 export function createMethod(info) {
   const returnType = g.callable_info.get_return_type(info);
 
-  const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(info);
+  const [parseInArgs, initOutArgs, parseOutArgs] = parseCallableArgs(
+    info,
+    true,
+  );
 
   return (caller, ...args) => {
-    const inArgs = parseInArgs(...args);
+    const inArgs = parseInArgs(caller, ...args);
     const outArgs = initOutArgs();
-
-    inArgs.unshift(cast_ptr_u64(caller));
 
     const error = new BigUint64Array(1);
     const returnValue = new ArrayBuffer(8);
 
     const success = g.function_info.invoke(
       info,
-      new BigUint64Array(inArgs),
-      inArgs.length,
+      inArgs,
+      inArgs.byteLength / 8,
       outArgs,
       outArgs.byteLength / 8,
       returnValue,

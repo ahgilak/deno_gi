@@ -3,7 +3,7 @@ import { GFieldInfoFlags, GIInfoType, GITypeTag } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
 import { getName } from "../utils/string.ts";
-import { boxArgument, unboxArgument } from "./argument.js";
+import { boxArgument, initArguments, unboxArgument } from "./argument.js";
 import { createCallback } from "./callback.js";
 
 export function handleField(
@@ -27,7 +27,7 @@ export function handleField(
         throw new Error(`Field ${name} is not readable`);
       }
 
-      const argument = new ArrayBuffer(8);
+      const argument = initArguments(type);
 
       g.field_info.get_field(
         fieldInfo,
