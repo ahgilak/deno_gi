@@ -7,7 +7,7 @@ const context = GLib.MainContext.default();
 let isRunning = true;
 
 const win = Gtk.Window.new();
-win.setDefaultSize(400, 200);
+win.set_default_size(400, 200);
 win.connect("destroy", () => isRunning = false);
 win.present();
 
