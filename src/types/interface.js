@@ -52,7 +52,7 @@ export function createInterface(info, gType) {
   };
 
   Object.defineProperty(ObjectClass, "name", {
-    value: getDisplayName(gType),
+    value: getDisplayName(info),
   });
 
   Reflect.defineMetadata("gi:gtype", gType, ObjectClass);
