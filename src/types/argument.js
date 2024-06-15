@@ -221,9 +221,12 @@ export function boxArgument(type, value) {
         value = boxArray(type, value);
       }
 
-      dataView.setBigUint64(
-        cast_ptr_u64(cast_buf_ptr(value)),
-      );
+      if (value) {
+        dataView.setBigUint64(
+          cast_ptr_u64(cast_buf_ptr(value)),
+        );
+      }
+
       break;
     }
 
