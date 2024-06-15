@@ -1,6 +1,6 @@
 {
   "unstable": ["ffi"],
-  "lock": "false",
+  "lock": false,
   "tasks": {
     "test": "deno test --unstable-ffi --allow-ffi --allow-read test/unit/**/*"
   },
