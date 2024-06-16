@@ -322,7 +322,9 @@ export function boxArgument(
       if (typeof value === "function") {
         numericValue = Reflect.getMetadata("gi:gtype", value);
       }
-      if (typeof numericValue !== "bigint" && typeof numericValue !== "number") {
+      if (
+        typeof numericValue !== "bigint" && typeof numericValue !== "number"
+      ) {
         throw new TypeError("Expected a GType or a class");
       }
       ensure_number_range(GITypeTag.GTYPE, numericValue);
