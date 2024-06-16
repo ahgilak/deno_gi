@@ -73,6 +73,8 @@ export function parseCallableArgs(info, has_caller = false) {
     (arg) => !(arg.direction == GIDirection.OUT),
   );
 
+  const usedInArgDetail = inArgsDetail.filter((arg) => !arg.ignore);
+
   const outArgsDetail = argDetails.filter(
     (arg) => !(arg.direction == GIDirection.IN),
   );
@@ -80,7 +82,12 @@ export function parseCallableArgs(info, has_caller = false) {
   const parseInArgs = (...args) => {
     const caller_offset = has_caller ? 1 : 0;
     const buffer = new ArrayBuffer((caller_offset + inArgsDetail.length) * 8);
+
     const argValues = new Map();
+    for (let i = 0; i < usedInArgDetail.length; i++) {
+      const arg = usedInArgDetail[i];
+      argValues.set(arg.type, args[i]);
+    }
 
     if (has_caller) {
       const view = new ExtendedDataView(buffer);
@@ -89,14 +96,14 @@ export function parseCallableArgs(info, has_caller = false) {
     }
 
     for (let i = 0; i < inArgsDetail.length; i++) {
-      try {
-        const offset = (caller_offset + i) * 8;
-        const detail = inArgsDetail[i];
-        if (detail.ignore) continue;
+      const offset = (caller_offset + i) * 8;
+      const detail = inArgsDetail[i];
+      if (detail.isSkip) continue;
 
+      try {
         // check if this argument contains the length of an arrya
         const array = inArgsDetail.find((arg) =>
-          arg.index === detail.arrLength
+          arg.arrLength === detail.index
         );
 
         if (array) {

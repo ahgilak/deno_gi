@@ -76,18 +76,16 @@ export function boxArray(typeInfo, values) {
   const paramTypeTag = g.type_info.get_tag(paramType);
   const paramSize = getTypeSize(paramTypeTag);
 
-  const giValues = new Uint8Array(
+  const buffer = new ArrayBuffer(
     (values.length + isZeroTerminated) * paramSize,
   );
 
   for (let i = 0; i < values.length; i++) {
-    giValues.set(
-      new Uint8Array(boxArgument(paramType, values[i])),
-      i * paramSize,
-    );
+    const element = values[i];
+    boxArgument(paramType, element, buffer, i * paramSize);
   }
 
   g.base_info.unref(paramType);
 
-  return giValues;
+  return buffer;
 }

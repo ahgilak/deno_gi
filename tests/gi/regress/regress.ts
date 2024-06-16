@@ -153,6 +153,13 @@ Deno.test("includes booleans", () => {
   });
 });
 
+["int", "gint8", "gint16", "gint32", "gint64"].forEach((inttype) => {
+  Deno.test(`arrays of ${inttype} in`, () => {
+    const method = Regress[`test_array_${inttype}_in`];
+    assertEquals(Number(method([1, 2, 3, 4])), 10);
+  });
+});
+
 Deno.test("arrays of integers with length parameter", async (t) => {
   await t.step("marshals as a return value with transfer full", () => {
     assertEquals(Regress.test_array_int_full_out(), [0, 1, 2, 3, 4]);

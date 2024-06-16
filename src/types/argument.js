@@ -324,7 +324,7 @@ export function boxArgument(
 
       if (Array.isArray(value)) value = boxArray(type, value);
 
-      if (!isTypedArray(value)) {
+      if (!isTypedArray(value) && !(value instanceof ArrayBuffer)) {
         throw new TypeError("Expected an Array or TypedArray");
       }
 
