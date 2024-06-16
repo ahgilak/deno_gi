@@ -82,7 +82,15 @@ export function boxArray(typeInfo, values) {
 
   for (let i = 0; i < values.length; i++) {
     const element = values[i];
-    boxArgument(paramType, element, buffer, i * paramSize);
+    try {
+      boxArgument(paramType, element, buffer, i * paramSize);
+    } catch (error) {
+      if (error instanceof Error) {
+        error.message += ` (element ${i})`;
+      }
+
+      throw error;
+    }
   }
 
   g.base_info.unref(paramType);
