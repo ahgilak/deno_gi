@@ -2,7 +2,7 @@
   "unstable": ["ffi"],
   "lock": false,
   "tasks": {
-    "test": "deno test --unstable-ffi --allow-ffi --allow-read test/unit/**/*"
+    "test": "deno test --unstable-ffi --allow-ffi --allow-read tests/unit/**/*"
   },
   "imports": {
     "https://github.com/ahgilak/deno_gi/raw/main/mod.ts": "./mod.ts"
