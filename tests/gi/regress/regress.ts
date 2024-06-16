@@ -160,6 +160,12 @@ Deno.test("includes booleans", () => {
   });
 });
 
+Deno.test("implicit conversions from strings to int arrays", () => {
+  assertEquals(Regress.test_array_gint8_in("\x01\x02\x03\x04"), 10);
+  assertEquals(Regress.test_array_gint16_in("\x01\x02\x03\x04"), 10);
+  assertEquals(Regress.test_array_gint16_in("\u0100\u0200\u0300\u0400"), 2560);
+});
+
 Deno.test("arrays of integers with length parameter", async (t) => {
   await t.step("marshals as a return value with transfer full", () => {
     assertEquals(Regress.test_array_int_full_out(), [0, 1, 2, 3, 4]);

@@ -112,7 +112,9 @@ export function parseCallableArgs(info, has_caller = false) {
           let length;
 
           // get the length of the array
-          if (isTypedArray(value)) {
+          if (typeof value === "string") {
+            length = value.length;
+          } else if (isTypedArray(value)) {
             length = value.byteLength / value.BYTES_PER_ELEMENT;
           } else if (Array.isArray(value)) {
             length = value.length;
@@ -129,7 +131,7 @@ export function parseCallableArgs(info, has_caller = false) {
           boxArgument(detail.type, value, buffer, offset);
         }
       } catch (error) {
-        if (error instanceof RangeError) {
+        if (error instanceof Error) {
           error.message = `Argument ${detail.name}: ${error.message}`;
         }
 

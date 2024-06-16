@@ -320,15 +320,10 @@ export function boxArgument(
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      if (!value) break;
+      const buffer = normalizeArray(type, value);
+      if (!buffer) break;
 
-      if (Array.isArray(value)) value = boxArray(type, value);
-
-      if (!isTypedArray(value) && !(value instanceof ArrayBuffer)) {
-        throw new TypeError("Expected an Array or TypedArray");
-      }
-
-      dataView.setBigUint64(cast_ptr_u64(cast_buf_ptr(value)));
+      dataView.setBigUint64(cast_ptr_u64(cast_buf_ptr(buffer)));
 
       break;
     }
@@ -370,4 +365,29 @@ const typedArrays = [
  */
 export function isTypedArray(value) {
   return typedArrays.some((typedArray) => value instanceof typedArray);
+}
+
+/**
+ * @param {Deno.PointerObject} type 
+ * @param {any} value 
+ * @returns {ArrayBuffer}
+ */
+export function normalizeArray(type, value) {
+  if (!value) return null;
+
+  if (typeof value === "string") {
+    return boxArray(type, value.split("").map((char) => char.charCodeAt(0)));
+  }
+
+  if (Array.isArray(value) || isTypedArray(value)) {
+    return boxArray(type, value);
+  }
+
+  if (value instanceof ArrayBuffer) {
+    return value;
+  }
+
+  throw new TypeError(
+    "Expected a string, array, ArrayBuffer or TypedArray",
+  );
 }

@@ -67,7 +67,7 @@ export function unboxArray(type, buffer, length) {
 /**
  * @param {Deno.PointerValue} typeInfo
  * @param {any[]} values
- * @returns {Uint8Array}
+ * @returns {ArrayBuffer}
  */
 export function boxArray(typeInfo, values) {
   const isZeroTerminated = g.type_info.is_zero_terminated(typeInfo);
