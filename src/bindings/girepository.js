@@ -46,6 +46,7 @@ const { g } = openLib(libName("girepository-1.0", 1), {
       get_interface: $pointer($pointer),
       get_param_type: $pointer($pointer, $i32),
       is_zero_terminated: $bool($pointer),
+      is_pointer: $bool($pointer),
     },
     enum_info: {
       get_n_values: $i32($pointer),

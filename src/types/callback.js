@@ -1,8 +1,9 @@
 import g from "../bindings/mod.js";
 import { GITypeTag } from "../bindings/enums.js";
-import { boxArgument, unboxArgument } from "./argument.js";
+import { boxArgument, initArguments, unboxArgument } from "./argument.js";
 import { createArg } from "./callable.js";
-import { deref_buf } from "../base_utils/convert.ts";
+import { cast_ptr_u64 } from "../base_utils/convert.ts";
+import { ExtendedDataView } from "https://raw.githubusercontent.com/ahgilak/deno_gi/main/src/utils/dataview.js";
 
 const nativeTypes = {
   [GITypeTag.BOOLEAN]: "i32",
@@ -32,9 +33,13 @@ function parseArgs(
     const argType = g.arg_info.get_type(argInfo);
     const tag = g.type_info.get_tag(argType);
 
+    const buffer = initArguments(argType);
+    const view = new ExtendedDataView(buffer);
+    view.setBigUint64(cast_ptr_u64(value));
+
     const result = nativeTypes[tag]
       ? value
-      : unboxArgument(argType, deref_buf(value, 8));
+      : unboxArgument(argType, buffer, undefined);
 
     g.base_info.unref(argInfo);
     g.base_info.unref(argType);

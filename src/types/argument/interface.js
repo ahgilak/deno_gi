@@ -1,9 +1,9 @@
-import { peek_ptr } from "../../base_utils/convert.ts";
 import {
   cast_ptr_u64,
   cast_u64_ptr,
   deref_buf,
   deref_ptr,
+  peek_ptr,
 } from "../../base_utils/convert.ts";
 import { GIInfoType, GType } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
@@ -36,10 +36,10 @@ export function boxInterface(info, value) {
 
 export function unboxInterface(info, buffer) {
   const pointer = deref_ptr(buffer);
+  if (!pointer) return null;
 
   const argValue = deref_buf(pointer, 8);
   const dataView = new ExtendedDataView(argValue);
-  const type = g.base_info.get_type(info);
   let gType = g.registered_type_info.get_g_type(info);
 
   if (g.type.is_a(gType, GType.OBJECT)) {
@@ -48,21 +48,36 @@ export function unboxInterface(info, buffer) {
     gType = cast_ptr_u64(typeInstance);
   }
 
-  switch (type) {
-    case GIInfoType.OBJECT:
-    case GIInfoType.STRUCT:
-    case GIInfoType.INTERFACE: {
-      const result = Object.create(objectByGType(gType).prototype);
-      Reflect.defineMetadata(
-        "gi:ref",
-        pointer,
-        result,
-      );
-      return result;
-    }
+  const result = Object.create(objectByGType(gType).prototype);
+  Reflect.defineMetadata(
+    "gi:ref",
+    pointer,
+    result,
+  );
+  return result;
+}
 
+/**
+ * @param {Deno.PointerObject} info
+ * @returns {number | null}
+ */
+export function getInterfaceSize(info) {
+  const type = g.base_info.get_type(info);
+  console;
+
+  switch (type) {
+    case GIInfoType.STRUCT:
+      return g.struct_info.get_size(info);
+      // I'm unsure
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
-      return dataView.getInt32();
+      return null;
+    case GIInfoType.INTERFACE:
+    case GIInfoType.OBJECT: {
+      const query = g.type.query(g.registered_type_info.get_g_type(type));
+      const view = new ExtendedDataView(deref_buf(query, 24));
+      // the offset of the instance_size
+      return view.getUint8(20);
+    }
   }
 }
