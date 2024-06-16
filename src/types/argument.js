@@ -93,16 +93,19 @@ export function initArguments(...types) {
   return buffer;
 }
 
-function getDeepView(buffer, offset, n_pointers) {
-  let view = new ExtendedDataView(buffer, offset);
+function getDeepViews(buffer, offset, n_pointers) {
+  const views = [new ExtendedDataView(buffer, offset)];
 
   for (let i = 0; i < n_pointers; i++) {
-    const pointer = view.getBigUint64();
-    if (pointer === 0n) return new ExtendedDataView(new ArrayBuffer(8));
-    view = new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8));
+    const pointer = views[0].getBigUint64();
+    if (pointer === 0n) {
+      views.unshift(new ExtendedDataView(new ArrayBuffer(8)));
+      break;
+    }
+    views.unshift(new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8)));
   }
 
-  return view;
+  return views;
 }
 
 /** This function is given a pointer OR a value, and must hence extract it
@@ -121,7 +124,7 @@ export function unboxArgument(
   length = -1,
 ) {
   const tag = g.type_info.get_tag(type);
-  const dataView = getDeepView(buffer, offset, n_pointers);
+  const [dataView, containerView] = getDeepViews(buffer, offset, n_pointers);
 
   switch (tag) {
     case GITypeTag.VOID:
@@ -174,7 +177,8 @@ export function unboxArgument(
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      if (!dataView) return [];
+      // containerView may be empty nPointers = 0
+      const buffer = containerView?.buffer || dataView.buffer;
       return unboxArray(type, buffer, length);
     }
 
@@ -368,8 +372,8 @@ export function isTypedArray(value) {
 }
 
 /**
- * @param {Deno.PointerObject} type 
- * @param {any} value 
+ * @param {Deno.PointerObject} type
+ * @param {any} value
  * @returns {ArrayBuffer}
  */
 export function normalizeArray(type, value) {
