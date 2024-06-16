@@ -1,4 +1,4 @@
-import { cast_ptr_u64, peek_ptr } from "../../base_utils/convert.ts";
+import { deref_buf, deref_ptr } from "../../base_utils/convert.ts";
 import { GITypeTag } from "../../bindings/enums.js";
 import g from "../../bindings/mod.js";
 import { boxArgument, unboxArgument } from "../argument.js";
@@ -41,14 +41,12 @@ export function getTypeSize(typeTag) {
 
 /**
  * @param {Deno.PointerValue} type
- * @param {number | bigint} pointer
+ * @param {ArrayBuffer} buffer
  * @param {number} length
  * @returns {import("../../base_utils/ffipp.d.ts").TypedArray}
  */
-export function unboxArray(type, pointer, length) {
-  if (!pointer) {
-    return null;
-  }
+export function unboxArray(type, buffer, length) {
+  if (!buffer) return null;
 
   const paramType = g.type_info.get_param_type(type, 0);
   const paramTypeTag = g.type_info.get_tag(paramType);
@@ -56,19 +54,11 @@ export function unboxArray(type, pointer, length) {
 
   const result = [];
 
-  for (let i = 0; i < length || length === -1; i++) {
-    const value = cast_ptr_u64(
-      peek_ptr(pointer, i * paramSize),
-    );
-    if (!value) {
-      break;
-    }
-    result.push(
-      unboxArgument(
-        paramType,
-        value,
-      ),
-    );
+  for (let i = 0; (i < length) || (length === -1); i++) {
+    const paramBuffer = deref_buf(deref_ptr(buffer), paramSize, i * paramSize);
+    const value = unboxArgument(paramType, paramBuffer);
+    if (length === -1 && !value) break;
+    result.push(value);
   }
 
   return result;

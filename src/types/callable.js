@@ -3,6 +3,7 @@ import {
   GIDirection,
   GIFunctionInfoFlags,
   GIInfoType,
+  GITypeTag,
 } from "../bindings/enums.js";
 import g from "../bindings/mod.js";
 import { ExtendedDataView } from "../utils/dataview.js";
@@ -19,7 +20,7 @@ import { createMethod } from "./callable/method.js";
 import { createVFunc } from "./callable/vfunc.js";
 import { createCallback } from "./callback.js";
 
-export function createArg(info) {
+export function createArg(info, index) {
   let nPointers = 0;
   const type = g.arg_info.get_type(info);
   const name = g.base_info.get_name(info);
@@ -34,6 +35,7 @@ export function createArg(info) {
   if (g.type_info.is_pointer(type)) nPointers++;
 
   return {
+    index,
     type,
     name,
     arrLength,
@@ -48,14 +50,23 @@ export function createArg(info) {
 
 export function parseCallableArgs(info, has_caller = false) {
   const nArgs = g.callable_info.get_n_args(info);
-  //const returnType = g.callable_info.get_return_type(info);
+  const returnType = g.callable_info.get_return_type(info);
+  const returnArrLength = g.type_info.get_array_length(returnType);
 
   const argDetails = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = createArg(argInfo);
+    const arg = createArg(argInfo, i);
     argDetails.push(arg);
     g.base_info.unref(argInfo);
+  }
+
+  // ignored arguments
+  for (const arg of argDetails) {
+    arg.ignore = arg.isSkip ||
+      // the length arguments will be set automatically
+      argDetails.some((detail) => detail.arrLength === arg.index) ||
+      returnArrLength === arg.index;
   }
 
   const inArgsDetail = argDetails.filter(
@@ -81,9 +92,12 @@ export function parseCallableArgs(info, has_caller = false) {
       try {
         const offset = (caller_offset + i) * 8;
         const detail = inArgsDetail[i];
+        if (detail.ignore) continue;
 
         // check if this argument contains the length of an arrya
-        const array = inArgsDetail.find((detail) => detail.arrLength === i);
+        const array = inArgsDetail.find((arg) =>
+          arg.index === detail.arrLength
+        );
 
         if (array) {
           // set this value to the length of the array
@@ -125,10 +139,59 @@ export function parseCallableArgs(info, has_caller = false) {
     return initArguments(...outArgsDetail.map((d) => [d.type, d.nPointers]));
   };
 
-  const parseOutArgs = (outArgs) => {
-    return outArgsDetail.map((d, i) => {
-      return unboxArgument(d.type, outArgs, i * 8, d.nPointers);
-    });
+  const parseOutArgs = (retValue, outArgs) => {
+    // cache all arguments so that we can access them by type
+    const argValues = new Map();
+    argValues.set(returnType, [0, retValue]);
+    for (let i = 0; i < outArgsDetail.length; i++) {
+      const arg = outArgsDetail[i];
+      argValues.set(arg.type, [i, outArgs]);
+    }
+
+    const results = [];
+
+    const unbox = (type, buffer, offset, nPointers, arrLengthIndex) => {
+      // if this argument is an array, we need to get it's length
+      if (g.type_info.get_tag(type) === GITypeTag.ARRAY) {
+        let arrLength = -1;
+        const lengthDetail = argDetails.find((a) => a.index === arrLengthIndex);
+        const lengthArg = argValues.get(lengthDetail?.type);
+        if (lengthArg) {
+          const [index, buffer] = lengthArg;
+          arrLength = unboxArgument(
+            lengthDetail.type,
+            buffer,
+            index * 8,
+            lengthDetail.nPointers,
+          );
+        }
+
+        results.push(unboxArgument(type, buffer, offset, nPointers, arrLength));
+      } else {
+        results.push(unboxArgument(type, buffer, offset, nPointers));
+      }
+    };
+
+    // handle the return value if it's not void
+    if (g.type_info.get_tag(returnType) !== GITypeTag.VOID) {
+      unbox(returnType, retValue, 0, 0, returnArrLength);
+    }
+
+    // handle the rest of the out arguments
+    for (let i = 0; i < outArgsDetail.length; i++) {
+      const d = outArgsDetail[i];
+      if (d.ignore) continue;
+
+      unbox(d.type, outArgs, i * 8, d.nPointers, d.arrLength);
+    }
+
+    argValues.clear();
+
+    if (results.length === 1) {
+      return results[0];
+    } else {
+      return results;
+    }
   };
 
   return [parseInArgs, initOutArgs, parseOutArgs];

@@ -97,9 +97,9 @@ function getDeepView(buffer, offset, n_pointers) {
   let view = new ExtendedDataView(buffer, offset);
 
   for (let i = 0; i < n_pointers; i++) {
-    view = new ExtendedDataView(
-      deref_buf(cast_u64_ptr(view.getBigUint64()), 8),
-    );
+    const pointer = view.getBigUint64();
+    if (pointer === 0n) return new ExtendedDataView(new ArrayBuffer(8));
+    view = new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8));
   }
 
   return view;
@@ -110,9 +110,16 @@ function getDeepView(buffer, offset, n_pointers) {
  * @param {ArrayBuffer} buffer
  * @param {number} [offset]
  * @param {number} [n_pointers] how many times the argument is wrapped in pointers
+ * @param {number} [length] the length for arrays
  * @returns
  */
-export function unboxArgument(type, buffer, offset, n_pointers = 0) {
+export function unboxArgument(
+  type,
+  buffer,
+  offset,
+  n_pointers = 0,
+  length = -1,
+) {
   const tag = g.type_info.get_tag(type);
   const dataView = getDeepView(buffer, offset, n_pointers);
 
@@ -167,7 +174,8 @@ export function unboxArgument(type, buffer, offset, n_pointers = 0) {
     /* non-basic types */
 
     case GITypeTag.ARRAY: {
-      return unboxArray(type, deref_ptr(buffer), -1);
+      if (!dataView) return [];
+      return unboxArray(type, buffer, length);
     }
 
     case GITypeTag.GLIST:

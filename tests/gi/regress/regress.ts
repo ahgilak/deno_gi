@@ -2,6 +2,7 @@
 
 import { require } from "../../../mod.ts";
 import {
+  assert,
   assertAlmostEquals,
   assertEquals,
   assertThrows,
@@ -149,5 +150,23 @@ Deno.test("includes booleans", () => {
     assertEquals(method(NaN), NaN);
     assertEquals(method(Infinity), Infinity);
     assertEquals(method(-Infinity), -Infinity);
+  });
+});
+
+Deno.test("arrays of integers with length parameter", async (t) => {
+  await t.step("marshals as a return value with transfer full", () => {
+    assertEquals(Regress.test_array_int_full_out(), [0, 1, 2, 3, 4]);
+  });
+
+  await t.step("marshals as a return value with transfer none", () => {
+    assertEquals(Regress.test_array_int_none_out(), [1, 2, 3, 4, 5]);
+  });
+
+  await t.step("marshalls as a nullable in parameter", () => {
+    assert(Regress.test_array_int_null_in(null));
+  });
+
+  await t.step("marshals as a nullable return value", () => {
+    assertEquals(Regress.test_array_int_null_out(), []);
   });
 });
