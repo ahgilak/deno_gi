@@ -171,35 +171,6 @@ Deno.test("out arrays of integers", () => {
   assertEquals(Regress.test_array_int_out(), [0, 1, 2, 3, 4]);
 });
 
-/*
-    describe('String arrays', function () {
-        it('marshalling in', function () {
-            expect(Regress.test_strv_in(['1', '2', '3'])).toBeTruthy();
-            expect(Regress.test_strv_in(['4', '5', '6'])).toBeFalsy();
-            // Ensure that primitives throw without SEGFAULT
-            expect(() => Regress.test_strv_in(1)).toThrow();
-            expect(() => Regress.test_strv_in('')).toThrow();
-            expect(() => Regress.test_strv_in(false)).toThrow();
-            // Second two are deliberately not strings
-            expect(() => Regress.test_strv_in(['1', 2, 3])).toThrow();
-        });
-
-        it('marshalling out', function () {
-            expect(Regress.test_strv_out())
-                .toEqual(['thanks', 'for', 'all', 'the', 'fish']);
-        });
-
-        it('marshalling return value with container transfer', function () {
-            expect(Regress.test_strv_out_container()).toEqual(['1', '2', '3']);
-        });
-
-        it('marshalling out parameter with container transfer', function () {
-            expect(Regress.test_strv_outarg()).toEqual(['1', '2', '3']);
-        });
-    });
-
-*/
-
 Deno.test("String arrays", async (t) => {
   await t.step("marshalling in", () => {
     assert(Regress.test_strv_in(["1", "2", "3"]));
@@ -230,6 +201,22 @@ Deno.test("String arrays", async (t) => {
   await t.step("marshalling out parameter with container transfer", () => {
     assertEquals(Regress.test_strv_outarg(), ["1", "2", "3"]);
   });
+});
+
+Deno.test("GType arrays", () => {
+  const Gio = require("Gio", "2.0");
+
+  assertEquals(
+    Regress.test_array_gtype_in([
+      Gio.SimpleAction,
+      Gio.Icon,
+      // GObject.TYPE_BOXED,
+    ]),
+    "[GSimpleAction,GIcon,]",
+  );
+  assertThrows(() => Regress.test_array_gtype_in(42), TypeError);
+  assertThrows(() => Regress.test_array_gtype_in([undefined]), TypeError);
+  // assertThrows(() => Regress.test_array_gtype_in([80]));
 });
 
 Deno.test("arrays of integers with length parameter", async (t) => {

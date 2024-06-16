@@ -316,10 +316,19 @@ export function boxArgument(
       );
       break;
 
-    case GITypeTag.GTYPE:
-      ensure_number_range(GITypeTag.GTYPE, value);
-      dataView.setBigUint64(value);
+    case GITypeTag.GTYPE: {
+      let numericValue = value;
+      // quick check to get the GType of a class
+      if (typeof value === "function") {
+        numericValue = Reflect.getMetadata("gi:gtype", value);
+      }
+      if (typeof numericValue !== "bigint" && typeof numericValue !== "number") {
+        throw new TypeError("Expected a GType or a class");
+      }
+      ensure_number_range(GITypeTag.GTYPE, numericValue);
+      dataView.setBigUint64(numericValue);
       break;
+    }
 
     /* non-basic types */
 
