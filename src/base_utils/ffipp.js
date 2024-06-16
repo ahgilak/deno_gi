@@ -1,6 +1,6 @@
 /// <reference types="./ffipp.d.ts"/>
 
-import "npm:reflect-metadata";
+import "https://esm.sh/reflect-metadata@0.2.2";
 
 export function createType({
   symbol,

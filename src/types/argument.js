@@ -12,6 +12,7 @@ import { objectByInfo } from "../utils/gobject.js";
 import { boxArray, unboxArray } from "./argument/array.js";
 import { boxInterface, unboxInterface } from "./argument/interface.js";
 import { unboxList } from "./argument/list.js";
+import { ensure_number_range } from "../bindings/ranges.ts";
 
 export function initArgument(type) {
   const tag = g.type_info.get_tag(type);
@@ -115,7 +116,6 @@ export function unboxArgument(type, buffer, offset) {
 
 export function boxArgument(type, value) {
   const buffer = new ArrayBuffer(8);
-  if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer);
   const tag = g.type_info.get_tag(type);
 
@@ -124,53 +124,83 @@ export function boxArgument(type, value) {
       dataView.setInt32(value);
       break;
 
-    case GITypeTag.UINT8:
-      dataView.setUint8(value);
+    case GITypeTag.UINT8: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT8, normalized);
+      dataView.setUint8(normalized);
       break;
+    }
 
     case GITypeTag.UNICHAR:
       dataView.setUint32(String(value).codePointAt(0));
       break;
 
-    case GITypeTag.INT8:
-      dataView.setInt8(value);
+    case GITypeTag.INT8: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT8, normalized);
+      dataView.setInt8(normalized);
       break;
+    }
 
-    case GITypeTag.UINT16:
-      dataView.setUint16(value);
+    case GITypeTag.UINT16: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT16, normalized);
+      dataView.setUint16(normalized);
       break;
+    }
 
-    case GITypeTag.INT16:
-      dataView.setInt16(value);
+    case GITypeTag.INT16: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT16, normalized);
+      dataView.setInt16(normalized);
       break;
+    }
 
-    case GITypeTag.UINT32:
-      dataView.setUint32(value);
+    case GITypeTag.UINT32: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT32, normalized);
+      dataView.setUint32(normalized);
       break;
+    }
 
-    case GITypeTag.INT32:
-      dataView.setInt32(value);
+    case GITypeTag.INT32: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT32, normalized);
+      dataView.setInt32(normalized);
       break;
+    }
 
-    case GITypeTag.UINT64:
+    case GITypeTag.UINT64: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.UINT64, normalized);
       dataView.setBigUint64(
-        typeof value === "bigint" ? value : Math.trunc(value),
+        typeof normalized === "bigint" ? normalized : Math.trunc(normalized),
       );
       break;
+    }
 
-    case GITypeTag.INT64:
+    case GITypeTag.INT64: {
+      const normalized = normalizeNumber(value);
+      ensure_number_range(GITypeTag.INT64, normalized);
       dataView.setBigInt64(
-        typeof value === "bigint" ? value : Math.trunc(value),
+        typeof normalized === "bigint" ? normalized : Math.trunc(normalized),
       );
       break;
+    }
 
-    case GITypeTag.FLOAT:
-      dataView.setFloat32(value);
+    case GITypeTag.FLOAT: {
+      const normalized = normalizeNumber(value, true);
+      ensure_number_range(GITypeTag.FLOAT, normalized);
+      dataView.setFloat32(normalized);
       break;
+    }
 
-    case GITypeTag.DOUBLE:
-      dataView.setFloat64(value);
+    case GITypeTag.DOUBLE: {
+      const normalized = normalizeNumber(value, true);
+      ensure_number_range(GITypeTag.DOUBLE, normalized);
+      dataView.setFloat64(normalized);
       break;
+    }
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME:
@@ -180,6 +210,7 @@ export function boxArgument(type, value) {
       break;
 
     case GITypeTag.GTYPE:
+      ensure_number_range(GITypeTag.GTYPE, value);
       dataView.setBigUint64(value);
       break;
 
@@ -190,9 +221,12 @@ export function boxArgument(type, value) {
         value = boxArray(type, value);
       }
 
-      dataView.setBigUint64(
-        cast_ptr_u64(cast_buf_ptr(value)),
-      );
+      if (value) {
+        dataView.setBigUint64(
+          cast_ptr_u64(cast_buf_ptr(value)),
+        );
+      }
+
       break;
     }
 
@@ -207,4 +241,10 @@ export function boxArgument(type, value) {
   }
 
   return buffer;
+}
+
+function normalizeNumber(value, allowNaN = false) {
+  if (value === undefined) return 0;
+  if (allowNaN && isNaN(value)) return NaN;
+  return value || 0;
 }

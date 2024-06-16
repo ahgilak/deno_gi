@@ -16,6 +16,7 @@ import { createCallback } from "./callback.js";
 
 export function createArg(info) {
   const type = g.arg_info.get_type(info);
+  const name = g.base_info.get_name(info);
   const arrLength = g.type_info.get_array_length(type);
   const isSkip = g.arg_info.is_skip(info);
   const direction = g.arg_info.get_direction(info);
@@ -24,6 +25,7 @@ export function createArg(info) {
   const isReturn = g.arg_info.is_return_value(info);
   return {
     type,
+    name,
     arrLength,
     isSkip,
     direction,
@@ -58,12 +60,21 @@ export function parseCallableArgs(info) {
 
     for (let i = 0; i < inArgsDetail.length; i++) {
       const detail = inArgsDetail[i];
-      const value = args.shift();
-      const pointer = new ExtendedDataView(boxArgument(detail.type, value))
-        .getBigUint64();
-      inArgs[i] = pointer;
-      if (detail.lengthArg >= 0) {
-        inArgs[detail.lengthArg] = value.length || value.byteLength || 0;
+
+      try {
+        const value = args.shift();
+        const pointer = new ExtendedDataView(boxArgument(detail.type, value))
+          .getBigUint64();
+        inArgs[i] = pointer;
+        if (detail.lengthArg >= 0) {
+          inArgs[detail.lengthArg] = value.length || value.byteLength || 0;
+        }
+      } catch (error) {
+        if (error instanceof RangeError) {
+          error.message = `Argument ${detail.name}: ${error.message}`;
+        }
+
+        throw error;
       }
     }
 

@@ -1,0 +1,8 @@
+[wrap-git]
+directory = gobject-introspection
+url = https://gitlab.gnome.org/GNOME/gobject-introspection.git
+revision = 1.80.1
+depth = 1
+
+[provide]
+program_names = g-ir-scanner, g-ir-compiler
