@@ -211,7 +211,6 @@ export function boxArgument(
   buffer = new ArrayBuffer(8),
   offset = 0,
 ) {
-  if (!value) return buffer;
   const dataView = new ExtendedDataView(buffer, offset);
   const tag = g.type_info.get_tag(type);
 
