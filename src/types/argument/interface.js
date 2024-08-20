@@ -13,14 +13,14 @@ import { createCallback } from "../callback.js";
 
 export function boxInterface(info, value) {
   const type = g.base_info.get_type(info);
-
+  console.log("value", value)
   switch (type) {
     case GIInfoType.OBJECT:
     case GIInfoType.INTERFACE:
     case GIInfoType.STRUCT:
       return value
         ? cast_ptr_u64(Reflect.getOwnMetadata("gi:ref", value))
-        : null;
+        : 0n;
     case GIInfoType.ENUM:
     case GIInfoType.FLAGS:
       return value;
