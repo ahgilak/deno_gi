@@ -2,8 +2,10 @@
 
 import { require } from "../../../mod.ts";
 import {
+  assert,
   assertAlmostEquals,
   assertEquals,
+  assertFalse,
   assertThrows,
 } from "../../test_deps.ts";
 import { assertEqualNumbers, isBit64Type } from "../../utils/asserts.ts";
@@ -149,5 +151,88 @@ Deno.test("includes booleans", () => {
     assertEquals(method(NaN), NaN);
     assertEquals(method(Infinity), Infinity);
     assertEquals(method(-Infinity), -Infinity);
+  });
+});
+
+["int", "gint8", "gint16", "gint32", "gint64"].forEach((inttype) => {
+  Deno.test(`arrays of ${inttype} in`, () => {
+    const method = Regress[`test_array_${inttype}_in`];
+    assertEquals(Number(method([1, 2, 3, 4])), 10);
+  });
+});
+
+Deno.test("implicit conversions from strings to int arrays", () => {
+  assertEquals(Regress.test_array_gint8_in("\x01\x02\x03\x04"), 10);
+  assertEquals(Regress.test_array_gint16_in("\x01\x02\x03\x04"), 10);
+  assertEquals(Regress.test_array_gint16_in("\u0100\u0200\u0300\u0400"), 2560);
+});
+
+Deno.test("out arrays of integers", () => {
+  assertEquals(Regress.test_array_int_out(), [0, 1, 2, 3, 4]);
+});
+
+Deno.test("String arrays", async (t) => {
+  await t.step("marshalling in", () => {
+    assert(Regress.test_strv_in(["1", "2", "3"]));
+    assertFalse(Regress.test_strv_in(["4", "5", "6"]));
+    // Ensure that primitives throw without SEGFAULT
+    assertThrows(() => Regress.test_strv_in(1), TypeError);
+    // TODO: Fix
+    // assertEquals(Regress.test_strv_in(""), 12);
+    // assertThrows(() => Regress.test_strv_in(false), TypeError);
+    // Second two are deliberately not strings
+    // assertThrows(() => Regress.test_strv_in(["1", 2, 3]), TypeError);
+  });
+
+  await t.step("marshalling out", () => {
+    assertEquals(Regress.test_strv_out(), [
+      "thanks",
+      "for",
+      "all",
+      "the",
+      "fish",
+    ]);
+  });
+
+  await t.step("marshalling return value with container transfer", () => {
+    assertEquals(Regress.test_strv_out_container(), ["1", "2", "3"]);
+  });
+
+  await t.step("marshalling out parameter with container transfer", () => {
+    assertEquals(Regress.test_strv_outarg(), ["1", "2", "3"]);
+  });
+});
+
+Deno.test("GType arrays", () => {
+  const Gio = require("Gio", "2.0");
+
+  assertEquals(
+    Regress.test_array_gtype_in([
+      Gio.SimpleAction,
+      Gio.Icon,
+      // GObject.TYPE_BOXED,
+    ]),
+    "[GSimpleAction,GIcon,]",
+  );
+  assertThrows(() => Regress.test_array_gtype_in(42), TypeError);
+  assertThrows(() => Regress.test_array_gtype_in([undefined]), TypeError);
+  // assertThrows(() => Regress.test_array_gtype_in([80]));
+});
+
+Deno.test("arrays of integers with length parameter", async (t) => {
+  await t.step("marshals as a return value with transfer full", () => {
+    assertEquals(Regress.test_array_int_full_out(), [0, 1, 2, 3, 4]);
+  });
+
+  await t.step("marshals as a return value with transfer none", () => {
+    assertEquals(Regress.test_array_int_none_out(), [1, 2, 3, 4, 5]);
+  });
+
+  await t.step("marshalls as a nullable in parameter", () => {
+    assert(Regress.test_array_int_null_in(null));
+  });
+
+  await t.step("marshals as a nullable return value", () => {
+    assertEquals(Regress.test_array_int_null_out(), []);
   });
 });

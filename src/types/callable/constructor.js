@@ -15,8 +15,8 @@ export function createConstructor(info, prototype) {
 
     const success = g.function_info.invoke(
       info,
-      new BigUint64Array(inArgs),
-      inArgs.length,
+      inArgs,
+      inArgs.byteLength / 8,
       new BigUint64Array(0),
       0,
       returnValue,
