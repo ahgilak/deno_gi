@@ -1,13 +1,10 @@
-import { deref_buf, deref_ptr } from "../../base_utils/convert.ts";
-import { GITypeTag } from "../../bindings/enums.js";
-import g from "../../bindings/mod.js";
-import { boxArgument, unboxArgument } from "../argument.js";
+import {deref_buf, deref_ptr} from "../../base_utils/convert.ts";
+import {GITypeTag} from "../../bindings/enums.ts";
+import g from "../../bindings/mod.ts";
+import {boxArgument, unboxArgument} from "../argument.ts";
+import {TypedArray} from "../../base_utils/ffipp.ts";
 
-/**
- * @param {number} typeTag
- * @returns {number}
- */
-export function getTypeSize(typeTag) {
+export function getTypeSize(typeTag: number) {
   switch (typeTag) {
     case GITypeTag.BOOLEAN:
       return 1 << 2;
@@ -39,14 +36,16 @@ export function getTypeSize(typeTag) {
   }
 }
 
-/**
- * @param {Deno.PointerValue} type
- * @param {ArrayBuffer} buffer
- * @param {number} length
- * @returns {import("../../base_utils/ffipp.d.ts").TypedArray}
- */
-export function unboxArray(type, buffer, length) {
+export function unboxArray(
+  type: Deno.PointerValue,
+  buffer: ArrayBufferLike,
+  length: number,
+): unknown[] | null {
   if (!buffer) return null;
+
+  const ptr = deref_ptr(buffer);
+
+  if (!ptr) return null;
 
   const paramType = g.type_info.get_param_type(type, 0);
   const paramTypeTag = g.type_info.get_tag(paramType);
@@ -55,7 +54,8 @@ export function unboxArray(type, buffer, length) {
   const result = [];
 
   for (let i = 0; (i < length) || (length === -1); i++) {
-    const paramBuffer = deref_buf(deref_ptr(buffer), paramSize, i * paramSize);
+    const paramBuffer = deref_buf(ptr, paramSize, i * paramSize);
+    if (paramType === null) throw new TypeError("paramType is null");
     const value = unboxArgument(paramType, paramBuffer);
     if (length === -1 && !value) break;
     result.push(value);
@@ -64,12 +64,10 @@ export function unboxArray(type, buffer, length) {
   return result;
 }
 
-/**
- * @param {Deno.PointerValue} typeInfo
- * @param {any[]} values
- * @returns {ArrayBuffer}
- */
-export function boxArray(typeInfo, values) {
+export function boxArray(
+  typeInfo: Deno.PointerValue,
+  values: unknown[] | TypedArray,
+): ArrayBuffer {
   const isZeroTerminated = g.type_info.is_zero_terminated(typeInfo);
 
   const paramType = g.type_info.get_param_type(typeInfo, 0);
@@ -77,7 +75,7 @@ export function boxArray(typeInfo, values) {
   const paramSize = getTypeSize(paramTypeTag);
 
   const buffer = new ArrayBuffer(
-    (values.length + isZeroTerminated) * paramSize,
+    (values.length + +isZeroTerminated) * paramSize,
   );
 
   for (let i = 0; i < values.length; i++) {

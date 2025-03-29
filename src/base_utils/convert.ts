@@ -1,5 +1,5 @@
-import { ExtendedDataView } from "../utils/dataview.js";
-import type { TypedArray } from "./ffipp.js";
+import {ExtendedDataView} from "../utils/dataview.js";
+import type {TypedArray} from "./ffipp.ts";
 
 const encoder = new TextEncoder();
 

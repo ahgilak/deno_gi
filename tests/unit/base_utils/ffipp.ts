@@ -1,4 +1,4 @@
-import { assert, assertEquals } from "../../test_deps.ts";
+import {assert, assertEquals} from "../../test_deps.ts";
 import * as mod from "../../../src/base_utils/ffipp.js";
 
 Deno.test("createType", () => {
@@ -10,8 +10,8 @@ Deno.test("createType", () => {
   const result = mod.createType({
     symbol,
     size,
-    serilize,
-    deserilize,
+    serialize: serilize,
+    deserialize: deserilize,
   });
 
   assert(result, "result is null");
@@ -49,13 +49,13 @@ Deno.test("createType", () => {
   // @ts-ignore symbol is a private property
   assertEquals(
     // @ts-ignore symbol is a private property
-    result.serilize,
+    result.serialize,
     serilize,
     "result.serilize is not the same",
   );
   assertEquals(
     // @ts-ignore symbol is a private property
-    result.deserilize,
+    result.deserialize,
     deserilize,
     "result.deserilize is not the same",
   );

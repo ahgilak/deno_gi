@@ -1,5 +1,5 @@
-import g from "../bindings/mod.js";
-import { GIInfoType } from "../bindings/enums.js";
+import g from "../bindings/mod.ts";
+import {GIInfoType} from "../bindings/enums.ts";
 
 export function getName(info: Deno.PointerValue) {
   const name = g.base_info.get_name(info)!;

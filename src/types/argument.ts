@@ -1,5 +1,5 @@
-import g from "../bindings/mod.js";
-import { GIInfoType, GITypeTag } from "../bindings/enums.js";
+import g from "../bindings/mod.ts";
+import {GIInfoType, GITypeTag} from "../bindings/enums.ts";
 import {
   cast_buf_ptr,
   cast_ptr_u64,
@@ -9,26 +9,21 @@ import {
   deref_ptr,
   deref_str,
 } from "../base_utils/convert.ts";
-import { ExtendedDataView } from "../utils/dataview.js";
-import { boxArray, unboxArray } from "./argument/array.js";
-import {
-  boxInterface,
-  getInterfaceSize,
-  unboxInterface,
-} from "./argument/interface.js";
-import { unboxList } from "./argument/list.js";
-import { ensure_number_range } from "../bindings/ranges.ts";
+import {ExtendedDataView} from "../utils/dataview.js";
+import {boxArray, unboxArray} from "./argument/array.ts";
+import {boxInterface, getInterfaceSize, unboxInterface} from "./argument/interface.js";
+import {unboxList} from "./argument/list.js";
+import {ensure_number_range} from "../bindings/ranges.ts";
+import "npm:reflect-metadata";
+import {TypedArray} from "../base_utils/ffipp.js";
 
-/**
- * @param {Deno.PointerObject} info
- * @returns {number | null}
- */
-function getArgumentSize(type) {
+function getArgumentSize(type: Deno.PointerObject<unknown>): number | null {
   const tag = g.type_info.get_tag(type);
 
   switch (tag) {
     case GITypeTag.INTERFACE: {
       const info = g.type_info.get_interface(type);
+      if (info === null) return null;
       return getInterfaceSize(info);
     }
     default:
@@ -36,18 +31,22 @@ function getArgumentSize(type) {
   }
 }
 
-function initPointer(size) {
-  const pointer = cast_buf_ptr(new ArrayBuffer(size));
-  return pointer;
+function initPointer(size: number) {
+  return cast_buf_ptr(new Uint8Array(new ArrayBuffer(size)));
 }
 
 /**
- * @param {ExtendedDataView} view the view to use for initializing an argument
- * @param {number} offset
- * @param {Deno.PointerObject} type
- * @param {number} n_pointers the number of deep pointers to create
+ * @param view the view to use for initializing an argument
+ * @param offset
+ * @param type
+ * @param n_pointers the number of deep pointers to create
  */
-function initArgument(view, offset, type, n_pointers) {
+function initArgument(
+  view: ExtendedDataView,
+  offset: number,
+  type: Deno.PointerObject,
+  n_pointers: number,
+) {
   // get the size of the argument and create various pointers
   const pointer_size = getArgumentSize(type);
   let pointer;
@@ -58,6 +57,9 @@ function initArgument(view, offset, type, n_pointers) {
   for (let i = 0; i < n_pointers; i++) {
     // create a new pointer that points to the initialized value
     const new_pointer = initPointer(8);
+
+    if (!new_pointer) throw new EvalError("Invalid pointer");
+
     const view = new ExtendedDataView(deref_buf(new_pointer, 8));
     if (pointer) view.setBigUint64(cast_ptr_u64(pointer));
     pointer = new_pointer;
@@ -69,10 +71,12 @@ function initArgument(view, offset, type, n_pointers) {
 }
 
 /** Create a new buffer for a list of items
- * @param  {...([type: Deno.PointerObject, n_pointers: number] | Deno.PointerObject)} types a list of types or a tuple with a type and number of pointers
+ * @param types a list of types or a tuple with a type and number of pointers
  * @returns
  */
-export function initArguments(...types) {
+export function initArguments(
+  ...types: ([type: Deno.PointerObject, n_pointers: number] | Deno.PointerObject)[]
+) {
   const buffer = new ArrayBuffer(types.length * 8);
   const view = new ExtendedDataView(buffer);
 
@@ -93,36 +97,50 @@ export function initArguments(...types) {
   return buffer;
 }
 
-function getDeepViews(buffer, offset, n_pointers) {
+function getDeepViews(
+  buffer: ArrayBufferLike,
+  offset: number | undefined,
+  n_pointers: number,
+) {
   const views = [new ExtendedDataView(buffer, offset)];
 
   for (let i = 0; i < n_pointers; i++) {
-    const pointer = views[0].getBigUint64();
-    if (pointer === 0n) {
+    const ptr = views[0].getBigUint64();
+    if (ptr === 0n) {
       views.unshift(new ExtendedDataView(new ArrayBuffer(8)));
       break;
     }
-    views.unshift(new ExtendedDataView(deref_buf(cast_u64_ptr(pointer), 8)));
+    const ptr_value = cast_u64_ptr(ptr);
+    if (!ptr_value) continue;
+    views.unshift(new ExtendedDataView(deref_buf(ptr_value, 8)));
   }
 
   return views;
 }
 
 /** This function is given a pointer OR a value, and must hence extract it
- * @param {Deno.PointerObject} type
- * @param {ArrayBuffer} buffer
- * @param {number} [offset]
- * @param {number} [n_pointers] how many times the argument is wrapped in pointers
- * @param {number} [length] the length for arrays
+ * @param type
+ * @param buffer
+ * @param [offset]
+ * @param [n_pointers] how many times the argument is wrapped in pointers
+ * @param [length] the length for arrays
  * @returns
  */
 export function unboxArgument(
-  type,
-  buffer,
-  offset,
-  n_pointers = 0,
-  length = -1,
-) {
+  type: Deno.PointerObject,
+  buffer: ArrayBuffer,
+  offset?: number,
+  n_pointers: number = 0,
+  length: number = -1,
+):
+  | number
+  | boolean
+  | bigint
+  | string
+  | null
+  | ArrayBuffer
+  | TypedArray
+  | unknown[] {
   const tag = g.type_info.get_tag(type);
   const [dataView, containerView] = getDeepViews(buffer, offset, n_pointers);
 
@@ -218,8 +236,8 @@ export function unboxArgument(
 }
 
 export function boxArgument(
-  type,
-  value,
+  type: Deno.PointerObject<unknown>,
+  value: unknown,
   buffer = new ArrayBuffer(8),
   offset = 0,
 ) {
@@ -311,6 +329,7 @@ export function boxArgument(
 
     case GITypeTag.UTF8:
     case GITypeTag.FILENAME:
+      if (typeof value !== "string") throw new TypeError("Expected a string");
       dataView.setBigUint64(
         cast_ptr_u64(cast_buf_ptr(cast_str_buf(value))),
       );
@@ -338,7 +357,7 @@ export function boxArgument(
       const buffer = normalizeArray(type, value);
       if (!buffer) break;
 
-      dataView.setBigUint64(cast_ptr_u64(cast_buf_ptr(buffer)));
+      dataView.setBigUint64(cast_ptr_u64(cast_buf_ptr(new Uint8Array(buffer))));
 
       break;
     }
@@ -354,8 +373,12 @@ export function boxArgument(
   return buffer;
 }
 
-function normalizeNumber(value, allowNaN = false) {
+function normalizeNumber(
+  value: unknown,
+  allowNaN = false,
+): number | bigint {
   if (value === undefined) return 0;
+  if (typeof value !== "number") throw new TypeError("Expected a number");
   if (allowNaN && isNaN(value)) return NaN;
   return value || 0;
 }
@@ -378,16 +401,20 @@ const typedArrays = [
  * @param {*} value
  * @returns {value is import("../base_utils/ffipp.js").TypedArray}
  */
-export function isTypedArray(value) {
+export function isTypedArray(
+  value: unknown,
+): value is TypedArray {
   return typedArrays.some((typedArray) => value instanceof typedArray);
 }
 
 /**
- * @param {Deno.PointerObject} type
- * @param {any} value
- * @returns {ArrayBuffer}
+ * @param type
+ * @param value
  */
-export function normalizeArray(type, value) {
+export function normalizeArray(
+  type: Deno.PointerObject,
+  value: unknown,
+): ArrayBuffer | null {
   if (!value) return null;
 
   if (typeof value === "string") {

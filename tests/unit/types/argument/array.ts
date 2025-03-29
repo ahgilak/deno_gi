@@ -1,9 +1,10 @@
-import { getTypeSize } from "../../../../src/types/argument/array.js";
-import { GITypeTag } from "../../../../src/bindings/enums.js";
-import { assertEquals } from "../../../test_deps.ts";
+import {getTypeSize} from "../../../../src/types/argument/array.ts";
+import {GITypeTag} from "../../../../src/bindings/enums.ts";
+import {assertEquals} from "../../../test_deps.ts";
+import {Enum} from "../../../../src/utils/enum.ts";
 
 Deno.test("getTypeSize", () => {
-  for (const [tag, value] of Object.entries(GITypeTag)) {
+  for (const [tag, value] of Enum.entries(GITypeTag)) {
     const result = getTypeSize(value);
     let expected: number;
 

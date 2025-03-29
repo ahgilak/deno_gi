@@ -1,14 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
-import { GConnectFlags } from "../bindings/enums.js";
-import g from "../bindings/mod.js";
-import { createCallback } from "../types/callback.js";
+import {GConnectFlags} from "../bindings/enums.ts";
+import g from "../bindings/mod.ts";
+import {createCallback} from "../types/callback.ts";
 
-type Handler = (...args: unknown[]) => unknown;
+export type CbHandler = (...args: unknown[]) => unknown;
 
 function addObjectMethods(object: any) {
   object.prototype.connect = function (
     action: string,
-    callback: Handler,
+    callback: CbHandler,
   ) {
     const signalInfo = Reflect.getMetadata(
       "gi:signals",
@@ -31,14 +31,14 @@ function addObjectMethods(object: any) {
 
   object.prototype.on = function (
     action: string,
-    callback: Handler,
+    callback: CbHandler,
   ) {
     return this.connect(action, callback);
   };
 
   object.prototype.once = function (
     action: string,
-    callback: Handler,
+    callback: CbHandler,
   ) {
     const handler = this.connect(action, (...args: unknown[]) => {
       callback(...args);
@@ -48,7 +48,7 @@ function addObjectMethods(object: any) {
     return handler;
   };
 
-  object.prototype.off = function (handler: Handler) {
+  object.prototype.off = function (handler: CbHandler) {
     g.signal.handler_disconnect(
       Reflect.getOwnMetadata("gi:ref", this),
       handler as any,

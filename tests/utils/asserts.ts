@@ -1,7 +1,5 @@
-import { require } from "../../src/gi.js";
-import { assertEquals } from "../test_deps.ts";
-
-const GLib = require("GLib", "2.0");
+import {assertEquals} from "../test_deps.ts";
+import GLib from "GLib::2.0";
 
 const bit64Types = ["uint64", "int64"];
 if (GLib.SIZEOF_LONG === 8) {

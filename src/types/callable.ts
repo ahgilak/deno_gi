@@ -1,85 +1,98 @@
-import { cast_ptr_u64, deref_buf } from "../base_utils/convert.ts";
-import {
-  GIDirection,
-  GIFunctionInfoFlags,
-  GIInfoType,
-  GITypeTag,
-} from "../bindings/enums.js";
-import g from "../bindings/mod.js";
-import { ExtendedDataView } from "../utils/dataview.js";
-import { getName } from "../utils/string.ts";
-import {
-  boxArgument,
-  initArguments,
-  isTypedArray,
-  unboxArgument,
-} from "./argument.js";
-import { createConstructor } from "./callable/constructor.js";
-import { createFunction } from "./callable/function.js";
-import { createMethod } from "./callable/method.js";
-import { createVFunc } from "./callable/vfunc.js";
-import { createCallback } from "./callback.js";
+import {cast_ptr_u64, deref_buf} from "../base_utils/convert.ts";
+import {GIDirection, GIFunctionInfoFlags, GIInfoType, GITypeTag} from "../bindings/enums.ts";
+import g from "../bindings/mod.ts";
+import {ExtendedDataView} from "../utils/dataview.js";
+import {getName} from "../utils/string.ts";
+import {boxArgument, initArguments, isTypedArray, unboxArgument} from "./argument.ts";
+import {createConstructor} from "./callable/constructor.js";
+import {createFunction} from "./callable/function.js";
+import {createMethod} from "./callable/method.js";
+import {createVFunc} from "./callable/vfunc.js";
+import {createCallback} from "./callback.ts";
 
-export function createArg(info, index) {
+export type ArgMetadata = {
+  type: Deno.PointerValue;
+  nPointers: number;
+  name: string | null;
+  arrLength: number;
+  isSkip: boolean;
+  direction: GIDirection;
+  transfer: number;
+  callerAllocates: boolean;
+  isReturn: boolean;
+  ignore: boolean;
+  index: number | null;
+};
+
+/**
+ * Converts a GObject Introspection argument information pointer into a TypeScript object representation with detailed
+ * metadata about the argument.
+ * @param info Pointer to the GObject Introspection argument information.
+ */
+export function createArg(
+  info: Deno.PointerValue,
+): ArgMetadata {
   let nPointers = 0;
-  const type = g.arg_info.get_type(info);
-  const name = g.base_info.get_name(info);
-  const arrLength = g.type_info.get_array_length(type);
-  const isSkip = g.arg_info.is_skip(info);
-  const direction = g.arg_info.get_direction(info);
-  const transfer = g.arg_info.get_ownership_transfer(info);
-  const callerAllocates = g.arg_info.is_caller_allocates(info);
-  const isReturn = g.arg_info.is_return_value(info);
 
-  if (direction === GIDirection.OUT) nPointers++;
+  const type = g.arg_info.get_type(info);
+
+  const metadata = {
+    name: g.base_info.get_name(info),
+    arrLength: g.type_info.get_array_length(type),
+    isSkip: g.arg_info.is_skip(info),
+    direction: g.arg_info.get_direction(info),
+    transfer: g.arg_info.get_ownership_transfer(info),
+    callerAllocates: g.arg_info.is_caller_allocates(info),
+    isReturn: g.arg_info.is_return_value(info),
+  };
+
+  if (metadata.direction === GIDirection.OUT) nPointers++;
   if (g.type_info.is_pointer(type)) nPointers++;
 
   return {
-    index,
     type,
-    name,
-    arrLength,
-    isSkip,
-    direction,
-    transfer,
-    callerAllocates,
-    isReturn,
     nPointers,
+    ...metadata,
+    ignore: false,
+    index: null,
   };
 }
 
-export function parseCallableArgs(info, has_caller = false) {
+export function parseCallableArgs(
+  info: Deno.PointerValue,
+  has_caller = false,
+) {
   const nArgs = g.callable_info.get_n_args(info);
   const returnType = g.callable_info.get_return_type(info);
   const returnArrLength = g.type_info.get_array_length(returnType);
 
-  const argDetails = [];
+  const argDetails: ArgMetadata[] = [];
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
-    const arg = createArg(argInfo, i);
+    const arg = createArg(argInfo);
     argDetails.push(arg);
     g.base_info.unref(argInfo);
   }
 
   // ignored arguments
+  // the length arguments will be set automatically
   for (const arg of argDetails) {
     arg.ignore = arg.isSkip ||
-      // the length arguments will be set automatically
       argDetails.some((detail) => detail.arrLength === arg.index) ||
       returnArrLength === arg.index;
   }
 
   const inArgsDetail = argDetails.filter(
-    (arg) => !(arg.direction == GIDirection.OUT),
+    (arg) => !(arg.direction === GIDirection.OUT),
   );
 
   const usedInArgDetail = inArgsDetail.filter((arg) => !arg.ignore);
 
   const outArgsDetail = argDetails.filter(
-    (arg) => !(arg.direction == GIDirection.IN),
+    (arg) => !(arg.direction === GIDirection.IN),
   );
 
-  const parseInArgs = (...args) => {
+  const parseInArgs = (...args: Deno.PointerValue[]) => {
     const caller_offset = has_caller ? 1 : 0;
     const buffer = new ArrayBuffer((caller_offset + inArgsDetail.length) * 8);
 
@@ -91,7 +104,9 @@ export function parseCallableArgs(info, has_caller = false) {
 
     if (has_caller) {
       const view = new ExtendedDataView(buffer);
-      const caller = cast_ptr_u64(args.shift());
+      const ptr = args.shift();
+      if (!ptr) throw new TypeError("pointer is nullish");
+      const caller = cast_ptr_u64(ptr);
       view.setBigUint64(caller);
     }
 
@@ -102,9 +117,7 @@ export function parseCallableArgs(info, has_caller = false) {
 
       try {
         // check if this argument contains the length of an arrya
-        const array = inArgsDetail.find((arg) =>
-          arg.arrLength === detail.index
-        );
+        const array = inArgsDetail.find((arg) => arg.arrLength === detail.index);
 
         if (array) {
           // set this value to the length of the array
@@ -148,7 +161,7 @@ export function parseCallableArgs(info, has_caller = false) {
     return initArguments(...outArgsDetail.map((d) => [d.type, d.nPointers]));
   };
 
-  const parseOutArgs = (retValue, outArgs) => {
+  const parseOutArgs = (retValue: unknown, outArgs: unknown) => {
     // cache all arguments so that we can access them by type
     const argValues = new Map();
     argValues.set(returnType, [0, retValue]);
@@ -159,7 +172,13 @@ export function parseCallableArgs(info, has_caller = false) {
 
     const results = [];
 
-    const unbox = (type, buffer, offset, nPointers, arrLengthIndex) => {
+    const unbox = (
+      type: Deno.PointerObject<unknown>,
+      buffer: unknown,
+      offset: number | undefined,
+      nPointers: number | undefined,
+      arrLengthIndex: any,
+    ) => {
       // if this argument is an array, we need to get it's length
       if (g.type_info.get_tag(type) === GITypeTag.ARRAY) {
         let arrLength = -1;
@@ -206,7 +225,10 @@ export function parseCallableArgs(info, has_caller = false) {
   return [parseInArgs, initOutArgs, parseOutArgs];
 }
 
-export function handleCallable(target, info) {
+export function handleCallable(
+  target: { prototype: unknown },
+  info: Deno.PointerValue,
+) {
   const name = getName(info);
   const type = g.base_info.get_type(info);
 
@@ -229,7 +251,7 @@ export function handleCallable(target, info) {
         const value = createMethod(info);
         Object.defineProperty(target.prototype, name, {
           enumerable: true,
-          value(...args) {
+          value(...args: unknown[]) {
             return value(Reflect.getOwnMetadata("gi:ref", this), ...args);
           },
         });
@@ -249,7 +271,7 @@ export function handleCallable(target, info) {
       Object.defineProperty(target.prototype, name, {
         enumerable: true,
         get() {
-          return (...args) => {
+          return (...args: unknown[]) => {
             return value(
               Reflect.getOwnMetadata("gi:ref", this),
               Reflect.getOwnMetadata("gi:gtype", this.constructor),
@@ -314,7 +336,10 @@ export function handleCallable(target, info) {
  * e.g: GtkWidgetClass is the class struct for GtkWidget and contains static
  * methods
  */
-export function handleStructCallable(target, info) {
+export function handleStructCallable(
+  target: { prototype: object },
+  info: Deno.PointerValue,
+) {
   const name = getName(info);
 
   if (Object.hasOwn(target.prototype, name)) return;
@@ -327,7 +352,7 @@ export function handleStructCallable(target, info) {
     const value = createMethod(info);
     Object.defineProperty(target, name, {
       enumerable: true,
-      value(...args) {
+      value(...args: unknown[]) {
         const klass = g.type_class.ref(
           Reflect.getOwnMetadata("gi:gtype", this),
         );

@@ -1,14 +1,8 @@
 // Adapted from: https://gitlab.gnome.org/GNOME/gjs/-/blob/fe6ef0d9f6928521592e3d1558ef5caa5e23817b/installed-tests/js/testRegress.js
 
-import { require } from "../../../mod.ts";
-import {
-  assert,
-  assertAlmostEquals,
-  assertEquals,
-  assertFalse,
-  assertThrows,
-} from "../../test_deps.ts";
-import { assertEqualNumbers, isBit64Type } from "../../utils/asserts.ts";
+import {require} from "https://github.com/ahgilak/deno_gi/raw/main/mod.ts";
+import {assert, assertAlmostEquals, assertEquals, assertFalse, assertThrows,} from "../../test_deps.ts";
+import {assertEqualNumbers, isBit64Type} from "../../utils/asserts.ts";
 
 const Regress = require("Regress", "1.0");
 

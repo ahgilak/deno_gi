@@ -1,11 +1,23 @@
 {
-  "unstable": ["ffi"],
+  "unstable": [
+    "ffi"
+  ],
   "lock": false,
   "tasks": {
     "test": "deno test --unstable-ffi --allow-ffi --allow-read tests/unit/**/*"
   },
   "imports": {
-    "https://github.com/ahgilak/deno_gi/raw/main/mod.ts": "./mod.ts"
+    "https://github.com/ahgilak/deno_gi/raw/main/mod.ts": "./mod.ts",
+    "GLib::2.0": "./src/bindings/glib.ts"
   },
-  "exclude": ["subprojects", "build"]
+  "exclude": [
+    "subprojects",
+    "build"
+  ],
+  "fmt": {
+    "indentWidth": 2,
+    "semiColons": true,
+    "singleQuote": false,
+    "lineWidth": 120
+  }
 }

@@ -13,9 +13,7 @@ import {
   $u8,
   $void,
 } from "../../../src/base_utils/types.ts";
-import { assert, assertEquals } from "../../test_deps.ts";
-
-import type {} from "../../../src/base_utils/ffipp.js";
+import {assert, assertEquals} from "../../test_deps.ts";
 
 Deno.test("$pointer", () => {
   const typedArray = new TextEncoder().encode("test\0");
@@ -27,12 +25,12 @@ Deno.test("$pointer", () => {
   // VERY IMPORTANT!
   // TODO: these tests should throw if unallowed values are given!!!
   assertEquals(
-    $pointer.serilize(pointer),
+    $pointer.serialize(pointer),
     pointer,
     "should get serialized into a pointer",
   );
   assertEquals(
-    $pointer.deserilize(pointer),
+    $pointer.deserialize(pointer),
     pointer,
     "should be deserialized into a pointer",
   );
@@ -46,12 +44,12 @@ Deno.test("$buffer", () => {
   assertEquals($buffer.symbol, "buffer");
   assertEquals($buffer.size, 8);
   assertEquals(
-    $buffer.serilize(typedArray),
+    $buffer.serialize(typedArray),
     typedArray,
     "should get serialized into a pointer",
   );
   assertEquals(
-    $buffer.deserilize(pointer),
+    $buffer.deserialize(pointer),
     pointer,
     "should be deserialized into a pointer",
   );
@@ -61,12 +59,12 @@ Deno.test("$void", () => {
   assertEquals($void.symbol, "void");
   assertEquals($void.size, 0);
   assertEquals(
-    $void.serilize(12),
+    $void.serialize(12),
     undefined,
     "should get serialized into undefined",
   );
   assertEquals(
-    $void.deserilize(12),
+    $void.deserialize(12),
     undefined,
     "should be deserialized into undefined",
   );
@@ -82,43 +80,43 @@ Deno.test("$string", () => {
 
   /** serialize */
   assertEquals(
-    $string.serilize(null as unknown as undefined),
+    $string.serialize(null as unknown as undefined),
     null,
     "should serialize null to null pointer",
   );
   assertEquals(
-    $string.serilize(undefined),
+    $string.serialize(undefined),
     null,
     "should serialize undefined to null pointer",
   );
   assertEquals(
-    $string.serilize(""),
+    $string.serialize(""),
     encoder.encode("\0"),
     "should serialize empty string to \\0-ended string",
   );
 
   assertEquals(
-    $string.serilize(hello_world),
+    $string.serialize(hello_world),
     encoder.encode(hello_world + "\0"),
     "should be serialize other strings into C-strings",
   );
 
   /** deserialize */
   assertEquals(
-    $string.deserilize(null),
+    $string.deserialize(null),
     null,
     "should deserialize null pointer to null",
   );
 
   const empty_string = new Uint8Array([0]);
   assertEquals(
-    $string.deserilize(Deno.UnsafePointer.of(empty_string)),
+    $string.deserialize(Deno.UnsafePointer.of(empty_string)),
     "",
     "should deserialize empty string",
   );
 
   assertEquals(
-    $string.deserilize(
+    $string.deserialize(
       Deno.UnsafePointer.of(encoder.encode(hello_world + "\0")),
     ),
     hello_world,
@@ -160,7 +158,7 @@ Deno.test("$bool", () => {
   /** serialize */
   for (const value of TRUTHY) {
     assertEquals(
-      $bool.serilize(value as boolean),
+      $bool.serialize(value as boolean),
       1,
       `should serialize truthy value ${value} to 1`,
     );
@@ -168,7 +166,7 @@ Deno.test("$bool", () => {
 
   for (const value of FALSY) {
     assertEquals(
-      $bool.serilize(value as boolean),
+      $bool.serialize(value as boolean),
       0,
       `should serialize falsy value ${value} to 0`,
     );
@@ -176,17 +174,17 @@ Deno.test("$bool", () => {
 
   /** deserialize */
   assertEquals(
-    $bool.deserilize(1),
+    $bool.deserialize(1),
     true,
     "should deserialize 1 to true",
   );
   assertEquals(
-    $bool.deserilize(123),
+    $bool.deserialize(123),
     true,
     "should deserialize non-zero values to true",
   );
   assertEquals(
-    $bool.deserilize(0),
+    $bool.deserialize(0),
     false,
     "should deserialize zero to false",
   );
@@ -198,12 +196,12 @@ Deno.test("$i32", () => {
 
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   assertEquals(
-    $i32.serilize(12),
+    $i32.serialize(12),
     12,
     "should get serialized into i32",
   );
   assertEquals(
-    $i32.deserilize(12),
+    $i32.deserialize(12),
     12,
     "should be deserialized into i32",
   );
@@ -216,12 +214,12 @@ Deno.test("$u32", () => {
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   // TODO: should check if number is really unsigned
   assertEquals(
-    $u32.serilize(12),
+    $u32.serialize(12),
     12,
     "should get serialized into u32",
   );
   assertEquals(
-    $u32.deserilize(12),
+    $u32.deserialize(12),
     12,
     "should be deserialized into u32",
   );
@@ -233,12 +231,12 @@ Deno.test("$i8", () => {
 
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   assertEquals(
-    $i8.serilize(12),
+    $i8.serialize(12),
     12,
     "should get serialized into i8",
   );
   assertEquals(
-    $i8.deserilize(12),
+    $i8.deserialize(12),
     12,
     "should be deserialized into i8",
   );
@@ -251,12 +249,12 @@ Deno.test("$u8", () => {
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   // TODO: should check if number is really unsigned
   assertEquals(
-    $u8.serilize(12),
+    $u8.serialize(12),
     12,
     "should get serialized into u8",
   );
   assertEquals(
-    $u8.deserilize(12),
+    $u8.deserialize(12),
     12,
     "should be deserialized into u8",
   );
@@ -268,22 +266,22 @@ Deno.test("$i64", () => {
 
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   assertEquals(
-    $i64.serilize(12),
+    $i64.serialize(12),
     12n,
     "numbers should get serialized into BigInts",
   );
   assertEquals(
-    $i64.serilize(-64444444444444444444444444444444n),
+    $i64.serialize(-64444444444444444444444444444444n),
     -64444444444444444444444444444444n,
     "BigInt should get passed through",
   );
   assertEquals(
-    $i64.deserilize(12),
+    $i64.deserialize(12),
     12n,
     "numbers should get deserialized into BigInts",
   );
   assertEquals(
-    $i64.deserilize(-64444444444444444444444444444444n),
+    $i64.deserialize(-64444444444444444444444444444444n),
     -64444444444444444444444444444444n,
     "BigInt should get deserialized",
   );
@@ -296,22 +294,22 @@ Deno.test("$u64", () => {
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   // TODO: should check if number is really unsigned
   assertEquals(
-    $u64.serilize(12),
+    $u64.serialize(12),
     12n,
     "numbers should get serialized into BigInts",
   );
   assertEquals(
-    $u64.serilize(64444444444444444444444444444444n),
+    $u64.serialize(64444444444444444444444444444444n),
     64444444444444444444444444444444n,
     "BigInt should get passed through",
   );
   assertEquals(
-    $u64.deserilize(12),
+    $u64.deserialize(12),
     12n,
     "numbers should get deserialized into BigInts",
   );
   assertEquals(
-    $u64.deserilize(64444444444444444444444444444444n),
+    $u64.deserialize(64444444444444444444444444444444n),
     64444444444444444444444444444444n,
     "BigInt should get deserialized",
   );
@@ -323,12 +321,12 @@ Deno.test("$f32", () => {
 
   // TODO: should throw if out-of-range numbers are given (or clamp them)
   assertEquals(
-    $f32.serilize(12),
+    $f32.serialize(12),
     12,
     "numbers should get serialized into f32",
   );
   assertEquals(
-    $f32.deserilize(12),
+    $f32.deserialize(12),
     12,
     "f32 should get deserialized into numbers",
   );
@@ -339,22 +337,22 @@ Deno.test("$f64", () => {
   assertEquals($f64.size, 8);
 
   assertEquals(
-    $f64.serilize(12),
+    $f64.serialize(12),
     12n,
     "numbers should get serialized into BigInts",
   );
   assertEquals(
-    $f64.serilize(64444444444444444444444444444444n),
+    $f64.serialize(64444444444444444444444444444444n),
     64444444444444444444444444444444n,
     "BigInt should get passed through",
   );
   assertEquals(
-    $f64.deserilize(12),
+    $f64.deserialize(12),
     12n,
     "numbers should get deserialized into BigInts",
   );
   assertEquals(
-    $f64.deserilize(64444444444444444444444444444444n),
+    $f64.deserialize(64444444444444444444444444444444n),
     64444444444444444444444444444444n,
     "BigInt should get deserialized",
   );

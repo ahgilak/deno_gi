@@ -1,11 +1,12 @@
-import g from "../bindings/mod.js";
-import { GITypeTag } from "../bindings/enums.js";
-import { boxArgument, initArguments, unboxArgument } from "./argument.js";
-import { createArg } from "./callable.js";
-import { cast_ptr_u64 } from "../base_utils/convert.ts";
-import { ExtendedDataView } from "https://raw.githubusercontent.com/ahgilak/deno_gi/main/src/utils/dataview.js";
+import g from "../bindings/mod.ts";
+import {GITypeTag} from "../bindings/enums.ts";
+import {boxArgument, initArguments, unboxArgument} from "./argument.ts";
+import {createArg} from "./callable.ts";
+import {cast_ptr_u64} from "../base_utils/convert.ts";
+import {ExtendedDataView} from "https://raw.githubusercontent.com/ahgilak/deno_gi/main/src/utils/dataview.js";
+import {CbHandler} from "../overrides/GObject.ts";
 
-const nativeTypes = {
+const nativeTypes: Record<number, string> = {
   [GITypeTag.BOOLEAN]: "i32",
   [GITypeTag.UINT8]: "u8",
   [GITypeTag.INT8]: "i8",
@@ -20,13 +21,13 @@ const nativeTypes = {
   [GITypeTag.VOID]: "void",
 };
 
-function ffiType(tag) {
+function ffiType(tag: number) {
   return nativeTypes[tag] || "pointer";
 }
 
 function parseArgs(
-  info,
-  args,
+  info: Deno.PointerValue,
+  args: Deno.PointerValue[],
 ) {
   return args.map((value, i) => {
     const argInfo = g.callable_info.get_arg(info, i);
@@ -37,9 +38,9 @@ function parseArgs(
     const view = new ExtendedDataView(buffer);
     view.setBigUint64(cast_ptr_u64(value));
 
-    const result = nativeTypes[tag]
-      ? value
-      : unboxArgument(argType, buffer, undefined);
+    if (argType === null) throw new TypeError("argType is null");
+
+    const result = nativeTypes[tag] ? value : unboxArgument(argType, buffer, undefined);
 
     g.base_info.unref(argInfo);
     g.base_info.unref(argType);
@@ -48,13 +49,15 @@ function parseArgs(
 }
 
 export function createCallback(
-  info,
-  callback,
-  caller,
+  info: Deno.PointerValue,
+  callback: CbHandler,
+  caller?: unknown,
 ) {
   const nArgs = g.callable_info.get_n_args(info);
   const parameters = caller ? ["pointer"] : [];
   const returnType = g.callable_info.get_return_type(info);
+
+  if (returnType === null) throw new TypeError("returnType is null");
 
   for (let i = 0; i < nArgs; i++) {
     const argInfo = g.callable_info.get_arg(info, i);
@@ -68,12 +71,14 @@ export function createCallback(
     g.base_info.unref(argInfo);
   }
 
+  // @todo safely cast string to Deno.NativeType
   return new Deno.UnsafeCallback(
-    { parameters, result: ffiType(g.type_info.get_tag(returnType)) },
+    {
+      parameters: parameters as Deno.NativeType[],
+      result: ffiType(g.type_info.get_tag(returnType)) as Deno.NativeResultType,
+    },
     caller
-      ? (_, ...args) =>
-        boxArgument(returnType, callback(caller, ...parseArgs(info, args)))
-      : (...args) =>
-        boxArgument(returnType, callback(...parseArgs(info, args))),
+      ? (_, ...args) => boxArgument(returnType, callback(caller, ...parseArgs(info, args as Deno.PointerValue[])))
+      : (...args) => boxArgument(returnType, callback(...parseArgs(info, args as Deno.PointerValue[]))),
   );
 }

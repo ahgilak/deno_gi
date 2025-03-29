@@ -1,6 +1,6 @@
-import { libName, openLib } from "../base_utils/ffipp.js";
+import {libName, openLib} from "../base_utils/ffipp.ts";
 
-import { $pointer, $string, $u32 } from "../base_utils/types.ts";
+import {$pointer, $string, $u32, $u8} from "../base_utils/types.ts";
 
 const { g } = openLib(libName("glib-2.0", 0), {
   g: {
@@ -9,6 +9,9 @@ const { g } = openLib(libName("glib-2.0", 0), {
       length: $u32($pointer),
       nth: $pointer($pointer, $u32),
     },
+    SIZEOF_LONG: $u8,
+    SIZEOF_SIZE_T: $u8,
+    SIZEOF_SSIZE_T: $u8,
   },
 });
 

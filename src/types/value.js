@@ -1,5 +1,5 @@
 import g from "../bindings/mod.js";
-import { G_TYPE_FUNDAMENTAL_MAX, GType } from "../bindings/enums.js";
+import { G_TYPE_FUNDAMENTAL_MAX, GType } from "../bindings/enums.ts";
 import { ExtendedDataView } from "../utils/dataview.js";
 
 export function initValue(type) {

@@ -1,7 +1,7 @@
-import { cast_u64_ptr } from "../base_utils/convert.ts";
-import g from "../bindings/mod.js";
-import { errorEnumCache } from "../types/enum.js";
-import { objectByInfo } from "./gobject.js";
+import {cast_u64_ptr} from "../base_utils/convert.ts";
+import g from "../bindings/mod.ts";
+import {errorEnumCache} from "../types/enum.js";
+import {objectByInfo} from "./gobject.js";
 
 export function createGError(value: bigint) {
   const GError = getGLibError();
